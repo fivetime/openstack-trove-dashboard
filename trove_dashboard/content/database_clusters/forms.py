@@ -175,6 +175,21 @@ class LaunchForm(BaseClusterForm):
             'class': 'switched',
             'data-switch-on': 'datastore',
         }))
+    # Redis: each master can have replicas that take over when it fails;
+    # without one, a failed master takes the whole cluster down.
+    replicas_per_master = forms.IntegerField(
+        label=_("Replicas per Master"),
+        min_value=0,
+        initial=0,
+        required=False,
+        help_text=_("The instances come in groups of a master and its "
+                    "replicas: 6 instances with 1 replica per master are "
+                    "3 masters and 3 replicas. With replicas, at least 3 "
+                    "masters."),
+        widget=forms.NumberInput(attrs={
+            'class': 'switched',
+            'data-switch-on': 'datastore',
+        }))
     num_instances = forms.IntegerField(
         label=_("Number of Instances"),
         initial=3,
@@ -193,6 +208,9 @@ class LaunchForm(BaseClusterForm):
         ('num_shards', _('Number of Shards')),
         ('configsvr_volume_size', _('Config Server Volume Size (GB)')),
         ('mongos_volume_size', _('Query Router Volume Size (GB)')),
+    ]
+    redis_fields = default_fields + [
+        ('replicas_per_master', _('Replicas per Master')),
     ]
     vertica_fields = [
         ('num_instances_vertica', ('Number of Instances')),
@@ -397,6 +415,8 @@ class LaunchForm(BaseClusterForm):
             fields = self.mongodb_fields
         elif db_capability.is_vertica_datastore(datastore):
             fields = self.vertica_fields
+        elif db_capability.is_redis_datastore(datastore):
+            fields = self.redis_fields
         else:
             fields = self.default_fields
 
@@ -445,6 +465,10 @@ class LaunchForm(BaseClusterForm):
                     k: data[k]
                     for k in ('configsvr_volume_size', 'mongos_volume_size')
                     if data.get(k)} or None
+            elif (db_capability.is_redis_datastore(datastore) and
+                    data.get('replicas_per_master')):
+                extended_properties = {
+                    'replicas_per_master': data['replicas_per_master']}
 
             trove_api.trove.cluster_create(
                 request,

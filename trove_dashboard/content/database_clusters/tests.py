@@ -152,6 +152,8 @@ class ClustersTests(test.TestCase):
             fields['root_password'], field_name))
         self.assertFalse(self._contains_datastore_in_attribute(
             fields['num_instances_vertica'], field_name))
+        self.assertTrue(self._contains_datastore_in_attribute(
+            fields['replicas_per_master'], field_name))
 
     def test_launch_cluster_vertica_fields(self):
         datastore = 'vertica'
@@ -260,6 +262,37 @@ class ClustersTests(test.TestCase):
             extended_properties=None)
         self.assertNoFormErrors(res)
         self.assertMessageCount(success=1)
+
+    @test.create_mocks({trove_api.trove: ['datastore_flavors',
+                                          'cluster_create',
+                                          'datastore_list',
+                                          'datastore_version_list'],
+                        api.cinder: ['volume_type_list'],
+                        api.base: ['is_service_enabled']})
+    def test_create_redis_cluster_with_replicas(self):
+        self.mock_is_service_enabled.return_value = False
+        self.mock_volume_type_list.return_value = []
+        self.mock_datastore_flavors.return_value = self.flavors.list()
+        filtered_datastores = self._get_filtered_datastores('redis')
+        self.mock_datastore_list.return_value = filtered_datastores
+        self.mock_datastore_version_list.return_value = (
+            self._get_filtered_datastore_versions(filtered_datastores))
+        self.mock_cluster_create.return_value = self.trove_clusters.first()
+
+        field_name = self._build_flavor_widget_name('redis', '3.0')
+        res = self.client.post(LAUNCH_URL, {
+            'name': 'MyCluster', 'volume': 1, 'num_instances': 6,
+            'replicas_per_master': 1, 'datastore': field_name,
+            field_name: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
+        })
+        self.assertNoFormErrors(res)
+        self.mock_cluster_create.assert_called_once_with(
+            test.IsHttpRequest(), 'MyCluster', 1,
+            'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 6,
+            datastore='redis', datastore_version='3.0', nics='',
+            root_password=None, locality=None, configuration=None,
+            volume_type=None,
+            extended_properties={'replicas_per_master': 1})
 
     @test.create_mocks({trove_api.trove: ['datastore_flavors',
                                           'cluster_create',

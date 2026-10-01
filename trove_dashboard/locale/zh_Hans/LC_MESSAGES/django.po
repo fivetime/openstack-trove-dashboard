@@ -2721,3 +2721,26 @@ msgstr "已启动实例 %(count)s，名称为\"%(name)s\"。"
 msgid "Unable to launch instance %(count)s with name \"%(name)s\"."
 msgstr "无法启动实例 %(count)s，名称为\"%(name)s\"。"
 
+#: trove_dashboard/content/database_clusters/forms.py
+msgid "Config Server Volume Size (GB)"
+msgstr "Config Server 云硬盘大小（GB）"
+
+#: trove_dashboard/content/database_clusters/forms.py
+msgid "Size of the volume of each of the three config servers."
+msgstr "三个 config server 每个的云硬盘大小。"
+
+#: trove_dashboard/content/database_clusters/forms.py
+msgid "Query Router Volume Size (GB)"
+msgstr "查询路由（mongos）云硬盘大小（GB）"
+
+#: trove_dashboard/content/database_clusters/forms.py
+msgid "Size of the volume of the mongos query router."
+msgstr "mongos 查询路由的云硬盘大小。"
+
+#: trove_dashboard/content/database_clusters/forms.py
+msgid "Replicas per Master"
+msgstr "每个主节点的副本数"
+
+#: trove_dashboard/content/database_clusters/forms.py
+msgid "The instances come in groups of a master and its replicas: 6 instances with 1 replica per master are 3 masters and 3 replicas. With replicas, at least 3 masters."
+msgstr "实例按\"一个主节点加它的副本\"成组：6 个实例、每个主节点 1 个副本，就是 3 主 3 从。有副本时至少要 3 个主节点。"
