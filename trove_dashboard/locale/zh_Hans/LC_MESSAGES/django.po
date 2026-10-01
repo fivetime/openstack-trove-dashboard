@@ -1632,10 +1632,16 @@ msgstr "选择许可证"
 msgid "No licenses for this datastore version: add one under Licenses"
 msgstr "没有适用于这个数据存储版本的许可证：请先在\"许可证\"页面添加"
 
-#: trove_dashboard/content/databases/forms.py:373
+#: trove_dashboard/content/databases/forms.py
 #, python-format
-msgid "Applying the license to instance \"%s\"."
-msgstr "正在把许可证装入实例\"%s\"。"
+msgid ""
+"The database on \"%(name)s\" did not take the license: %(message)s"
+msgstr "实例\"%(name)s\"上的数据库没有接受这个许可证：%(message)s"
+
+#: trove_dashboard/content/databases/forms.py
+#, python-format
+msgid "Applied the license to \"%s\"."
+msgstr "已把许可证装入\"%s\"。"
 
 #: trove_dashboard/content/databases/forms.py:377
 msgid "Unable to apply the license."

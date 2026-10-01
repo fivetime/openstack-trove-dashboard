@@ -339,6 +339,8 @@ class UpdateInstanceForm(forms.SelfHandlingForm):
 
 class ApplyLicenseForm(forms.SelfHandlingForm):
     instance_id = forms.CharField(widget=forms.HiddenInput())
+    instance_name = forms.CharField(widget=forms.HiddenInput(),
+                                    required=False)
     license = forms.ChoiceField(
         label=_("License"),
         help_text=_("A license you added under Licenses for the database "
@@ -348,6 +350,7 @@ class ApplyLicenseForm(forms.SelfHandlingForm):
         super(ApplyLicenseForm, self).__init__(request, *args, **kwargs)
         initial = kwargs.get('initial', {})
         self.fields['instance_id'].initial = initial.get('instance_id')
+        self.fields['instance_name'].initial = initial.get('instance_name')
         datastore = initial.get('datastore')
         version = initial.get('datastore_version')
         try:
@@ -367,11 +370,25 @@ class ApplyLicenseForm(forms.SelfHandlingForm):
 
     def handle(self, request, data):
         instance_id = data.get('instance_id')
+        name = data.get('instance_name') or instance_id
         try:
-            api.trove.instance_module_apply(request, instance_id,
-                                            [data['license']])
-            messages.success(request, _('Applying the license to instance '
-                                        '"%s".') % instance_id)
+            # The guest applies the module before the call returns, and
+            # each result carries what the database said about it.
+            results = api.trove.instance_module_apply(request, instance_id,
+                                                      [data['license']])
+            refused = [r for r in results
+                       if getattr(r, 'status', None) != 'OK']
+            if refused:
+                messages.error(
+                    request,
+                    _('The database on "%(name)s" did not take the '
+                      'license: %(message)s') %
+                    {'name': name,
+                     'message': getattr(refused[0], 'message', '') or
+                     getattr(refused[0], 'status', '')})
+                return False
+            messages.success(request, _('Applied the license to "%s".') %
+                             name)
         except Exception:
             redirect = reverse("horizon:project:databases:index")
             exceptions.handle(request, _('Unable to apply the license.'),

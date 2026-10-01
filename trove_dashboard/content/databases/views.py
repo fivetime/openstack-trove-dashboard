@@ -283,6 +283,7 @@ class AttachConfigurationView(horizon_forms.ModalFormView):
     def get_initial(self):
         instance = self.get_object()
         return {'instance_id': self.kwargs['instance_id'],
+                'instance_name': instance.name,
                 'datastore': instance.datastore.get('type', ''),
                 'datastore_version': instance.datastore.get('version', '')}
 
@@ -317,6 +318,7 @@ class ApplyLicenseView(horizon_forms.ModalFormView):
     def get_initial(self):
         instance = self.get_object()
         return {'instance_id': self.kwargs['instance_id'],
+                'instance_name': instance.name,
                 'datastore': instance.datastore.get('type', ''),
                 'datastore_version': instance.datastore.get('version', '')}
 

@@ -1386,14 +1386,42 @@ class DatabaseTests(test.TestCase):
         self.assertIn('e3b4cd2e-12ba-499a-9ade-37572cb07373', choices)
         self.assertNotIn('0ab24e70-c7d5-49bf-851c-99e9ebfbd1a5', choices)
 
+        self.mock_instance_module_apply.return_value = list(
+            self.applied_licenses.list())
         res = self.client.post(url, {
             'instance_id': database.id,
+            'instance_name': database.name,
             'license': 'e3b4cd2e-12ba-499a-9ade-37572cb07373'})
         self.assertNoFormErrors(res)
         self.mock_instance_module_apply.assert_called_once_with(
             test.IsHttpRequest(), database.id,
             ['e3b4cd2e-12ba-499a-9ade-37572cb07373'])
+        self.assertMessageCount(success=1, error=0)
         self.assertRedirectsNoFollow(res, INDEX_URL)
+
+    @test.create_mocks({
+        api.trove: ('instance_get', 'license_list',
+                    'instance_module_apply'),
+    })
+    def test_apply_license_the_database_refuses(self):
+        # The guest answers for the database: a license it will not take
+        # comes back as an error, and saying "applied" would be a lie.
+        database = self.db2_database
+        self.mock_instance_get.return_value = database
+        self.mock_license_list.return_value = [
+            m for m in self.database_modules.list() if m.type != 'ping']
+        self.mock_instance_module_apply.return_value = [
+            mock.Mock(status='ERROR',
+                      message='SQL8002N  The license file is invalid.')]
+        url = reverse('horizon:project:databases:apply_license',
+                      args=[database.id])
+        res = self.client.post(url, {
+            'instance_id': database.id,
+            'instance_name': database.name,
+            'license': 'e3b4cd2e-12ba-499a-9ade-37572cb07373'})
+        # The form stays open, and the page it renders shows the refusal.
+        self.assertEqual(200, res.status_code)
+        self.assertContains(res, 'SQL8002N')
 
     def test_apply_license_action_only_for_licensed_datastores(self):
         action = tables.ApplyLicense()
