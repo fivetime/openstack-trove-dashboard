@@ -1,0 +1,10 @@
+---
+features:
+  - |
+    A Licenses panel under Database lets a project add the licenses it
+    bought for Vertica and Db2, uploaded as a file or pasted, and delete
+    them. They are Trove modules of type ``vertica_license`` and
+    ``db2_license``. The launch workflow offers them under Advanced, and
+    an instance of Vertica or Db2 gets an Apply License action and a
+    Licenses tab with what its database reports about the license.
+    Without a license an instance runs the edition its image comes with.

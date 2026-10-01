@@ -196,8 +196,39 @@ class LogsTab(tabs.TableTab):
         return logs
 
 
+class LicensesTab(tabs.TableTab):
+    table_classes = [tables.InstanceLicensesTable]
+    name = _("Licenses")
+    slug = "licenses_tab"
+    template_name = "horizon/common/_detail_table.html"
+    preload = False
+
+    def get_licenses_data(self):
+        """The licenses as the database reports them, or as Trove
+        recorded them if the guest does not answer.
+        """
+        instance = self.tab_group.kwargs['instance']
+        types = api.trove.LICENSE_MODULE_TYPES
+        try:
+            modules = api.trove.instance_module_query(self.request,
+                                                      instance.id)
+        except Exception:
+            try:
+                modules = api.trove.instance_module_list(self.request,
+                                                         instance.id)
+            except Exception:
+                exceptions.handle(self.request,
+                                  _('Unable to retrieve the licenses.'))
+                return []
+        return [m for m in modules if getattr(m, 'type', None) in types]
+
+    def allowed(self, request):
+        instance = self.tab_group.kwargs['instance']
+        return tables.is_licensed_datastore(instance)
+
+
 class InstanceDetailTabs(tabs.TabGroup):
     slug = "instance_details"
     tabs = (OverviewTab, UserTab, DatabaseTab, BackupsTab, LogsTab,
-            ConfigDefaultsTab)
+            ConfigDefaultsTab, LicensesTab)
     sticky = True

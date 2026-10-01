@@ -415,6 +415,12 @@ class AdvancedAction(workflows.Action):
         label=_("Configuration Group"),
         required=False,
         help_text=_('Select a configuration group'))
+    license = forms.ChoiceField(
+        label=_("License"),
+        required=False,
+        help_text=_('For Vertica and Db2: a license you added under '
+                    'Licenses. Without one the instance runs the edition '
+                    'its image comes with.'))
     initial_state = forms.ChoiceField(
         label=_('Source for Initial State'),
         required=False,
@@ -486,6 +492,24 @@ class AdvancedAction(workflows.Action):
             choices.insert(0, ("", _("No configurations available")))
         return choices
 
+    def populate_license_choices(self, request, context):
+        try:
+            licenses = api.trove.license_list(request)
+            license_name = "%(name)s (%(datastore)s %(version)s)"
+            choices = [(m.id,
+                        license_name % {'name': m.name,
+                                        'datastore': m.datastore,
+                                        'version': m.datastore_version})
+                       for m in licenses]
+        except Exception:
+            choices = []
+
+        if choices:
+            choices.insert(0, ("", _("No license")))
+        else:
+            choices.insert(0, ("", _("No licenses available")))
+        return choices
+
     def populate_backup_choices(self, request, context):
         try:
             choices = []
@@ -544,6 +568,16 @@ class AdvancedAction(workflows.Action):
         else:
             self.cleaned_data['config'] = None
 
+        license = self.cleaned_data.get('license')
+        if license:
+            try:
+                module = api.trove.module_get(self.request, license)
+                self.cleaned_data['license'] = module.id
+            except Exception:
+                raise forms.ValidationError(_("Unable to find license."))
+        else:
+            self.cleaned_data['license'] = None
+
         initial_state = cleaned_data.get("initial_state")
 
         if initial_state == 'backup':
@@ -583,7 +617,7 @@ class AdvancedAction(workflows.Action):
 
 class Advanced(workflows.Step):
     action_class = AdvancedAction
-    contributes = ['config', 'backup', 'master', 'replica_count']
+    contributes = ['config', 'license', 'backup', 'master', 'replica_count']
 
 
 class LaunchInstance(workflows.Workflow):
@@ -670,6 +704,11 @@ class LaunchInstance(workflows.Workflow):
             access['is_public'] = True
         return access
 
+    def _get_modules(self, context):
+        if context.get('license'):
+            return [context['license']]
+        return None
+
     def handle(self, request, context):
         try:
             datastore, datastore_version = parse_datastore_and_version_text(
@@ -708,7 +747,8 @@ class LaunchInstance(workflows.Workflow):
                                       configuration=context.get('config'),
                                       locality=self._get_locality(context),
                                       availability_zone=avail_zone,
-                                      access=self._get_access(context))
+                                      access=self._get_access(context),
+                                      modules=self._get_modules(context))
             return True
         except Exception:
             exceptions.handle(request)

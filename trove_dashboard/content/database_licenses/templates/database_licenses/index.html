@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{% trans "Licenses" %}{% endblock %}
+
+{% block main %}
+  <p>{% blocktrans trimmed %}
+    Vertica and Db2 run the edition their image comes with until you add a
+    license you bought from the vendor: the Community Edition of Vertica
+    (up to 1 TB) and of Db2 (up to 8 GB of memory and 4 cores). Add the
+    license here, then choose it when you launch an instance, or apply it
+    to an instance you already have. You are responsible for licensing the
+    database for the resources it runs on.
+  {% endblocktrans %}</p>
+  {{ table.render }}
+{% endblock %}

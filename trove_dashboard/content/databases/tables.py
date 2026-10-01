@@ -481,6 +481,23 @@ class AttachConfiguration(tables.LinkAction):
                 not hasattr(instance, 'configuration'))
 
 
+def is_licensed_datastore(instance):
+    return (getattr(instance, 'datastore', {}).get('type') in
+            api.trove.LICENSE_MODULE_TYPES.values())
+
+
+class ApplyLicense(tables.LinkAction):
+    name = "apply_license"
+    verbose_name = _("Apply License")
+    url = "horizon:project:databases:apply_license"
+    classes = ("ajax-modal",)
+    policy_rules = (("database", "instance:module_apply"),)
+
+    def allowed(self, request, instance=None):
+        return (instance.status in ACTIVE_STATES and
+                is_licensed_datastore(instance))
+
+
 class DetachConfiguration(tables.BatchAction):
     @staticmethod
     def action_present(count):
@@ -805,6 +822,7 @@ class InstancesTable(tables.DataTable):
                        PromoteToReplicaSource,
                        AttachConfiguration,
                        DetachConfiguration,
+                       ApplyLicense,
                        ManageRoot,
                        EjectReplicaSource,
                        DetachReplica,
@@ -886,3 +904,22 @@ class ConfigDefaultsTable(tables.DataTable):
 
     def get_object_id(self, datum):
         return datum.name
+
+
+class InstanceLicensesTable(tables.DataTable):
+    name = tables.Column("name", verbose_name=_("License"))
+    datastore = tables.Column(
+        lambda m: "%s %s" % (m.datastore, m.datastore_version),
+        verbose_name=_("Datastore Version"))
+    status = tables.Column("status", verbose_name=_("Status"))
+    message = tables.Column("message", verbose_name=_("What the Database "
+                                                      "Reports"))
+    updated = tables.Column("updated", verbose_name=_("Updated"),
+                            filters=[filters.parse_isotime])
+
+    class Meta(object):
+        name = "licenses"
+        verbose_name = _("Licenses")
+
+    def get_object_id(self, datum):
+        return datum.id

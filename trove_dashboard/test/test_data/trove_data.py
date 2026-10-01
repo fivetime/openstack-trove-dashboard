@@ -20,6 +20,7 @@ from troveclient.v1 import configurations
 from troveclient.v1 import databases
 from troveclient.v1 import datastores
 from troveclient.v1 import instances
+from troveclient.v1 import modules
 from troveclient.v1 import users
 
 from openstack_dashboard.test.test_data import utils
@@ -497,6 +498,57 @@ LOG_4 = {
 }
 
 
+DATABASE_DATA_DB2 = {
+    "status": "HEALTHY",
+    "updated": "2026-10-01T12:00:09",
+    "name": "Test Db2",
+    "links": [],
+    "created": "2026-10-01T12:00:03",
+    "ip": ["10.0.0.9"],
+    "addresses": [{"type": "private", "address": "10.0.0.9"}],
+    "volume": {"used": 0.5, "size": 5},
+    "flavor": {"id": "1", "links": []},
+    "datastore": {"type": "db2", "version": "12.1"},
+    "id": "a7c4f3e1-6c1b-4a8e-9a63-7f1d2b9c0e11",
+}
+
+LICENSE_DB2 = {
+    "id": "e3b4cd2e-12ba-499a-9ade-37572cb07373",
+    "name": "my-db2-license",
+    "type": "db2_license",
+    "description": "Db2 Standard",
+    "datastore": "db2",
+    "datastore_version": "12.1",
+    "created": "2026-10-01T12:17:24",
+    "updated": "2026-10-01T12:17:24",
+}
+
+LICENSE_VERTICA = {
+    "id": "0ab24e70-c7d5-49bf-851c-99e9ebfbd1a5",
+    "name": "vt-license",
+    "type": "vertica_license",
+    "description": None,
+    "datastore": "vertica",
+    "datastore_version": "25.4",
+    "created": "2026-10-01T03:20:00",
+    "updated": "2026-10-01T03:20:00",
+}
+
+PING_MODULE = {
+    "id": "5f3b0b2e-7f6e-4d38-9a1e-0b1c2d3e4f50",
+    "name": "ping",
+    "type": "ping",
+    "description": None,
+    "datastore": "all",
+    "datastore_version": "all",
+    "created": "2026-10-01T03:20:00",
+    "updated": "2026-10-01T03:20:00",
+}
+
+APPLIED_LICENSE = dict(LICENSE_DB2, status="OK",
+                       message='Product name: "DB2 Standard Edition"')
+
+
 def data(TEST):
     cluster1 = clusters.Cluster(clusters.Clusters(None),
                                 CLUSTER_DATA_ONE)
@@ -570,6 +622,15 @@ def data(TEST):
     TEST.databases.add(database1)
     TEST.databases.add(database2)
     TEST.databases.add(database3)
+    TEST.db2_database = instances.Instance(instances.Instances(None),
+                                           DATABASE_DATA_DB2)
+    TEST.database_modules = utils.TestDataContainer()
+    for module in (LICENSE_DB2, LICENSE_VERTICA, PING_MODULE):
+        TEST.database_modules.add(modules.Module(modules.Modules(None),
+                                                 module))
+    TEST.applied_licenses = utils.TestDataContainer()
+    TEST.applied_licenses.add(modules.Module(modules.Modules(None),
+                                             APPLIED_LICENSE))
     TEST.database_backups.add(bkup1)
     TEST.database_backups.add(bkup2)
     TEST.database_backups.add(bkup3)

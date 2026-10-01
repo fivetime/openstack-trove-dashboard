@@ -18,6 +18,7 @@ INSTALLED_APPS = list(INSTALLED_APPS)
 INSTALLED_APPS.append('trove_dashboard.content.database_backups')
 INSTALLED_APPS.append('trove_dashboard.content.database_clusters')
 INSTALLED_APPS.append('trove_dashboard.content.database_configurations')
+INSTALLED_APPS.append('trove_dashboard.content.database_licenses')
 INSTALLED_APPS.append('trove_dashboard.content.databases')
 
 CACHES = {

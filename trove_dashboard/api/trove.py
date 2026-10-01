@@ -154,7 +154,7 @@ def instance_create(request, name, volume, flavor=None, databases=None,
                     datastore=None, datastore_version=None,
                     replica_of=None, replica_count=None,
                     volume_type=None, configuration=None, locality=None,
-                    availability_zone=None, access=None):
+                    availability_zone=None, access=None, modules=None):
     # TODO(dklyle): adding conditional to support trove without volume
     # support for now until API supports checking for volume support
     if volume > 0 and not replica_of:
@@ -185,7 +185,8 @@ def instance_create(request, name, volume, flavor=None, databases=None,
         configuration=configuration,
         locality=locality,
         availability_zone=availability_zone,
-        access=access)
+        access=access,
+        modules=modules)
 
 
 def instance_resize_volume(request, instance_id, size):
@@ -473,3 +474,64 @@ def configuration_default(request, instance_id):
 
 def stop_database(request, instance_id):
     return troveclient(request).mgmt_instances.stop(instance_id)
+
+
+# The module types that carry a license for a datastore, and the datastore
+# each applies to. A tenant brings its own license for these; without one
+# the instance runs the edition the image comes with.
+LICENSE_MODULE_TYPES = {
+    'vertica_license': 'vertica',
+    'db2_license': 'db2',
+}
+
+
+def module_list(request, datastore=None):
+    return troveclient(request).modules.list(datastore=datastore)
+
+
+def license_list(request, datastore=None):
+    """The license modules the project can use."""
+    return [m for m in module_list(request, datastore=datastore)
+            if m.type in LICENSE_MODULE_TYPES]
+
+
+def module_get(request, module_id):
+    return troveclient(request).modules.get(module_id)
+
+
+def module_create(request, name, module_type, contents, description=None,
+                  datastore=None, datastore_version=None):
+    return troveclient(request).modules.create(
+        name, module_type, contents, description=description,
+        datastore=datastore, datastore_version=datastore_version)
+
+
+def module_update(request, module_id, name=None, description=None):
+    return troveclient(request).modules.update(
+        module_id, name=name, description=description)
+
+
+def module_delete(request, module_id):
+    return troveclient(request).modules.delete(module_id)
+
+
+def instance_module_list(request, instance_id):
+    """The modules applied to an instance, as Trove records them."""
+    return troveclient(request).instances.modules(instance_id)
+
+
+def instance_module_query(request, instance_id):
+    """The modules applied to an instance, as its guest reports them,
+    with the message of the last apply.
+    """
+    return troveclient(request).instances.module_query(instance_id)
+
+
+def instance_module_apply(request, instance_id, module_ids):
+    return troveclient(request).instances.module_apply(instance_id,
+                                                       module_ids)
+
+
+def instance_module_remove(request, instance_id, module_id):
+    return troveclient(request).instances.module_remove(instance_id,
+                                                        module_id)

@@ -301,7 +301,8 @@ class DatabaseTests(test.TestCase):
             volume_type=None,
             locality=None,
             availability_zone=test.IsA(str),
-            access=None)
+            access=None,
+            modules=None)
         self.assertRedirectsNoFollow(res, INDEX_URL)
 
     @test.create_mocks({
@@ -389,7 +390,8 @@ class DatabaseTests(test.TestCase):
             volume_type=None,
             locality=None,
             availability_zone=test.IsA(str),
-            access=None)
+            access=None,
+            modules=None)
         self.assertRedirectsNoFollow(res, INDEX_URL)
 
     @test.create_mocks({
@@ -1124,7 +1126,8 @@ class DatabaseTests(test.TestCase):
             volume_type=None,
             locality=None,
             availability_zone=test.IsA(str),
-            access=None)
+            access=None,
+            modules=None)
         self.assertRedirectsNoFollow(res, INDEX_URL)
 
     @test.create_mocks({
@@ -1365,3 +1368,54 @@ class DatabaseTests(test.TestCase):
         self.mock_instance_detach_configuration.assert_called_once_with(
             test.IsHttpRequest(), database.id)
         self.assertRedirectsNoFollow(res, INDEX_URL)
+
+    @test.create_mocks({
+        api.trove: ('instance_get', 'license_list',
+                    'instance_module_apply'),
+    })
+    def test_apply_license(self):
+        database = self.db2_database
+        self.mock_instance_get.return_value = database
+        self.mock_license_list.return_value = [
+            m for m in self.database_modules.list() if m.type != 'ping']
+        url = reverse('horizon:project:databases:apply_license',
+                      args=[database.id])
+        res = self.client.get(url)
+        choices = dict(res.context['form'].fields['license'].choices)
+        # Only the licenses for the instance's datastore and version.
+        self.assertIn('e3b4cd2e-12ba-499a-9ade-37572cb07373', choices)
+        self.assertNotIn('0ab24e70-c7d5-49bf-851c-99e9ebfbd1a5', choices)
+
+        res = self.client.post(url, {
+            'instance_id': database.id,
+            'license': 'e3b4cd2e-12ba-499a-9ade-37572cb07373'})
+        self.assertNoFormErrors(res)
+        self.mock_instance_module_apply.assert_called_once_with(
+            test.IsHttpRequest(), database.id,
+            ['e3b4cd2e-12ba-499a-9ade-37572cb07373'])
+        self.assertRedirectsNoFollow(res, INDEX_URL)
+
+    def test_apply_license_action_only_for_licensed_datastores(self):
+        action = tables.ApplyLicense()
+        self.assertTrue(action.allowed(None, self.db2_database))
+        self.assertFalse(action.allowed(None, self.databases.first()))
+
+    def test_launch_passes_the_license_as_a_module(self):
+        workflow = create_instance.LaunchInstance.__new__(
+            create_instance.LaunchInstance)
+        self.assertEqual(['e3b4cd2e'],
+                         workflow._get_modules({'license': 'e3b4cd2e'}))
+        self.assertIsNone(workflow._get_modules({'license': None}))
+        self.assertIsNone(workflow._get_modules({}))
+
+    @test.create_mocks({api.trove: ('license_list',)})
+    def test_launch_license_choices(self):
+        self.mock_license_list.return_value = [
+            m for m in self.database_modules.list() if m.type != 'ping']
+        action = create_instance.AdvancedAction.__new__(
+            create_instance.AdvancedAction)
+        choices = action.populate_license_choices(self.request, {})
+        self.assertEqual(('', 'No license'), (choices[0][0],
+                                              str(choices[0][1])))
+        self.assertIn(('e3b4cd2e-12ba-499a-9ade-37572cb07373',
+                       'my-db2-license (db2 12.1)'), choices)

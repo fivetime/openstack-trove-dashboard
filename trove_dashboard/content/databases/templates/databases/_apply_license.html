@@ -1,0 +1,8 @@
+{% extends "horizon/common/_modal_form.html" %}
+{% load i18n %}
+
+{% block modal-body-right %}
+  <p>{% trans "Install a license you bought from the vendor into the database of this instance. It replaces the edition the instance runs now; the instance is not restarted." %}</p>
+  <p>{% trans "What the database then reports about its license is on the Licenses tab of the instance." %}</p>
+  <p>{% trans "<strong>Please note:</strong> A license cannot be taken out of a database again. Apply another license to replace it." %}</p>
+{% endblock %}

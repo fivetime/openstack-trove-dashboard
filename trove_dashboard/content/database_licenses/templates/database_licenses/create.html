@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{% trans "Add License" %}{% endblock %}
+
+{% block main %}
+  {% include 'project/database_licenses/_create.html' %}
+{% endblock %}

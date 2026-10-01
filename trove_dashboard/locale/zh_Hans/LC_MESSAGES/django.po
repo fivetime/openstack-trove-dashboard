@@ -1,0 +1,2717 @@
+# Andreas Jaeger <jaegerandi@gmail.com>, 2016. #zanata
+# BillXiang <1138647106@qq.com>, 2016. #zanata
+# Yu Long <yulongxn@163.com>, 2016. #zanata
+# sunanchen <KF.sunanchen@h3c.com>, 2016. #zanata
+# Bin <liubin@glab.cn>, 2017. #zanata
+# Gaoxiao Zhu <zhu.gaoxiao@h3c.com>, 2017. #zanata
+# TigerFang <tigerfun@126.com>, 2017. #zanata
+msgid ""
+msgstr ""
+"Project-Id-Version: trove-dashboard VERSION\n"
+"Report-Msgid-Bugs-To: https://bugs.launchpad.net/openstack-i18n/\n"
+"POT-Creation-Date: 2026-10-01 12:41+0000\n"
+"PO-Revision-Date: 2017-12-28 02:42+0000\n"
+"Last-Translator: TigerFang <tigerfun@126.com>\n"
+"Language: zh_CN\n"
+"Language-Team: Chinese (China)\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: trove_dashboard/content/backup_strategies/panel.py:22
+#: trove_dashboard/content/backup_strategies/tables.py:66
+#: trove_dashboard/content/backup_strategies/templates/backup_strategies/index.html:3
+#: trove_dashboard/content/backup_strategies/views.py:33
+msgid "Backup Strategies"
+msgstr ""
+
+#: trove_dashboard/content/backup_strategies/tables.py:25
+#: trove_dashboard/content/backup_strategies/workflows/create_backup_strategy.py:71
+msgid "Create Backup Strategy"
+msgstr ""
+
+#: trove_dashboard/content/backup_strategies/tables.py:38
+msgid "Delete Backup Strategy"
+msgid_plural "Delete Backup Strategies"
+msgstr[0] ""
+
+#: trove_dashboard/content/backup_strategies/tables.py:46
+msgid "Backup Strategy Deleted"
+msgid_plural "Backup Strategies Deleted"
+msgstr[0] ""
+
+#: trove_dashboard/content/backup_strategies/tables.py:56
+msgid "Backend"
+msgstr ""
+
+#: trove_dashboard/content/backup_strategies/tables.py:58
+msgid "Instance ID"
+msgstr ""
+
+#: trove_dashboard/content/backup_strategies/tables.py:60
+msgid "Project"
+msgstr ""
+
+#: trove_dashboard/content/backup_strategies/tables.py:62
+msgid "Swift Container"
+msgstr ""
+
+#: trove_dashboard/content/backup_strategies/views.py:40
+msgid "Error getting backup strategies list."
+msgstr ""
+
+#: trove_dashboard/content/backup_strategies/views.py:48
+#: trove_dashboard/content/backup_strategies/workflows/create_backup_strategy.py:70
+msgid "Backup Strategy"
+msgstr ""
+
+#: trove_dashboard/content/backup_strategies/templates/backup_strategies/_backup_strategy_help.html:3
+msgid "Specify the backup strategy details."
+msgstr ""
+
+#: trove_dashboard/content/backup_strategies/workflows/create_backup_strategy.py:31
+#: trove_dashboard/content/database_backups/workflows/create_backup.py:34
+msgid "Database Instance"
+msgstr "数据库实例"
+
+#: trove_dashboard/content/backup_strategies/workflows/create_backup_strategy.py:32
+msgid "Select the database instance for backup strategy."
+msgstr ""
+
+#: trove_dashboard/content/backup_strategies/workflows/create_backup_strategy.py:38
+#: trove_dashboard/content/database_backups/workflows/create_backup.py:46
+msgid "Swift Container Name"
+msgstr ""
+
+#: trove_dashboard/content/backup_strategies/workflows/create_backup_strategy.py:40
+#: trove_dashboard/content/database_backups/workflows/create_backup.py:49
+msgid "User defined swift container name."
+msgstr ""
+
+#: trove_dashboard/content/backup_strategies/workflows/create_backup_strategy.py:44
+#: trove_dashboard/content/database_backups/workflows/create_backup.py:53
+#: trove_dashboard/content/database_configurations/tabs.py:28
+#: trove_dashboard/content/databases/templates/databases/_detail_overview.html:40
+#: trove_dashboard/content/databases/workflows/create_instance.py:132
+msgid "Details"
+msgstr "详情"
+
+#: trove_dashboard/content/backup_strategies/workflows/create_backup_strategy.py:54
+#: trove_dashboard/content/database_backups/workflows/create_backup.py:63
+msgid "Unable to list database instances to backup."
+msgstr "无法获取数据库实例进行备份。"
+
+#: trove_dashboard/content/backup_strategies/workflows/create_backup_strategy.py:72
+msgid "Backup strategy created"
+msgstr ""
+
+#: trove_dashboard/content/backup_strategies/workflows/create_backup_strategy.py:73
+msgid "Unable to create backup strategy."
+msgstr ""
+
+#: trove_dashboard/content/backup_strategies/workflows/create_backup_strategy.py:86
+msgid "Error creating backup strategy."
+msgstr ""
+
+#: trove_dashboard/content/database_backups/panel.py:22
+#: trove_dashboard/content/database_backups/tables.py:195
+#: trove_dashboard/content/database_backups/views.py:36
+#: trove_dashboard/content/databases/tables.py:890
+#: trove_dashboard/content/databases/tabs.py:160
+#: trove_dashboard/content/ng_database_backups/panel.py:21
+#: trove_dashboard/content/ng_database_backups/templates/ng_database_backups/index.html:3
+msgid "Backups"
+msgstr "备份"
+
+#: trove_dashboard/content/database_backups/tables.py:38
+msgctxt "Current status of a Database Backup"
+msgid "Building"
+msgstr "构建中"
+
+#: trove_dashboard/content/database_backups/tables.py:40
+msgctxt "Current status of a Database Backup"
+msgid "Completed"
+msgstr "完成"
+
+#: trove_dashboard/content/database_backups/tables.py:42
+msgctxt "Current status of a Database Backup"
+msgid "Delete Failed"
+msgstr "删除失败"
+
+#: trove_dashboard/content/database_backups/tables.py:44
+msgctxt "Current status of a Database Backup"
+msgid "Failed"
+msgstr "失败"
+
+#: trove_dashboard/content/database_backups/tables.py:46
+msgctxt "Current status of a Database Backup"
+msgid "New"
+msgstr "新建"
+
+#: trove_dashboard/content/database_backups/tables.py:48
+msgctxt "Current status of a Database Backup"
+msgid "Restored"
+msgstr ""
+
+#: trove_dashboard/content/database_backups/tables.py:50
+msgctxt "Current status of a Database Backup"
+msgid "Saving"
+msgstr "保存"
+
+#: trove_dashboard/content/database_backups/tables.py:57
+#: trove_dashboard/content/database_backups/workflows/create_backup.py:94
+#: trove_dashboard/content/databases/tables.py:426
+msgid "Create Backup"
+msgstr "创建备份"
+
+#: trove_dashboard/content/database_backups/tables.py:66
+msgid "Restore Backup"
+msgstr "恢复备份"
+
+#: trove_dashboard/content/database_backups/tables.py:82
+msgid "Download Backup"
+msgstr "下载备份"
+
+#: trove_dashboard/content/database_backups/tables.py:110
+msgid "Delete Backup"
+msgid_plural "Delete Backups"
+msgstr[0] "删除备份"
+
+#: trove_dashboard/content/database_backups/tables.py:118
+msgid "Deleted Backup"
+msgid_plural "Deleted Backups"
+msgstr[0] "已删除的备份"
+
+#: trove_dashboard/content/database_backups/tables.py:158
+#: trove_dashboard/content/database_backups/tables.py:164
+#: trove_dashboard/content/database_clusters/tables.py:156
+#: trove_dashboard/content/database_clusters/tables.py:199
+#: trove_dashboard/content/database_clusters/tables.py:205
+#: trove_dashboard/content/database_clusters/tables.py:219
+#: trove_dashboard/content/databases/tables.py:617
+#: trove_dashboard/content/databases/tables.py:623
+#: trove_dashboard/content/databases/tables.py:657
+#: trove_dashboard/content/databases/tables.py:663
+msgid "Not available"
+msgstr "不可用"
+
+#: trove_dashboard/content/database_backups/tables.py:174
+#: trove_dashboard/content/database_backups/templates/database_backups/details.html:14
+#: trove_dashboard/content/database_backups/templates/database_backups/details.html:60
+#: trove_dashboard/content/database_backups/workflows/create_backup.py:32
+#: trove_dashboard/content/database_clusters/forms.py:430
+#: trove_dashboard/content/database_clusters/tables.py:224
+#: trove_dashboard/content/database_clusters/tables.py:298
+#: trove_dashboard/content/database_clusters/tables.py:439
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview.html:5
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview_vertica.html:5
+#: trove_dashboard/content/database_configurations/forms.py:33
+#: trove_dashboard/content/database_configurations/tables.py:235
+#: trove_dashboard/content/database_configurations/templates/database_configurations/_detail_overview.html:9
+#: trove_dashboard/content/database_licenses/forms.py:27
+#: trove_dashboard/content/database_licenses/tables.py:68
+#: trove_dashboard/content/databases/forms.py:29
+#: trove_dashboard/content/databases/forms.py:158
+#: trove_dashboard/content/databases/forms.py:205
+#: trove_dashboard/content/databases/forms.py:303
+#: trove_dashboard/content/databases/logs/tables.py:146
+#: trove_dashboard/content/databases/tables.py:871
+#: trove_dashboard/content/databases/templates/databases/_detail_overview.html:5
+#: trove_dashboard/content/databases/templates/databases/_promote_to_replica_source.html:17
+#: trove_dashboard/content/databases/templates/databases/_promote_to_replica_source.html:27
+msgid "Name"
+msgstr "名称"
+
+#: trove_dashboard/content/database_backups/tables.py:176
+#: trove_dashboard/content/database_backups/templates/database_backups/details.html:21
+#: trove_dashboard/content/database_clusters/forms.py:92
+#: trove_dashboard/content/database_clusters/tables.py:171
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview.html:9
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview_vertica.html:9
+#: trove_dashboard/content/database_configurations/forms.py:40
+#: trove_dashboard/content/database_configurations/tables.py:74
+#: trove_dashboard/content/database_configurations/templates/database_configurations/_detail_overview.html:15
+#: trove_dashboard/content/database_licenses/forms.py:29
+#: trove_dashboard/content/databases/tables.py:790
+#: trove_dashboard/content/databases/templates/databases/_detail_overview.html:9
+#: trove_dashboard/content/databases/workflows/create_instance.py:101
+msgid "Datastore"
+msgstr "数据存储"
+
+#: trove_dashboard/content/database_backups/tables.py:178
+#: trove_dashboard/content/database_backups/templates/database_backups/details.html:23
+#: trove_dashboard/content/database_clusters/tables.py:173
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview.html:11
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview_vertica.html:11
+#: trove_dashboard/content/database_configurations/tables.py:77
+#: trove_dashboard/content/database_configurations/templates/database_configurations/_detail_overview.html:17
+#: trove_dashboard/content/database_licenses/tables.py:71
+#: trove_dashboard/content/databases/tables.py:792
+#: trove_dashboard/content/databases/tables.py:913
+#: trove_dashboard/content/databases/templates/databases/_detail_overview.html:11
+msgid "Datastore Version"
+msgstr "数据存储版本"
+
+#: trove_dashboard/content/database_backups/tables.py:179
+#: trove_dashboard/content/database_backups/templates/database_backups/details.html:32
+#: trove_dashboard/content/database_configurations/templates/database_configurations/_detail_overview.html:19
+#: trove_dashboard/content/database_licenses/tables.py:74
+#: trove_dashboard/content/databases/tables.py:872
+#: trove_dashboard/content/databases/templates/databases/_detail_overview.html:45
+#: trove_dashboard/content/databases/templates/databases/_detail_overview.html:61
+msgid "Created"
+msgstr "已创建"
+
+#: trove_dashboard/content/database_backups/tables.py:182
+#: trove_dashboard/content/database_licenses/tables.py:69
+msgid "Database"
+msgstr "数据库"
+
+#: trove_dashboard/content/database_backups/tables.py:184
+#: trove_dashboard/content/databases/tables.py:878
+msgid "Incremental"
+msgstr "增量"
+
+#: trove_dashboard/content/database_backups/tables.py:188
+#: trove_dashboard/content/database_backups/templates/database_backups/details.html:26
+#: trove_dashboard/content/database_backups/templates/database_backups/details.html:67
+#: trove_dashboard/content/database_clusters/tables.py:237
+#: trove_dashboard/content/database_clusters/tables.py:301
+#: trove_dashboard/content/databases/logs/tables.py:148
+#: trove_dashboard/content/databases/tables.py:803
+#: trove_dashboard/content/databases/tables.py:883
+#: trove_dashboard/content/databases/tables.py:914
+#: trove_dashboard/content/databases/templates/databases/_detail_overview.html:13
+#: trove_dashboard/content/databases/templates/databases/_promote_to_replica_source.html:19
+#: trove_dashboard/content/databases/templates/databases/_promote_to_replica_source.html:29
+msgid "Status"
+msgstr "状态"
+
+#: trove_dashboard/content/database_backups/tests.py:255
+#: trove_dashboard/content/databases/workflows/create_instance.py:430
+#: trove_dashboard/content/databases/workflows/create_instance.py:471
+msgid "Restore from Backup"
+msgstr "从备份中恢复"
+
+#: trove_dashboard/content/database_backups/views.py:50
+msgid "Not Found"
+msgstr "找不到"
+
+#: trove_dashboard/content/database_backups/views.py:62
+msgid "Error getting database backup list."
+msgstr "获取数据库备份列表错误。"
+
+#: trove_dashboard/content/database_backups/templates/database_backups/backup.html:3
+#: trove_dashboard/content/database_backups/views.py:70
+#: trove_dashboard/content/database_backups/workflows/create_backup.py:93
+msgid "Backup Database"
+msgstr "备份数据库"
+
+#: trove_dashboard/content/database_backups/views.py:81
+msgid "Backup Details: {{ backup.name }}"
+msgstr "备份详情: {{ backup.name }}"
+
+#: trove_dashboard/content/database_backups/views.py:92
+#, python-format
+msgid "Unable to retrieve details for backup: %s"
+msgstr "无法获取备份: %s的详细信息"
+
+#: trove_dashboard/content/database_backups/views.py:100
+#, python-format
+msgid "Unable to retrieve details for parent backup: %s"
+msgstr "无法获取父备份 :%s 的详细信息"
+
+#: trove_dashboard/content/database_backups/templates/database_backups/_backup_details_help.html:3
+msgid "Specify the details for the database backup."
+msgstr "指定数据库备份详情。"
+
+#: trove_dashboard/content/database_backups/templates/database_backups/_backup_details_help.html:4
+msgid ""
+"You can perform an incremental backup by specifying a parent backup. "
+"<strong>However,</strong> not all databases support incremental backups in "
+"which case this operation will result in an error."
+msgstr "你可以通过指定一个母版来进行增量备份。<strong>然而</strong>，不是所有的数据库都支持增量备份，有些会导致备份出错。"
+
+#: trove_dashboard/content/database_backups/templates/database_backups/details.html:3
+msgid "Backup Details"
+msgstr "备份详情"
+
+#: trove_dashboard/content/database_backups/templates/database_backups/details.html:8
+msgid "Backup Overview"
+msgstr "备份概览"
+
+#: trove_dashboard/content/database_backups/templates/database_backups/details.html:11
+msgid "Information"
+msgstr "信息"
+
+#: trove_dashboard/content/database_backups/templates/database_backups/details.html:16
+#: trove_dashboard/content/database_backups/workflows/create_backup.py:37
+#: trove_dashboard/content/database_configurations/forms.py:35
+#: trove_dashboard/content/database_configurations/tables.py:71
+#: trove_dashboard/content/database_configurations/templates/database_configurations/_detail_overview.html:11
+#: trove_dashboard/content/database_licenses/forms.py:41
+#: trove_dashboard/content/database_licenses/tables.py:73
+msgid "Description"
+msgstr "描述"
+
+#: trove_dashboard/content/database_backups/templates/database_backups/details.html:18
+#: trove_dashboard/content/database_backups/templates/database_backups/details.html:62
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview.html:7
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview_vertica.html:7
+#: trove_dashboard/content/database_configurations/templates/database_configurations/_detail_overview.html:13
+#: trove_dashboard/content/databases/templates/databases/_detail_overview.html:7
+msgid "ID"
+msgstr "ID"
+
+#: trove_dashboard/content/database_backups/templates/database_backups/details.html:28
+msgid "Backup File Location"
+msgstr "备份文件位置"
+
+#: trove_dashboard/content/database_backups/templates/database_backups/details.html:30
+msgid "Initial Volume Size"
+msgstr "初始云硬盘大小"
+
+#: trove_dashboard/content/database_backups/templates/database_backups/details.html:31
+msgid "GB"
+msgstr "GB"
+
+#: trove_dashboard/content/database_backups/templates/database_backups/details.html:34
+#: trove_dashboard/content/database_configurations/templates/database_configurations/_detail_overview.html:21
+#: trove_dashboard/content/databases/tables.py:917
+#: trove_dashboard/content/databases/templates/databases/_detail_overview.html:63
+msgid "Updated"
+msgstr "已更新"
+
+#: trove_dashboard/content/database_backups/templates/database_backups/details.html:36
+msgid "Backup Duration"
+msgstr "备份周期"
+
+#: trove_dashboard/content/database_backups/templates/database_backups/details.html:43
+msgid "Incremental Backup"
+msgstr "增量备份"
+
+#: trove_dashboard/content/database_backups/templates/database_backups/details.html:46
+#: trove_dashboard/content/database_backups/workflows/create_backup.py:41
+msgid "Parent Backup"
+msgstr "父备份"
+
+#: trove_dashboard/content/database_backups/templates/database_backups/details.html:57
+msgid "Database Info"
+msgstr "数据库信息"
+
+#: trove_dashboard/content/database_backups/templates/database_backups/index.html:3
+msgid "Database Backups"
+msgstr "数据库备份"
+
+#: trove_dashboard/content/database_backups/workflows/create_backup.py:33
+msgid "Name of the backup."
+msgstr ""
+
+#: trove_dashboard/content/database_backups/workflows/create_backup.py:35
+msgid "Select the database instance to backup."
+msgstr ""
+
+#: trove_dashboard/content/database_backups/workflows/create_backup.py:40
+msgid "Optional Backup Description"
+msgstr "数据库备份描述"
+
+#: trove_dashboard/content/database_backups/workflows/create_backup.py:43
+msgid "Optional parent backup"
+msgstr "可选父备份"
+
+#: trove_dashboard/content/database_backups/workflows/create_backup.py:75
+msgid "Unable to list parent database backups."
+msgstr ""
+
+#: trove_dashboard/content/database_backups/workflows/create_backup.py:79
+msgid "Select parent backup"
+msgstr "选择父备份"
+
+#: trove_dashboard/content/database_backups/workflows/create_backup.py:81
+#: trove_dashboard/content/databases/workflows/create_instance.py:528
+msgid "No backups available"
+msgstr "没有可用的备份"
+
+#: trove_dashboard/content/database_backups/workflows/create_backup.py:95
+#, python-format
+msgid "Scheduled backup \"%(name)s\"."
+msgstr "已为备份\"%(name)s\"排期."
+
+#: trove_dashboard/content/database_backups/workflows/create_backup.py:96
+#, python-format
+msgid "Unable to launch %(count)s named \"%(name)s\"."
+msgstr "无法启动%(count)s 名字 \"%(name)s\"."
+
+#: trove_dashboard/content/database_backups/workflows/create_backup.py:106
+#: trove_dashboard/content/databases/workflows/create_instance.py:646
+msgid "instance"
+msgstr "实例"
+
+#: trove_dashboard/content/database_backups/workflows/create_backup.py:120
+msgid "Error creating database backup."
+msgstr "创建数据库备份错误"
+
+#: trove_dashboard/content/database_clusters/forms.py:63
+msgid "Unable to retrieve networks."
+msgstr "无法获取网络。"
+
+#: trove_dashboard/content/database_clusters/forms.py:81
+#: trove_dashboard/content/databases/workflows/create_instance.py:490
+msgid "Select configuration"
+msgstr "选择配置"
+
+#: trove_dashboard/content/database_clusters/forms.py:83
+#: trove_dashboard/content/databases/workflows/create_instance.py:492
+msgid "No configurations available"
+msgstr "没有可用的配置"
+
+#: trove_dashboard/content/database_clusters/forms.py:88
+#: trove_dashboard/content/database_clusters/tables.py:169
+msgid "Cluster Name"
+msgstr "集群名称"
+
+#: trove_dashboard/content/database_clusters/forms.py:89
+msgid "Name of the database cluster."
+msgstr ""
+
+#: trove_dashboard/content/database_clusters/forms.py:93
+#: trove_dashboard/content/database_configurations/forms.py:41
+#: trove_dashboard/content/databases/workflows/create_instance.py:102
+msgid "Type and version of datastore."
+msgstr "数据存储的类型和版本。"
+
+#: trove_dashboard/content/database_clusters/forms.py:99
+#: trove_dashboard/content/database_clusters/forms.py:444
+#: trove_dashboard/content/database_clusters/tables.py:445
+msgid "Network"
+msgstr "网络"
+
+#: trove_dashboard/content/database_clusters/forms.py:100
+#: trove_dashboard/content/database_clusters/forms.py:445
+msgid "Network attached to instance."
+msgstr "附加到实例的网络。"
+
+#: trove_dashboard/content/database_clusters/forms.py:103
+#: trove_dashboard/content/database_clusters/forms.py:425
+#: trove_dashboard/content/databases/workflows/create_instance.py:92
+msgid "Volume Size (GB)"
+msgstr ""
+
+#: trove_dashboard/content/database_clusters/forms.py:106
+#: trove_dashboard/content/database_clusters/forms.py:428
+#: trove_dashboard/content/databases/workflows/create_instance.py:95
+msgid "Size of the volume in GB."
+msgstr "以GB为单位的云硬盘大小。"
+
+#: trove_dashboard/content/database_clusters/forms.py:108
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview.html:20
+#: trove_dashboard/content/databases/templates/databases/_detail_overview.html:28
+#: trove_dashboard/content/databases/workflows/create_instance.py:119
+msgid "Location Policy"
+msgstr ""
+
+#: trove_dashboard/content/database_clusters/forms.py:109
+#: trove_dashboard/content/databases/templates/databases/_promote_to_replica_source.html:17
+#: trove_dashboard/content/databases/templates/databases/_promote_to_replica_source.html:27
+#: trove_dashboard/content/databases/workflows/create_instance.py:120
+#: trove_dashboard/content/databases/workflows/create_instance.py:429
+msgid "None"
+msgstr "无"
+
+#: trove_dashboard/content/database_clusters/forms.py:110
+#: trove_dashboard/content/databases/workflows/create_instance.py:121
+msgid "Affinity"
+msgstr ""
+
+#: trove_dashboard/content/database_clusters/forms.py:111
+#: trove_dashboard/content/databases/workflows/create_instance.py:122
+msgid "Anti-affinity"
+msgstr ""
+
+#: trove_dashboard/content/database_clusters/forms.py:113
+msgid ""
+"Specify whether instances in the cluster will be created on the same "
+"hypervisor (affinity) or on different hypervisors (anti-affinity)."
+msgstr "验证同一hypervisor（关联）或不同hypervisor（非关联）中是否创建了集群的实例"
+
+#: trove_dashboard/content/database_clusters/forms.py:117
+#: trove_dashboard/content/database_clusters/forms.py:448
+#: trove_dashboard/content/database_configurations/tables.py:40
+#: trove_dashboard/content/databases/forms.py:263
+#: trove_dashboard/content/databases/templates/databases/_detail_overview.html:18
+#: trove_dashboard/content/databases/workflows/create_instance.py:415
+msgid "Configuration Group"
+msgstr "配置组"
+
+#: trove_dashboard/content/database_clusters/forms.py:118
+msgid "Configuration Group attached to instances."
+msgstr ""
+
+#: trove_dashboard/content/database_clusters/forms.py:121
+#: trove_dashboard/content/database_clusters/forms.py:169
+msgid "Root Password"
+msgstr "Root密码"
+
+#: trove_dashboard/content/database_clusters/forms.py:123
+msgid "Password for root user."
+msgstr "root用户密码"
+
+#: trove_dashboard/content/database_clusters/forms.py:129
+#: trove_dashboard/content/database_clusters/forms.py:151
+#: trove_dashboard/content/database_clusters/forms.py:162
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview.html:17
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview_vertica.html:17
+msgid "Number of Instances"
+msgstr "云主机数量"
+
+#: trove_dashboard/content/database_clusters/forms.py:133
+msgid "Number of instances in the cluster (read only)."
+msgstr ""
+
+#: trove_dashboard/content/database_clusters/forms.py:140
+#: trove_dashboard/content/database_clusters/forms.py:165
+msgid "Number of Shards"
+msgstr "Shard数"
+
+#: trove_dashboard/content/database_clusters/forms.py:144
+msgid "Number of shards (read only)."
+msgstr ""
+
+#: trove_dashboard/content/database_clusters/forms.py:154
+msgid "Number of instances in the cluster."
+msgstr "集群中的云主机数量。"
+
+#: trove_dashboard/content/database_clusters/forms.py:192
+msgid "The flavor must be specified."
+msgstr "必须指定云主机类型。"
+
+#: trove_dashboard/content/database_clusters/forms.py:197
+msgid "Password for root user must be specified."
+msgstr "必须指定root用户密码。"
+
+#: trove_dashboard/content/database_clusters/forms.py:201
+msgid "The number of instances must be greater than 1."
+msgstr "实例的数量必须大于1。"
+
+#: trove_dashboard/content/database_clusters/forms.py:206
+msgid "The number of shards must be greater than 1."
+msgstr "shard数必须大于1。"
+
+#: trove_dashboard/content/database_clusters/forms.py:227
+#: trove_dashboard/content/database_clusters/forms.py:479
+#: trove_dashboard/content/databases/workflows/create_instance.py:212
+msgid "Unable to obtain flavors."
+msgstr "无法获取云主机类型。"
+
+#: trove_dashboard/content/database_clusters/forms.py:239
+#: trove_dashboard/content/database_configurations/forms.py:57
+msgid "Unable to obtain datastores."
+msgstr "无法获取数据存储。"
+
+#: trove_dashboard/content/database_clusters/forms.py:259
+#: trove_dashboard/content/database_configurations/forms.py:68
+msgid "Unable to obtain datastore versions."
+msgstr "无法获取数据存储版本。"
+
+#: trove_dashboard/content/database_clusters/forms.py:310
+#: trove_dashboard/content/database_clusters/forms.py:316
+#: trove_dashboard/content/database_clusters/forms.py:422
+#: trove_dashboard/content/database_clusters/tables.py:440
+#: trove_dashboard/content/databases/templates/databases/_detail_overview.html:53
+#: trove_dashboard/content/databases/workflows/create_instance.py:296
+#: trove_dashboard/content/databases/workflows/create_instance.py:302
+msgid "Flavor"
+msgstr "云主机类型"
+
+#: trove_dashboard/content/database_clusters/forms.py:311
+#: trove_dashboard/content/database_clusters/forms.py:423
+#: trove_dashboard/content/databases/workflows/create_instance.py:297
+msgid "Size of image to launch."
+msgstr "要启动的镜像大小。"
+
+#: trove_dashboard/content/database_clusters/forms.py:408
+#, python-format
+msgid "Launched cluster \"%s\""
+msgstr "启动集群\"%s\""
+
+#: trove_dashboard/content/database_clusters/forms.py:413
+msgid "Unable to launch cluster."
+msgstr ""
+
+#: trove_dashboard/content/database_clusters/forms.py:432
+msgid "Optional name of the instance."
+msgstr "实例的可选名称。"
+
+#: trove_dashboard/content/database_clusters/forms.py:434
+#: trove_dashboard/content/database_clusters/tables.py:443
+msgid "Instance Type"
+msgstr "实例类型"
+
+#: trove_dashboard/content/database_clusters/forms.py:436
+msgid "Optional datastore specific type of the instance."
+msgstr "可选，实例的数据存储类型"
+
+#: trove_dashboard/content/database_clusters/forms.py:438
+#: trove_dashboard/content/database_clusters/tables.py:444
+msgid "Related To"
+msgstr "相关"
+
+#: trove_dashboard/content/database_clusters/forms.py:440
+msgid ""
+"Optional datastore specific value that defines the relationship from one "
+"instance in the cluster to another."
+msgstr "可选，数据存储确定值，这个值定义了集群中的实例与另一个实例的关系。"
+
+#: trove_dashboard/content/database_clusters/forms.py:449
+msgid "Configuration Group attached to instance."
+msgstr ""
+
+#: trove_dashboard/content/database_clusters/forms.py:501
+msgid "Unable to grow cluster."
+msgstr ""
+
+#: trove_dashboard/content/database_clusters/forms.py:509
+#: trove_dashboard/content/databases/forms.py:215
+msgid "New Password"
+msgstr "新密码"
+
+#: trove_dashboard/content/database_clusters/forms.py:510
+msgid "New password for cluster access."
+msgstr "访问集群的新密码。"
+
+#: trove_dashboard/content/database_clusters/forms.py:520
+#, python-format
+msgid "Root password updated for cluster \"%s\""
+msgstr "集群\"%s\"的root密码已经更新"
+
+#: trove_dashboard/content/database_clusters/forms.py:524
+msgid "Unable to reset password."
+msgstr ""
+
+#: trove_dashboard/content/database_clusters/panel.py:24
+#: trove_dashboard/content/database_clusters/tables.py:185
+#: trove_dashboard/content/database_clusters/templates/database_clusters/index.html:3
+#: trove_dashboard/content/database_clusters/templates/database_clusters/index.html:6
+msgid "Clusters"
+msgstr "集群"
+
+#: trove_dashboard/content/database_clusters/tables.py:45
+msgid "Deleted cluster is not recoverable."
+msgstr "删除的集群无法恢复。"
+
+#: trove_dashboard/content/database_clusters/tables.py:51
+msgid "Delete Cluster"
+msgid_plural "Delete Clusters"
+msgstr[0] "删除集群"
+
+#: trove_dashboard/content/database_clusters/tables.py:59
+msgid "Scheduled deletion of Cluster"
+msgid_plural "Scheduled deletion of Clusters"
+msgstr[0] "已计划删除集群"
+
+#: trove_dashboard/content/database_clusters/tables.py:70
+#: trove_dashboard/content/database_clusters/templates/database_clusters/launch.html:3
+#: trove_dashboard/content/database_clusters/views.py:96
+msgid "Launch Cluster"
+msgstr "启动集群"
+
+#: trove_dashboard/content/database_clusters/tables.py:79
+#: trove_dashboard/content/database_clusters/tables.py:395
+#: trove_dashboard/content/database_clusters/tables.py:396
+#: trove_dashboard/content/database_clusters/tables.py:421
+#: trove_dashboard/content/database_clusters/templates/database_clusters/cluster_grow_details.html:3
+msgid "Grow Cluster"
+msgstr "扩大集群"
+
+#: trove_dashboard/content/database_clusters/tables.py:92
+#: trove_dashboard/content/database_clusters/tables.py:255
+#: trove_dashboard/content/database_clusters/templates/database_clusters/cluster_shrink_details.html:3
+msgid "Shrink Cluster"
+msgid_plural "Shrink Cluster"
+msgstr[0] "缩小集群"
+
+#: trove_dashboard/content/database_clusters/tables.py:105
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_reset_password.html:8
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_reset_password.html:22
+#: trove_dashboard/content/database_clusters/templates/database_clusters/reset_password.html:3
+#: trove_dashboard/content/database_clusters/views.py:243
+msgid "Reset Root Password"
+msgstr "重置root密码"
+
+#: trove_dashboard/content/database_clusters/tables.py:149
+#, python-format
+msgid "%(name)s | %(RAM)s RAM | %(instances)s instances"
+msgstr "%(name)s | %(RAM)s 内存 | %(instances)s 实例"
+
+#: trove_dashboard/content/database_clusters/tables.py:175
+msgid "Cluster Size"
+msgstr "集群大小"
+
+#: trove_dashboard/content/database_clusters/tables.py:179
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview.html:13
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview_vertica.html:13
+msgid "Current Task"
+msgstr "当前任务"
+
+#: trove_dashboard/content/database_clusters/tables.py:195
+#: trove_dashboard/content/databases/tables.py:653
+#, python-format
+msgid "%(name)s | %(RAM)s RAM"
+msgstr "%(name)s | %(RAM)s RAM"
+
+#: trove_dashboard/content/database_clusters/tables.py:213
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview_cassandra.html:11
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview_mongodb.html:11
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview_mysql.html:11
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview_redis.html:11
+#: trove_dashboard/content/databases/tables.py:648
+#: trove_dashboard/content/databases/templates/databases/_detail_overview_cassandra.html:11
+#: trove_dashboard/content/databases/templates/databases/_detail_overview_couchbase.html:11
+#: trove_dashboard/content/databases/templates/databases/_detail_overview_mongodb.html:16
+#: trove_dashboard/content/databases/templates/databases/_detail_overview_mysql.html:10
+#: trove_dashboard/content/databases/templates/databases/_detail_overview_postgresql.html:11
+#: trove_dashboard/content/databases/templates/databases/_detail_overview_redis.html:11
+msgid "Not Assigned"
+msgstr "没有分配"
+
+#: trove_dashboard/content/database_clusters/tables.py:226
+#: trove_dashboard/content/databases/logs/tables.py:147
+msgid "Type"
+msgstr "类型"
+
+#: trove_dashboard/content/database_clusters/tables.py:228
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview_cassandra.html:9
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview_mongodb.html:9
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview_mysql.html:9
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview_redis.html:9
+#: trove_dashboard/content/databases/forms.py:167
+#: trove_dashboard/content/databases/forms.py:208
+#: trove_dashboard/content/databases/tables.py:793
+#: trove_dashboard/content/databases/templates/databases/_detail_overview_cassandra.html:9
+#: trove_dashboard/content/databases/templates/databases/_detail_overview_couchbase.html:9
+#: trove_dashboard/content/databases/templates/databases/_detail_overview_mongodb.html:13
+#: trove_dashboard/content/databases/templates/databases/_detail_overview_mysql.html:9
+#: trove_dashboard/content/databases/templates/databases/_detail_overview_mysql.html:12
+#: trove_dashboard/content/databases/templates/databases/_detail_overview_postgresql.html:9
+#: trove_dashboard/content/databases/templates/databases/_detail_overview_redis.html:9
+#: trove_dashboard/content/databases/templates/databases/_promote_to_replica_source.html:18
+#: trove_dashboard/content/databases/templates/databases/_promote_to_replica_source.html:28
+msgid "Host"
+msgstr "主机"
+
+#: trove_dashboard/content/database_clusters/tables.py:230
+#: trove_dashboard/content/databases/tables.py:795
+msgid "Size"
+msgstr "大小"
+
+#: trove_dashboard/content/database_clusters/tables.py:233
+#: trove_dashboard/content/databases/tables.py:800
+#: trove_dashboard/content/databases/templates/databases/_detail_overview.html:58
+msgid "Volume Size"
+msgstr "云硬盘大小"
+
+#: trove_dashboard/content/database_clusters/tables.py:241
+#: trove_dashboard/content/database_clusters/tables.py:305
+#: trove_dashboard/content/database_clusters/tables.py:449
+#: trove_dashboard/content/database_clusters/tabs.py:56
+#: trove_dashboard/content/database_configurations/tabs.py:54
+#: trove_dashboard/content/databases/panel.py:22
+#: trove_dashboard/content/databases/tables.py:814
+#: trove_dashboard/content/databases/templates/databases/index.html:3
+#: trove_dashboard/content/databases/views.py:46
+msgid "Instances"
+msgstr "实例"
+
+#: trove_dashboard/content/database_clusters/tables.py:249
+msgid "Shrinking a cluster is not recoverable."
+msgstr "缩小集群是无法恢复的"
+
+#: trove_dashboard/content/database_clusters/tables.py:263
+msgid "Scheduled Shrinking of Cluster"
+msgid_plural "Scheduled Shrinking of Cluster"
+msgstr[0] "已计划缩小集群"
+
+#: trove_dashboard/content/database_clusters/tables.py:283
+msgid "Removed instances from cluster."
+msgstr "从集群中移除实例"
+
+#: trove_dashboard/content/database_clusters/tables.py:290
+#, python-format
+msgid "Unable to remove instances from cluster: %s"
+msgstr "无法从集群中移除实例 %s"
+
+#: trove_dashboard/content/database_clusters/tables.py:312
+#: trove_dashboard/content/database_clusters/templates/database_clusters/add_instance.html:3
+#: trove_dashboard/content/database_clusters/views.py:175
+#: trove_dashboard/content/database_clusters/views.py:182
+msgid "Add Instance"
+msgstr "添加实例"
+
+#: trove_dashboard/content/database_clusters/tables.py:329
+msgid "Remove Instance"
+msgid_plural "Remove Instances"
+msgstr[0] "移除实例"
+
+#: trove_dashboard/content/database_clusters/tables.py:337
+msgid "Removed Instance"
+msgid_plural "Removed Instances"
+msgstr[0] "移除实例"
+
+#: trove_dashboard/content/database_clusters/tables.py:379
+#, python-format
+msgid "You are not allowed to %(action)s: %(objs)s"
+msgstr "您被禁止执行 %(action)s: %(objs)s"
+
+#: trove_dashboard/content/database_clusters/tables.py:385
+#, python-format
+msgid "Unable to %(action)s: %(objs)s"
+msgstr "无法执行 %(action)s: %(objs)s"
+
+#: trove_dashboard/content/database_clusters/tables.py:403
+msgid "Cannot grow cluster. No instances specified."
+msgstr ""
+
+#: trove_dashboard/content/database_clusters/tables.py:422
+msgid "Scheduled growing of cluster."
+msgstr "已安排扩大集群"
+
+#: trove_dashboard/content/database_clusters/tables.py:428
+#, python-format
+msgid "Unable to grow cluster: %s"
+msgstr "无法扩大集群：%s"
+
+#: trove_dashboard/content/database_clusters/tables.py:442
+msgid "Volume"
+msgstr "卷"
+
+#: trove_dashboard/content/database_clusters/tabs.py:29
+#: trove_dashboard/content/databases/tabs.py:42
+msgid "Overview"
+msgstr "概览"
+
+#: trove_dashboard/content/database_clusters/tabs.py:83
+msgid "Unable to get instances data."
+msgstr "无法获取实例数据。"
+
+#: trove_dashboard/content/database_clusters/views.py:57
+#: trove_dashboard/content/databases/views.py:57
+msgid "Unable to retrieve database size information."
+msgstr "无法获取数据库大小信息。"
+
+#: trove_dashboard/content/database_clusters/views.py:84
+msgid "Unable to retrieve database clusters."
+msgstr "无法获取数据库集群。"
+
+#: trove_dashboard/content/database_clusters/views.py:99
+msgid "Launch"
+msgstr "启动"
+
+#: trove_dashboard/content/database_clusters/views.py:122
+#, python-format
+msgid "Unable to retrieve details for database cluster: %s"
+msgstr "无法获取数据库集群的详细信息: %s"
+
+#: trove_dashboard/content/database_clusters/views.py:149
+msgid "Grow Cluster: {{cluster_name}}"
+msgstr "扩大集群：{{cluster_name}}"
+
+#: trove_dashboard/content/database_clusters/views.py:168
+#: trove_dashboard/content/database_clusters/views.py:222
+#: trove_dashboard/content/database_clusters/views.py:251
+msgid "Unable to retrieve cluster details."
+msgstr "无法获取集群详细信息。"
+
+#: trove_dashboard/content/database_clusters/views.py:178
+msgid "Add"
+msgstr "添加"
+
+#: trove_dashboard/content/database_clusters/views.py:214
+msgid "Shrink Cluster: {{cluster_name}}"
+msgstr "缩小集群：{{cluster_name}}"
+
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_add_instance.html:5
+msgid "Specify the details of the instance to be added to the cluster."
+msgstr "指定将要添加到集群的实例详情。"
+
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_add_instance.html:6
+msgid ""
+"The name field is optional. If the field is left blank a name will be "
+"generated when the cluster is grown."
+msgstr ""
+
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_add_instance.html:7
+msgid ""
+"The 'Instance Type' and 'Related To' fields are datastore specific and "
+"optional. See the Trove documentation for more information on using these "
+"fields."
+msgstr ""
+
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview.html:15
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview_vertica.html:15
+#: trove_dashboard/content/databases/templates/databases/_detail_overview.html:55
+msgid "RAM"
+msgstr "内存"
+
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview_cassandra.html:5
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview_mongodb.html:5
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview_mysql.html:5
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview_redis.html:5
+#: trove_dashboard/content/databases/templates/databases/_detail_overview_cassandra.html:5
+#: trove_dashboard/content/databases/templates/databases/_detail_overview_couchbase.html:5
+#: trove_dashboard/content/databases/templates/databases/_detail_overview_mongodb.html:5
+#: trove_dashboard/content/databases/templates/databases/_detail_overview_mysql.html:5
+#: trove_dashboard/content/databases/templates/databases/_detail_overview_postgresql.html:5
+#: trove_dashboard/content/databases/templates/databases/_detail_overview_redis.html:5
+msgid "Connection Information"
+msgstr "连接信息"
+
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview_cassandra.html:14
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview_mongodb.html:16
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview_mysql.html:14
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview_redis.html:14
+#: trove_dashboard/content/databases/templates/databases/_detail_overview_cassandra.html:16
+#: trove_dashboard/content/databases/templates/databases/_detail_overview_couchbase.html:14
+#: trove_dashboard/content/databases/templates/databases/_detail_overview_mongodb.html:23
+#: trove_dashboard/content/databases/templates/databases/_detail_overview_mysql.html:22
+#: trove_dashboard/content/databases/templates/databases/_detail_overview_postgresql.html:16
+#: trove_dashboard/content/databases/templates/databases/_detail_overview_redis.html:14
+msgid "Connection Examples"
+msgstr "连接举例"
+
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview_mongodb.html:14
+#: trove_dashboard/content/databases/templates/databases/_detail_overview_cassandra.html:14
+#: trove_dashboard/content/databases/templates/databases/_detail_overview_mongodb.html:21
+#: trove_dashboard/content/databases/templates/databases/_detail_overview_mysql.html:20
+#: trove_dashboard/content/databases/templates/databases/_detail_overview_postgresql.html:14
+msgid "Database Port"
+msgstr "数据库端口"
+
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview_mongodb.html:18
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview_mysql.html:15
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview_mysql.html:16
+#: trove_dashboard/content/databases/templates/databases/_detail_overview_mongodb.html:25
+#: trove_dashboard/content/databases/templates/databases/_detail_overview_mysql.html:24
+#: trove_dashboard/content/databases/templates/databases/_detail_overview_mysql.html:25
+#: trove_dashboard/content/databases/templates/databases/_detail_overview_mysql.html:27
+#: trove_dashboard/content/databases/templates/databases/_detail_overview_mysql.html:28
+#: trove_dashboard/content/databases/templates/databases/_detail_overview_postgresql.html:17
+#: trove_dashboard/content/databases/templates/databases/_detail_overview_postgresql.html:18
+msgid "USERNAME"
+msgstr "用户名"
+
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview_mongodb.html:18
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview_mysql.html:16
+#: trove_dashboard/content/databases/templates/databases/_detail_overview_mongodb.html:25
+#: trove_dashboard/content/databases/templates/databases/_detail_overview_mysql.html:25
+#: trove_dashboard/content/databases/templates/databases/_detail_overview_mysql.html:28
+#: trove_dashboard/content/databases/templates/databases/_detail_overview_postgresql.html:18
+msgid "PASSWORD"
+msgstr "密码"
+
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview_mongodb.html:18
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview_mysql.html:16
+#: trove_dashboard/content/databases/templates/databases/_detail_overview_mongodb.html:25
+#: trove_dashboard/content/databases/templates/databases/_detail_overview_mysql.html:25
+#: trove_dashboard/content/databases/templates/databases/_detail_overview_mysql.html:28
+#: trove_dashboard/content/databases/templates/databases/_detail_overview_postgresql.html:18
+msgid "DATABASE"
+msgstr "数据库"
+
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview_vertica.html:19
+msgid "Management Console"
+msgstr "管理控制台"
+
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_reset_password.html:17
+msgid "Specify the new root password for vertica cluster."
+msgstr "为vertica集群指定新的root密码。"
+
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_reset_password.html:23
+msgid "Cancel"
+msgstr "取消"
+
+#: trove_dashboard/content/database_clusters/templates/database_clusters/cluster_grow_details.html:8
+msgid ""
+"Specify the instances to be added to the cluster.  When all the instances "
+"are specified click 'Grow Cluster' to perform the grow operation."
+msgstr "指定将要添加到集群的实例。当指定完所有实例后，点击“扩大集群”执行扩大操作。"
+
+#: trove_dashboard/content/database_clusters/templates/database_clusters/cluster_shrink_details.html:8
+msgid "Select the instances that will be removed from the cluster."
+msgstr ""
+
+#: trove_dashboard/content/database_configurations/config_param_manager.py:146
+msgid "Value must be \"true\" or \"false\"."
+msgstr "值必须是\"true\"或者\"false\"。"
+
+#: trove_dashboard/content/database_configurations/config_param_manager.py:151
+msgid "Value must be a number."
+msgstr "值必须是一个整数"
+
+#: trove_dashboard/content/database_configurations/config_param_manager.py:158
+#, python-format
+msgid "Value must be of type %s."
+msgstr "值必须是%s类型"
+
+#: trove_dashboard/content/database_configurations/config_param_manager.py:162
+#, python-format
+msgid "Value must be a number between %(min)s and %(max)s."
+msgstr "值必须是一个在%(min)s和%(max)s之间的数值"
+
+#: trove_dashboard/content/database_configurations/config_param_manager.py:167
+#, python-format
+msgid "Value must be a number greater than or equal to %s."
+msgstr "值必须是一个大于等于%s的数值"
+
+#: trove_dashboard/content/database_configurations/config_param_manager.py:171
+#, python-format
+msgid "Value must be a number less than or equal to %s."
+msgstr "值必须是一个小于等于%s的数值"
+
+#: trove_dashboard/content/database_configurations/forms.py:34
+msgid "Name of the configuration group."
+msgstr ""
+
+#: trove_dashboard/content/database_configurations/forms.py:36
+msgid "Optional description of the configuration group."
+msgstr ""
+
+#: trove_dashboard/content/database_configurations/forms.py:96
+msgid "Select datastore type and version"
+msgstr "选择数据存储类型和版本"
+
+#: trove_dashboard/content/database_configurations/forms.py:110
+msgid "Created configuration group"
+msgstr "创建配置组"
+
+#: trove_dashboard/content/database_configurations/forms.py:113
+msgid "Unable to create configuration group."
+msgstr ""
+
+#: trove_dashboard/content/database_configurations/forms.py:119
+#: trove_dashboard/content/database_configurations/tables.py:151
+#: trove_dashboard/content/database_configurations/tables.py:193
+#: trove_dashboard/content/databases/tables.py:898
+msgid "Parameter"
+msgstr "参数"
+
+#: trove_dashboard/content/database_configurations/forms.py:120
+msgid "Configuration parameter name."
+msgstr ""
+
+#: trove_dashboard/content/database_configurations/forms.py:121
+#: trove_dashboard/content/database_configurations/tables.py:194
+#: trove_dashboard/content/databases/tables.py:899
+msgid "Value"
+msgstr "值"
+
+#: trove_dashboard/content/database_configurations/forms.py:122
+msgid "Value for the configuration parameter."
+msgstr ""
+
+#: trove_dashboard/content/database_configurations/forms.py:148
+msgid "Unable to obtain list of parameters."
+msgstr "无法获得参数列表"
+
+#: trove_dashboard/content/database_configurations/forms.py:166
+msgid "Unable to create list of parameters."
+msgstr "无法创建参数列表"
+
+#: trove_dashboard/content/database_configurations/forms.py:198
+msgid "Successfully added parameter"
+msgstr "成功增加参数"
+
+#: trove_dashboard/content/database_configurations/forms.py:202
+msgid "Unable to add new parameter."
+msgstr ""
+
+#: trove_dashboard/content/database_configurations/panel.py:22
+msgid "Configurations"
+msgstr ""
+
+#: trove_dashboard/content/database_configurations/tables.py:32
+#: trove_dashboard/content/database_configurations/views.py:84
+#: trove_dashboard/content/database_configurations/views.py:87
+msgid "Create Configuration Group"
+msgstr "创建配置组"
+
+#: trove_dashboard/content/database_configurations/tables.py:41
+#: trove_dashboard/content/database_configurations/tables.py:81
+#: trove_dashboard/content/database_configurations/templates/database_configurations/index.html:3
+#: trove_dashboard/content/database_configurations/templates/database_configurations/index.html:6
+#: trove_dashboard/content/database_configurations/views.py:39
+msgid "Configuration Groups"
+msgstr "配置组"
+
+#: trove_dashboard/content/database_configurations/tables.py:47
+msgid "Delete Configuration Group"
+msgid_plural "Delete Configuration Groups"
+msgstr[0] "删除配置组"
+
+#: trove_dashboard/content/database_configurations/tables.py:55
+msgid "Deleted Configuration Group"
+msgid_plural "Deleted Configuration Groups"
+msgstr[0] "已删除的配置组"
+
+#: trove_dashboard/content/database_configurations/tables.py:67
+msgid "Configuration Group Name"
+msgstr "配置组名称"
+
+#: trove_dashboard/content/database_configurations/tables.py:88
+#: trove_dashboard/content/database_configurations/views.py:95
+#: trove_dashboard/content/database_configurations/views.py:98
+msgid "Add Parameter"
+msgstr "增加参数"
+
+#: trove_dashboard/content/database_configurations/tables.py:101
+#: trove_dashboard/content/database_configurations/tables.py:102
+#: trove_dashboard/content/databases/views.py:181
+msgid "Apply Changes"
+msgstr "应用改变"
+
+#: trove_dashboard/content/database_configurations/tables.py:118
+msgid "Applied changes to server"
+msgstr "对主机应用这些改变"
+
+#: trove_dashboard/content/database_configurations/tables.py:120
+msgid "Error applying changes"
+msgstr "应用改变错误"
+
+#: trove_dashboard/content/database_configurations/tables.py:129
+#: trove_dashboard/content/database_configurations/tables.py:130
+msgid "Discard Changes"
+msgstr "放弃改变"
+
+#: trove_dashboard/content/database_configurations/tables.py:141
+msgid "Reset Parameters"
+msgstr "重置参数"
+
+#: trove_dashboard/content/database_configurations/tables.py:145
+#, python-format
+msgid "Error resetting parameters: %s"
+msgstr "重置参数:%s错误"
+
+#: trove_dashboard/content/database_configurations/tables.py:152
+msgid "Parameters"
+msgstr "参数"
+
+#: trove_dashboard/content/database_configurations/tables.py:157
+msgid "Delete Parameter"
+msgid_plural "Delete Parameters"
+msgstr[0] "删除参数"
+
+#: trove_dashboard/content/database_configurations/tables.py:165
+msgid "Deleted Parameter"
+msgid_plural "Deleted Parameters"
+msgstr[0] "已删除的参数 "
+
+#: trove_dashboard/content/database_configurations/tables.py:199
+msgid "Configuration Group Values"
+msgstr "配置组值"
+
+#: trove_dashboard/content/database_configurations/tables.py:212
+#: trove_dashboard/content/databases/tables.py:505
+msgid "Detach Configuration Group"
+msgid_plural "Detach Configuration Groups"
+msgstr[0] "分离配置组"
+
+#: trove_dashboard/content/database_configurations/tables.py:220
+#: trove_dashboard/content/databases/tables.py:513
+msgid "Detached Configuration Group"
+msgid_plural "Detached Configuration Groups"
+msgstr[0] "已分离的配置组"
+
+#: trove_dashboard/content/database_configurations/tables.py:239
+msgid "Configuration Group Instances"
+msgstr "配置组实例"
+
+#: trove_dashboard/content/database_configurations/tabs.py:38
+msgid "Values"
+msgstr "值"
+
+#: trove_dashboard/content/database_configurations/tabs.py:64
+msgid "Unable to get configuration data."
+msgstr "无法获得配置数据"
+
+#: trove_dashboard/content/database_configurations/views.py:46
+msgid "Error getting configuration group list."
+msgstr "获取配置组列表错误"
+
+#: trove_dashboard/content/database_configurations/views.py:54
+msgid "Configuration Group Details: {{configuration.name}}"
+msgstr "配置组详情:{{configuration.name}}"
+
+#: trove_dashboard/content/database_configurations/views.py:70
+#, python-format
+msgid "Unable to retrieve details for configuration group: %s"
+msgstr "无法检索配置组:%s详情"
+
+#: trove_dashboard/content/database_configurations/templates/database_configurations/_add_parameter.html:5
+msgid "Select a parameter and provide a value for the configuration parameter."
+msgstr "选择一个参数并且为这个参数的配置提供一个值"
+
+#: trove_dashboard/content/database_configurations/templates/database_configurations/_detail_overview.html:3
+msgid "Configuration Group Overview"
+msgstr "配置组概览"
+
+#: trove_dashboard/content/database_configurations/templates/database_configurations/_detail_overview.html:6
+msgid "Info"
+msgstr "信息"
+
+#: trove_dashboard/content/database_configurations/templates/database_configurations/add_parameter.html:3
+msgid "Add Parameter to Configurations"
+msgstr ""
+
+#: trove_dashboard/content/database_configurations/templates/database_configurations/create.html:3
+msgid "Create Configuration"
+msgstr ""
+
+#: trove_dashboard/content/database_configurations/templates/database_configurations/detail_param.html:5
+msgid ""
+"Manage parameters of the configuration group. If the configuration group is "
+"attached to database instance, the change is applied to the instance "
+"synchronously."
+msgstr ""
+
+#: trove_dashboard/content/database_configurations/templates/database_configurations/details.html:3
+#: trove_dashboard/content/database_configurations/templates/database_configurations/details.html:6
+msgid "Configuration Group Details"
+msgstr ""
+
+#: trove_dashboard/content/database_licenses/forms.py:30
+msgid "The database and version the license is for."
+msgstr "这个许可证适用的数据库和版本。"
+
+#: trove_dashboard/content/database_licenses/forms.py:32
+msgid "License File"
+msgstr "许可证文件"
+
+#: trove_dashboard/content/database_licenses/forms.py:33
+msgid ""
+"The license file the vendor issued: a .lic file for Db2, the license key "
+"file for Vertica."
+msgstr "厂商签发的许可证文件：Db2 是 .lic 文件，Vertica 是许可证密钥文件。"
+
+#: trove_dashboard/content/database_licenses/forms.py:37
+msgid "Or Paste the License"
+msgstr "或粘贴许可证内容"
+
+#: trove_dashboard/content/database_licenses/forms.py:39
+msgid ""
+"The contents of the license file, if you would rather paste them than upload"
+" the file."
+msgstr "如果不方便上传文件，可以把许可证文件的内容粘贴在这里。"
+
+#: trove_dashboard/content/database_licenses/forms.py:62
+#: trove_dashboard/content/databases/upgrade/views.py:67
+msgid "Unable to retrieve datastore versions."
+msgstr ""
+
+#: trove_dashboard/content/database_licenses/forms.py:64
+msgid "Select a datastore version"
+msgstr "选择数据存储版本"
+
+#: trove_dashboard/content/database_licenses/forms.py:66
+msgid "No licensed datastore available"
+msgstr "没有可用的需授权数据存储"
+
+#: trove_dashboard/content/database_licenses/forms.py:76
+msgid "The license file is too large."
+msgstr "许可证文件太大。"
+
+#: trove_dashboard/content/database_licenses/forms.py:82
+msgid "The license file is not a text file."
+msgstr "许可证文件不是文本文件。"
+
+#: trove_dashboard/content/database_licenses/forms.py:88
+msgid "Upload the license file or paste its contents."
+msgstr "请上传许可证文件或粘贴其内容。"
+
+#: trove_dashboard/content/database_licenses/forms.py:100
+#, python-format
+msgid "Added license \"%s\"."
+msgstr "已添加许可证\"%s\"。"
+
+#: trove_dashboard/content/database_licenses/forms.py:103
+msgid "Unable to add the license."
+msgstr "无法添加许可证。"
+
+#: trove_dashboard/content/database_licenses/panel.py:20
+#: trove_dashboard/content/database_licenses/tables.py:78
+#: trove_dashboard/content/database_licenses/templates/database_licenses/index.html:3
+#: trove_dashboard/content/database_licenses/views.py:28
+#: trove_dashboard/content/databases/tables.py:922
+#: trove_dashboard/content/databases/tabs.py:201
+msgid "Licenses"
+msgstr "许可证"
+
+#: trove_dashboard/content/database_licenses/tables.py:22
+msgid "Vertica"
+msgstr ""
+
+#: trove_dashboard/content/database_licenses/tables.py:23
+msgid "Db2"
+msgstr ""
+
+#: trove_dashboard/content/database_licenses/tables.py:29
+#: trove_dashboard/content/database_licenses/templates/database_licenses/create.html:3
+#: trove_dashboard/content/database_licenses/views.py:42
+#: trove_dashboard/content/database_licenses/views.py:45
+#: trove_dashboard/content/database_licenses/views.py:48
+msgid "Add License"
+msgstr "添加许可证"
+
+#: trove_dashboard/content/database_licenses/tables.py:42
+msgid "Delete License"
+msgid_plural "Delete Licenses"
+msgstr[0] "删除许可证"
+
+#: trove_dashboard/content/database_licenses/tables.py:50
+msgid "Deleted License"
+msgid_plural "Deleted Licenses"
+msgstr[0] "已删除许可证"
+
+#: trove_dashboard/content/database_licenses/views.py:35
+#: trove_dashboard/content/databases/forms.py:357
+msgid "Unable to retrieve licenses."
+msgstr "无法获取许可证。"
+
+#: trove_dashboard/content/database_licenses/templates/database_licenses/_create.html:7
+msgid "Description:"
+msgstr "说明："
+
+#: trove_dashboard/content/database_licenses/templates/database_licenses/_create.html:13
+msgid ""
+"The license is kept by the database service for your project only, and "
+"installed into an instance when you launch it with the license or apply the "
+"license to it. A license cannot be taken out of a database again; apply "
+"another one to replace it."
+msgstr "许可证只为您的项目保存在数据库服务中。用这个许可证创建实例，或把它装入已有实例时，才会安装到实例里。许可证装入数据库后无法再取出，只能装入另一个许可证来替换。"
+
+#: trove_dashboard/content/database_licenses/templates/database_licenses/_create.html:17
+msgid ""
+"A version of Vertica from 26.1 on runs only with a license given when the "
+"instance is launched."
+msgstr "Vertica 从 26.1 版起，只有在创建实例时就带上许可证才能运行。"
+
+#: trove_dashboard/content/database_licenses/templates/database_licenses/index.html:13
+msgid ""
+"Vertica and Db2 run the edition their image comes with until you add a "
+"license you bought from the vendor: the Community Edition of Vertica (up to "
+"1 TB) and of Db2 (up to 8 GB of memory and 4 cores). Add the license here, "
+"then choose it when you launch an instance, or apply it to an instance you "
+"already have. You are responsible for licensing the database for the "
+"resources it runs on."
+msgstr ""
+"在您添加从厂商购买的许可证之前，Vertica 和 Db2 运行镜像自带的版本：Vertica 社区版（最多 1 TB）和 Db2 社区版（最多 8 "
+"GB 内存、4 核）。在这里添加许可证后，可以在创建实例时选择它，也可以把它装入已有的实例。数据库在其所用资源上的授权由您负责。"
+
+#: trove_dashboard/content/databases/forms.py:30
+msgid "Name of the database."
+msgstr ""
+
+#: trove_dashboard/content/databases/forms.py:32
+msgid "Character Set"
+msgstr "字符集"
+
+#: trove_dashboard/content/databases/forms.py:33
+msgid "Optional character set for the database."
+msgstr "数据库的可选字符集。"
+
+#: trove_dashboard/content/databases/forms.py:35
+msgid "Collation"
+msgstr "排序"
+
+#: trove_dashboard/content/databases/forms.py:36
+msgid "Optional collation type for the database."
+msgstr "数据库的可选排序规则。"
+
+#: trove_dashboard/content/databases/forms.py:46
+#, python-format
+msgid "Created database \"%s\"."
+msgstr "创建的数据库 \"%s\"。"
+
+#: trove_dashboard/content/databases/forms.py:50
+msgid "Unable to create database."
+msgstr ""
+
+#: trove_dashboard/content/databases/forms.py:58
+msgid "Current Size (GB)"
+msgstr "当前大小(GB)"
+
+#: trove_dashboard/content/databases/forms.py:62
+msgid "New Size (GB)"
+msgstr "新大小(GB)"
+
+#: trove_dashboard/content/databases/forms.py:63
+msgid "New volume size must be larger than the current size."
+msgstr ""
+
+#: trove_dashboard/content/databases/forms.py:79
+msgid "New size for volume must be greater than current size."
+msgstr "卷的新大小必须大于当前的大小。"
+
+#: trove_dashboard/content/databases/forms.py:90
+#, python-format
+msgid "Resizing volume \"%s\""
+msgstr "正在调整卷 \"%s\" 的大小"
+
+#: trove_dashboard/content/databases/forms.py:93
+msgid "Unable to resize volume."
+msgstr ""
+
+#: trove_dashboard/content/databases/forms.py:100
+msgid "Old Flavor"
+msgstr "旧的云主机类型"
+
+#: trove_dashboard/content/databases/forms.py:104
+msgid "New Flavor"
+msgstr "新的云主机类型"
+
+#: trove_dashboard/content/databases/forms.py:105
+msgid "Choose a new instance flavor."
+msgstr "选择一新的实例类型。"
+
+#: trove_dashboard/content/databases/forms.py:117
+msgid "Select a new flavor"
+msgstr "选择一个新的云主机类型"
+
+#: trove_dashboard/content/databases/forms.py:119
+msgid "No flavors available"
+msgstr "没有可用的云主机类型"
+
+#: trove_dashboard/content/databases/forms.py:128
+#, python-format
+msgid "Resizing instance \"%s\""
+msgstr "调整实例 \"%s\" 的大小"
+
+#: trove_dashboard/content/databases/forms.py:131
+msgid "Unable to resize instance."
+msgstr ""
+
+#: trove_dashboard/content/databases/forms.py:146
+#, python-format
+msgid "Promoted replica \"%s\" as the new replica source."
+msgstr "设置副本\"%s\" 为新副本源。"
+
+#: trove_dashboard/content/databases/forms.py:151
+msgid "Unable to promote replica as the new replica source."
+msgstr ""
+
+#: trove_dashboard/content/databases/forms.py:159
+msgid "Username for the database user."
+msgstr ""
+
+#: trove_dashboard/content/databases/forms.py:161
+#: trove_dashboard/content/databases/tables.py:589
+#: trove_dashboard/content/databases/workflows/create_instance.py:382
+msgid "Password"
+msgstr "密码"
+
+#: trove_dashboard/content/databases/forms.py:162
+msgid "Password for the database user."
+msgstr ""
+
+#: trove_dashboard/content/databases/forms.py:167
+msgid "Optional host of user."
+msgstr "可选用户的主机"
+
+#: trove_dashboard/content/databases/forms.py:169
+#: trove_dashboard/content/databases/templates/databases/_launch_initialize_help.html:3
+#: trove_dashboard/content/databases/workflows/create_instance.py:374
+msgid "Initial Databases"
+msgstr "初始化数据库"
+
+#: trove_dashboard/content/databases/forms.py:170
+msgid "Optional comma separated list of databases user has access to."
+msgstr "可选，逗号分隔的可以访问的数据库用户列表。"
+
+#: trove_dashboard/content/databases/forms.py:185
+#, python-format
+msgid "Created user \"%s\"."
+msgstr "创建用户\"%s\"。"
+
+#: trove_dashboard/content/databases/forms.py:189
+msgid "Unable to create user."
+msgstr ""
+
+#: trove_dashboard/content/databases/forms.py:210
+msgid "New Name"
+msgstr "新名称"
+
+#: trove_dashboard/content/databases/forms.py:211
+msgid "New username for the database user."
+msgstr ""
+
+#: trove_dashboard/content/databases/forms.py:216
+msgid "New password for the database user."
+msgstr ""
+
+#: trove_dashboard/content/databases/forms.py:221
+msgid "New Host"
+msgstr "新主机"
+
+#: trove_dashboard/content/databases/forms.py:222
+msgid "New host from which the user can connect."
+msgstr ""
+
+#: trove_dashboard/content/databases/forms.py:226
+msgid "A new name or new password or new host must be specified."
+msgstr "必须指定新名称、新密码或新主机。"
+
+#: trove_dashboard/content/databases/forms.py:242
+#, python-format
+msgid "Updated user \"%s\"."
+msgstr "更新用户\"%s\"。"
+
+#: trove_dashboard/content/databases/forms.py:246
+msgid "Unable to update user."
+msgstr ""
+
+#: trove_dashboard/content/databases/forms.py:264
+msgid "Select a configuration group to attach."
+msgstr ""
+
+#: trove_dashboard/content/databases/forms.py:279
+msgid "Select configuration group"
+msgstr "选择配置组"
+
+#: trove_dashboard/content/databases/forms.py:281
+msgid "No configuration groups available"
+msgstr "没有可用的配置组"
+
+#: trove_dashboard/content/databases/forms.py:291
+#, python-format
+msgid "Attaching Configuration group \"%s\""
+msgstr "正在连接配置组\"%s\""
+
+#: trove_dashboard/content/databases/forms.py:295
+msgid "Unable to attach configuration group."
+msgstr ""
+
+#: trove_dashboard/content/databases/forms.py:305
+#: trove_dashboard/content/databases/templates/databases/_detail_overview.html:75
+#: trove_dashboard/content/databases/workflows/create_instance.py:348
+msgid "Allowed CIDRs"
+msgstr ""
+
+#: trove_dashboard/content/databases/forms.py:307
+msgid ""
+"Classless Inter-Domain Routing (e.g. 192.168.0.0/24, or 2001:db8::/128). Can"
+" enter multiple values separated by a comma."
+msgstr ""
+
+#: trove_dashboard/content/databases/forms.py:330
+#, python-format
+msgid "Instance \"%s\" successfully updated."
+msgstr ""
+
+#: trove_dashboard/content/databases/forms.py:334
+#, python-format
+msgid "Unable to update instance \"%s\"."
+msgstr ""
+
+#: trove_dashboard/content/databases/forms.py:343
+#: trove_dashboard/content/databases/tables.py:910
+#: trove_dashboard/content/databases/workflows/create_instance.py:419
+msgid "License"
+msgstr "许可证"
+
+#: trove_dashboard/content/databases/forms.py:344
+msgid ""
+"A license you added under Licenses for the database and version of this "
+"instance."
+msgstr "在\"许可证\"页面里添加的、适用于本实例数据库和版本的许可证。"
+
+#: trove_dashboard/content/databases/forms.py:362
+msgid "Select a license"
+msgstr "选择许可证"
+
+#: trove_dashboard/content/databases/forms.py:364
+msgid "No licenses for this datastore version: add one under Licenses"
+msgstr "没有适用于这个数据存储版本的许可证：请先在\"许可证\"页面添加"
+
+#: trove_dashboard/content/databases/forms.py:373
+#, python-format
+msgid "Applying the license to instance \"%s\"."
+msgstr "正在把许可证装入实例\"%s\"。"
+
+#: trove_dashboard/content/databases/forms.py:377
+msgid "Unable to apply the license."
+msgstr "无法装入许可证。"
+
+#: trove_dashboard/content/databases/tables.py:46
+msgid "Deleted instances are not recoverable."
+msgstr "删除实例是不可恢复的。"
+
+#: trove_dashboard/content/databases/tables.py:52
+msgid "Delete Instance"
+msgid_plural "Delete Instances"
+msgstr[0] "删除实例"
+
+#: trove_dashboard/content/databases/tables.py:60
+msgid "Scheduled deletion of Instance"
+msgid_plural "Scheduled deletion of Instances"
+msgstr[0] "已安排删除实例"
+
+#: trove_dashboard/content/databases/tables.py:70
+msgid "Restarted instances will lose any data not saved in persistent storage."
+msgstr "重启实例会丢失所有尚未保存到永久存储上的数据。"
+
+#: trove_dashboard/content/databases/tables.py:77
+msgid "Restart Instance"
+msgid_plural "Restart Instances"
+msgstr[0] "重启实例"
+
+#: trove_dashboard/content/databases/tables.py:85
+msgid "Restarted Instance"
+msgid_plural "Restarted Instances"
+msgstr[0] "已重启的实例"
+
+#: trove_dashboard/content/databases/tables.py:106
+msgid "Detach Replica"
+msgid_plural "Detach Replicas"
+msgstr[0] "分离镜像"
+
+#: trove_dashboard/content/databases/tables.py:115
+msgid "Replica Detached"
+msgid_plural "Replicas Detached"
+msgstr[0] "镜像已经分离"
+
+#: trove_dashboard/content/databases/tables.py:133
+#: trove_dashboard/content/databases/templates/databases/promote_to_replica_source.html:3
+#: trove_dashboard/content/databases/views.py:493
+msgid "Promote to Replica Source"
+msgstr "设置副本源"
+
+#: trove_dashboard/content/databases/tables.py:151
+msgid "Eject Replica Source"
+msgid_plural "Eject Replica Sources"
+msgstr[0] "删除副本源"
+
+#: trove_dashboard/content/databases/tables.py:159
+msgid "Ejected Replica Source"
+msgid_plural "Ejected Replica Sources"
+msgstr[0] "已删除的副本源"
+
+#: trove_dashboard/content/databases/tables.py:180
+msgid "Grant Access"
+msgid_plural "Grant Access"
+msgstr[0] "授权"
+
+#: trove_dashboard/content/databases/tables.py:188
+msgid "Granted Access to"
+msgid_plural "Granted Access to"
+msgstr[0] "授权给"
+
+#: trove_dashboard/content/databases/tables.py:215
+msgid "Revoke Access"
+msgid_plural "Revoke Access"
+msgstr[0] "回收权限"
+
+#: trove_dashboard/content/databases/tables.py:223
+msgid "Access Revoked to"
+msgid_plural "Access Revoked to"
+msgstr[0] "撤销访问"
+
+#: trove_dashboard/content/databases/tables.py:257
+#: trove_dashboard/content/databases/tables.py:852
+msgid "Database Name"
+msgstr "数据库名称"
+
+#: trove_dashboard/content/databases/tables.py:261
+msgid "Access granted"
+msgstr ""
+
+#: trove_dashboard/content/databases/tables.py:266
+#: trove_dashboard/content/databases/workflows/create_instance.py:357
+msgid "Database Access"
+msgstr "数据库访问"
+
+#: trove_dashboard/content/databases/tables.py:275
+msgid "Manage Access"
+msgstr "管理访问"
+
+#: trove_dashboard/content/databases/tables.py:294
+#: trove_dashboard/content/databases/templates/databases/create_user.html:3
+#: trove_dashboard/content/databases/views.py:152
+#: trove_dashboard/content/databases/views.py:155
+msgid "Create User"
+msgstr "创建用户"
+
+#: trove_dashboard/content/databases/tables.py:312
+#: trove_dashboard/content/databases/templates/databases/edit_user.html:3
+#: trove_dashboard/content/databases/views.py:178
+msgid "Edit User"
+msgstr "编辑用户"
+
+#: trove_dashboard/content/databases/tables.py:343
+msgid "Delete User"
+msgid_plural "Delete Users"
+msgstr[0] "删除用户"
+
+#: trove_dashboard/content/databases/tables.py:351
+msgid "Deleted User"
+msgid_plural "Deleted Users"
+msgstr[0] "已删除的用户"
+
+#: trove_dashboard/content/databases/tables.py:364
+#: trove_dashboard/content/databases/templates/databases/create_database.html:3
+#: trove_dashboard/content/databases/views.py:370
+#: trove_dashboard/content/databases/views.py:373
+msgid "Create Database"
+msgstr "创建数据库"
+
+#: trove_dashboard/content/databases/tables.py:393
+msgid "Delete Database"
+msgid_plural "Delete Databases"
+msgstr[0] "已删除的数据库"
+
+#: trove_dashboard/content/databases/tables.py:401
+msgid "Deleted Database"
+msgid_plural "Deleted Databases"
+msgstr[0] "已删除的数据库"
+
+#: trove_dashboard/content/databases/tables.py:411
+msgid "Error deleting database on instance."
+msgstr "在实例上删除数据库出错。"
+
+#: trove_dashboard/content/databases/tables.py:417
+#: trove_dashboard/content/databases/templates/databases/launch.html:3
+#: trove_dashboard/content/databases/workflows/create_instance.py:625
+#: trove_dashboard/content/databases/workflows/create_instance.py:626
+msgid "Launch Instance"
+msgstr "启动实例"
+
+#: trove_dashboard/content/databases/tables.py:443
+#: trove_dashboard/content/databases/templates/databases/resize_volume.html:3
+msgid "Resize Volume"
+msgstr "调整卷大小"
+
+#: trove_dashboard/content/databases/tables.py:458
+#: trove_dashboard/content/databases/templates/databases/resize_instance.html:3
+msgid "Resize Instance"
+msgstr "调整云主机大小"
+
+#: trove_dashboard/content/databases/tables.py:474
+#: trove_dashboard/content/databases/views.py:258
+msgid "Attach Configuration Group"
+msgstr "连接配置组"
+
+#: trove_dashboard/content/databases/tables.py:491
+#: trove_dashboard/content/databases/templates/databases/apply_license.html:3
+#: trove_dashboard/content/databases/views.py:293
+#: trove_dashboard/content/databases/views.py:296
+msgid "Apply License"
+msgstr "装入许可证"
+
+#: trove_dashboard/content/databases/tables.py:532
+msgid "Enable Root Access"
+msgstr ""
+
+#: trove_dashboard/content/databases/tables.py:541
+msgid "There was a problem enabling root access."
+msgstr ""
+
+#: trove_dashboard/content/databases/tables.py:547
+msgid "Disable Root Access"
+msgstr ""
+
+#: trove_dashboard/content/databases/tables.py:558
+msgid "Successfully disabled root access."
+msgstr "成功禁用root用户访问。"
+
+#: trove_dashboard/content/databases/tables.py:561
+#, python-format
+msgid "Cannot disable root access: %s"
+msgstr "不能够即你用root用户访问：%s"
+
+#: trove_dashboard/content/databases/tables.py:566
+#: trove_dashboard/content/databases/tables.py:596
+#: trove_dashboard/content/databases/views.py:547
+msgid "Manage Root Access"
+msgstr "管理Root访问"
+
+#: trove_dashboard/content/databases/tables.py:581
+#: trove_dashboard/content/databases/tables.py:788
+#: trove_dashboard/content/databases/workflows/create_instance.py:90
+msgid "Instance Name"
+msgstr "实例名字"
+
+#: trove_dashboard/content/databases/tables.py:584
+msgid "Has Root Access Ever Been Enabled"
+msgstr ""
+
+#: trove_dashboard/content/databases/tables.py:587
+msgid "Status if root access was ever enabled for an instance."
+msgstr ""
+
+#: trove_dashboard/content/databases/tables.py:590
+msgid ""
+"Password is only visible immediately after the root access is enabled or "
+"reset."
+msgstr ""
+
+#: trove_dashboard/content/databases/tables.py:671
+#: trove_dashboard/content/databases/tables.py:704
+msgid "-"
+msgstr "-"
+
+#: trove_dashboard/content/databases/tables.py:702
+#, python-format
+msgid "Replica of %s"
+msgstr ""
+
+#: trove_dashboard/content/databases/tables.py:709
+msgid "Stop database service inside an instance."
+msgstr ""
+
+#: trove_dashboard/content/databases/tables.py:716
+msgid "Stop Database Service"
+msgid_plural "Stop Database Services"
+msgstr[0] ""
+
+#: trove_dashboard/content/databases/tables.py:724
+msgid "Database Service stopped"
+msgid_plural "Database Services stopped"
+msgstr[0] ""
+
+#: trove_dashboard/content/databases/tables.py:738
+#: trove_dashboard/content/databases/templates/databases/update_instance.html:3
+#: trove_dashboard/content/databases/views.py:109
+msgid "Update Instance"
+msgstr ""
+
+#: trove_dashboard/content/databases/tables.py:762
+msgctxt "Current status of a Database Instance"
+msgid "Active"
+msgstr "激活"
+
+#: trove_dashboard/content/databases/tables.py:764
+msgctxt "Current status of a Database Instance"
+msgid "Healthy"
+msgstr ""
+
+#: trove_dashboard/content/databases/tables.py:766
+msgctxt "Current status of a Database Instance"
+msgid "Blocked"
+msgstr "阻塞"
+
+#: trove_dashboard/content/databases/tables.py:768
+msgctxt "Current status of a Database Instance"
+msgid "Building"
+msgstr "构建中"
+
+#: trove_dashboard/content/databases/tables.py:770
+msgctxt "Current status of a Database Instance"
+msgid "Failed"
+msgstr "失败"
+
+#: trove_dashboard/content/databases/tables.py:772
+msgctxt "Current status of a Database Instance"
+msgid "Rebooting"
+msgstr "重启中"
+
+#: trove_dashboard/content/databases/tables.py:774
+msgctxt "Current status of a Database Instance"
+msgid "Resizing"
+msgstr "正在调整大小"
+
+#: trove_dashboard/content/databases/tables.py:776
+msgctxt "Current status of a Database Instance"
+msgid "Backup"
+msgstr "备份"
+
+#: trove_dashboard/content/databases/tables.py:778
+msgctxt "Current status of a Database Instance"
+msgid "Shutdown"
+msgstr "关闭"
+
+#: trove_dashboard/content/databases/tables.py:780
+msgctxt "Current status of a Database Instance"
+msgid "Error"
+msgstr "错误"
+
+#: trove_dashboard/content/databases/tables.py:783
+msgctxt "Current status of a Database Instance"
+msgid "Restart Required"
+msgstr "需要重启"
+
+#: trove_dashboard/content/databases/tables.py:798
+msgid "Replication Status"
+msgstr ""
+
+#: trove_dashboard/content/databases/tables.py:807
+#: trove_dashboard/content/databases/templates/databases/_detail_overview.html:15
+msgid "Operating Status"
+msgstr ""
+
+#: trove_dashboard/content/databases/tables.py:836
+msgid "User Name"
+msgstr "用户名"
+
+#: trove_dashboard/content/databases/tables.py:837
+msgid "Allowed Host"
+msgstr "允许的主机"
+
+#: trove_dashboard/content/databases/tables.py:838
+#: trove_dashboard/content/databases/tables.py:856
+#: trove_dashboard/content/databases/tabs.py:117
+#: trove_dashboard/enabled/_1710_database_panel_group.py:18
+msgid "Databases"
+msgstr "数据库"
+
+#: trove_dashboard/content/databases/tables.py:842
+#: trove_dashboard/content/databases/tabs.py:83
+msgid "Users"
+msgstr "用户"
+
+#: trove_dashboard/content/databases/tables.py:874
+#: trove_dashboard/content/databases/templates/databases/logs/_detail_log.html:10
+msgid "Download"
+msgstr "下载"
+
+#: trove_dashboard/content/databases/tables.py:876
+msgid "Backup File"
+msgstr "备份文件"
+
+#: trove_dashboard/content/databases/tables.py:903
+#: trove_dashboard/content/databases/tabs.py:141
+msgid "Configuration Defaults"
+msgstr "默认配置"
+
+#: trove_dashboard/content/databases/tables.py:915
+msgid "What the Database Reports"
+msgstr "数据库报告的信息"
+
+#: trove_dashboard/content/databases/tabs.py:58
+msgid "Unable to obtain information on root access."
+msgstr ""
+
+#: trove_dashboard/content/databases/tabs.py:103
+msgid "Unable to get user access data."
+msgstr "无法获取用户可用数据。"
+
+#: trove_dashboard/content/databases/tabs.py:106
+msgid "Unable to get user data."
+msgstr "无法获取用户数据。"
+
+#: trove_dashboard/content/databases/tabs.py:130
+msgid "Unable to get databases data."
+msgstr "无法获取数据库数据。"
+
+#: trove_dashboard/content/databases/tabs.py:171
+msgid "Unable to get database backup data."
+msgstr "无法获取数据库备份数据。"
+
+#: trove_dashboard/content/databases/logs/tables.py:155
+#: trove_dashboard/content/databases/tabs.py:182
+msgid "Logs"
+msgstr "日志"
+
+#: trove_dashboard/content/databases/tabs.py:194
+#, python-format
+msgid ""
+"Unable to retrieve list of logs.\n"
+"%s"
+msgstr ""
+"无法获取日志列表。\n"
+"%s"
+
+#: trove_dashboard/content/databases/tabs.py:221
+msgid "Unable to retrieve the licenses."
+msgstr "无法获取许可证信息。"
+
+#: trove_dashboard/content/databases/views.py:79
+#: trove_dashboard/content/databases/workflows/create_instance.py:536
+msgid "Unable to retrieve database instances."
+msgstr "无法获取数据库实例。"
+
+#: trove_dashboard/content/databases/views.py:87
+#, python-format
+msgid "Unable to retrieve details for instance %s"
+msgstr ""
+
+#: trove_dashboard/content/databases/views.py:97
+msgid "Launch Database"
+msgstr "启动数据库"
+
+#: trove_dashboard/content/databases/views.py:112
+msgid "Update"
+msgstr ""
+
+#: trove_dashboard/content/databases/upgrade/views.py:50
+#: trove_dashboard/content/databases/views.py:122
+#: trove_dashboard/content/databases/views.py:271
+#: trove_dashboard/content/databases/views.py:306
+#: trove_dashboard/content/databases/views.py:410
+#: trove_dashboard/content/databases/views.py:457
+#: trove_dashboard/content/databases/views.py:511
+#: trove_dashboard/content/databases/views.py:558
+msgid "Unable to retrieve instance details."
+msgstr "无法获取云主机详情。"
+
+#: trove_dashboard/content/databases/views.py:210
+msgid "Databases Access for: {{ user_name }}@{{user_host}}"
+msgstr ""
+
+#: trove_dashboard/content/databases/views.py:224
+msgid "Unable to retrieve databases."
+msgstr "不能获取数据库。"
+
+#: trove_dashboard/content/databases/views.py:234
+msgid "Unable to retrieve accessible databases."
+msgstr "不能获取数据库访问权限"
+
+#: trove_dashboard/content/databases/templates/databases/attach_config.html:3
+#: trove_dashboard/content/databases/views.py:261
+msgid "Attach Configuration"
+msgstr ""
+
+#: trove_dashboard/content/databases/views.py:346
+#, python-format
+msgid "Unable to retrieve details for database instance: %s"
+msgstr "不能获取数据库实例详情：%s"
+
+#: trove_dashboard/content/databases/views.py:396
+#: trove_dashboard/content/databases/views.py:399
+#: trove_dashboard/content/databases/views.py:402
+msgid "Resize Database Volume"
+msgstr "调整数据库卷大小"
+
+#: trove_dashboard/content/databases/views.py:430
+#: trove_dashboard/content/databases/views.py:433
+#: trove_dashboard/content/databases/views.py:436
+msgid "Resize Database Instance"
+msgstr "调整数据库实例大小"
+
+#: trove_dashboard/content/databases/views.py:475
+msgid "Unable to retrieve flavors."
+msgstr "无法获取云主机类型。"
+
+#: trove_dashboard/content/databases/views.py:496
+msgid "Promote"
+msgstr "设置"
+
+#: trove_dashboard/content/databases/views.py:566
+msgid "Unable to determine if instance root access is enabled."
+msgstr ""
+
+#: trove_dashboard/content/databases/logs/tables.py:28
+msgid "Publish Log"
+msgid_plural "Publish Logs"
+msgstr[0] "发行日志"
+
+#: trove_dashboard/content/databases/logs/tables.py:36
+msgid "Published Log"
+msgid_plural "Published Logs"
+msgstr[0] "已发行日志"
+
+#: trove_dashboard/content/databases/logs/tables.py:53
+msgid "Discard Log"
+msgid_plural "Discard Logs"
+msgstr[0] "废弃日志"
+
+#: trove_dashboard/content/databases/logs/tables.py:61
+msgid "Discarded Log"
+msgid_plural "Discarded Logs"
+msgstr[0] "已废弃日志"
+
+#: trove_dashboard/content/databases/logs/tables.py:78
+msgid "Enable Log"
+msgid_plural "Enable Logs"
+msgstr[0] "启用日志"
+
+#: trove_dashboard/content/databases/logs/tables.py:86
+msgid "Enabled Log"
+msgid_plural "Enabled Logs"
+msgstr[0] "已启用日志"
+
+#: trove_dashboard/content/databases/logs/tables.py:103
+msgid "Disable Log"
+msgid_plural "Disable Logs"
+msgstr[0] "禁用日志"
+
+#: trove_dashboard/content/databases/logs/tables.py:111
+msgid "Disabled Log"
+msgid_plural "Disabled Logs"
+msgstr[0] "已禁用日志"
+
+#: trove_dashboard/content/databases/logs/tables.py:131
+msgid "View Log"
+msgstr "查看日志"
+
+#: trove_dashboard/content/databases/logs/tables.py:149
+msgid "Published (bytes)"
+msgstr "发布(字节)"
+
+#: trove_dashboard/content/databases/logs/tables.py:150
+msgid "Publishable (bytes)"
+msgstr "可发布的(字节)"
+
+#: trove_dashboard/content/databases/logs/tables.py:151
+msgid "Container"
+msgstr "容器"
+
+#: trove_dashboard/content/databases/logs/views.py:64
+#, python-brace-format
+msgid ""
+"Unable to load {0} log\n"
+"{1}"
+msgstr ""
+"无法加载{0} 日志\n"
+"{1}"
+
+#: trove_dashboard/content/databases/logs/views.py:69
+#: trove_dashboard/content/databases/logs/views.py:87
+#, python-brace-format
+msgid "Unable to load {0} log for instance \"{1}\"."
+msgstr "无法加载实例\"{1}\"的日志{0}"
+
+#: trove_dashboard/content/databases/logs/views.py:85
+msgid "Log length must be a nonnegative integer."
+msgstr "日志长度必须为非负整数值。"
+
+#: trove_dashboard/content/databases/logs/views.py:113
+#, python-format
+msgid "Error downloading log file: %s"
+msgstr "下载日志文件: %s错误"
+
+#: trove_dashboard/content/databases/templates/databases/_apply_license.html:5
+msgid ""
+"Install a license you bought from the vendor into the database of this "
+"instance. It replaces the edition the instance runs now; the instance is not"
+" restarted."
+msgstr "把您从厂商购买的许可证装入本实例的数据库。它会替换实例当前运行的版本，实例不会重启。"
+
+#: trove_dashboard/content/databases/templates/databases/_apply_license.html:6
+msgid ""
+"What the database then reports about its license is on the Licenses tab of "
+"the instance."
+msgstr "装入后数据库报告的许可证信息，可以在实例的\"许可证\"标签页查看。"
+
+#: trove_dashboard/content/databases/templates/databases/_apply_license.html:7
+msgid ""
+"<strong>Please note:</strong> A license cannot be taken out of a database "
+"again. Apply another license to replace it."
+msgstr "<strong>请注意：</strong>许可证装入数据库后无法再取出，只能装入另一个许可证来替换。"
+
+#: trove_dashboard/content/databases/templates/databases/_attach_config.html:5
+msgid "Select a configuration group to attach to the database instance."
+msgstr "选择一个连接到数据库实例的配置组"
+
+#: trove_dashboard/content/databases/templates/databases/_attach_config.html:6
+msgid ""
+"<strong>Please note:</strong> It may be necessary to reboot the database "
+"instance for this new configuration group to take effect."
+msgstr "<strong>请注意：</strong>可能需要重启数据库实例来使新配置组生效。"
+
+#: trove_dashboard/content/databases/templates/databases/_create_database.html:5
+msgid "Specify the name of the new database."
+msgstr "指定新数据库实例名称。"
+
+#: trove_dashboard/content/databases/templates/databases/_create_database.html:6
+msgid "Optionally provide a character set and collation for the database."
+msgstr "可选，提供数据库字符集设置和字符序collation"
+
+#: trove_dashboard/content/databases/templates/databases/_create_user.html:5
+msgid "Specify the name of the new user and password."
+msgstr "指定新用户名称和密码。"
+
+#: trove_dashboard/content/databases/templates/databases/_create_user.html:6
+msgid ""
+"Optionally provide the host of the user and a list of databases the user is "
+"granted access to."
+msgstr "可选，提供用户主机和授权用户可访问的数据库列表。"
+
+#: trove_dashboard/content/databases/templates/databases/_detail_overview.html:25
+msgid "Root Access Enabled"
+msgstr ""
+
+#: trove_dashboard/content/databases/templates/databases/_detail_overview.html:34
+msgid "Fault"
+msgstr "故障"
+
+#: trove_dashboard/content/databases/templates/databases/_detail_overview.html:37
+msgid "Message"
+msgstr "消息"
+
+#: trove_dashboard/content/databases/templates/databases/_detail_overview.html:50
+msgid "Specs"
+msgstr "规格"
+
+#: trove_dashboard/content/databases/templates/databases/_detail_overview.html:65
+msgid "Service Status Updated"
+msgstr ""
+
+#: trove_dashboard/content/databases/templates/databases/_detail_overview.html:70
+msgid "Networking Information"
+msgstr ""
+
+#: trove_dashboard/content/databases/templates/databases/_detail_overview.html:73
+#: trove_dashboard/content/databases/workflows/create_instance.py:344
+msgid "Is Public"
+msgstr ""
+
+#: trove_dashboard/content/databases/templates/databases/_detail_overview.html:100
+msgid "Replication"
+msgstr "复制"
+
+#: trove_dashboard/content/databases/templates/databases/_detail_overview.html:104
+msgid "Is a Replica Of"
+msgstr "副本"
+
+#: trove_dashboard/content/databases/templates/databases/_detail_overview.html:112
+msgid "Replicas"
+msgstr "副本"
+
+#: trove_dashboard/content/databases/templates/databases/_edit_user.html:5
+msgid "Specify a new name, new password or new host name for the user."
+msgstr "指定新名称、新密码或者用户的新主机名。"
+
+#: trove_dashboard/content/databases/templates/databases/_edit_user.html:6
+msgid "At least one of the new fields must be changed."
+msgstr "至少修改一个新的字段。"
+
+#: trove_dashboard/content/databases/templates/databases/_launch_access_help.html:3
+msgid "Access defines how the database service is exposed."
+msgstr ""
+
+#: trove_dashboard/content/databases/templates/databases/_launch_access_help.html:4
+msgid ""
+"CIDRs is a comma-separated list of IPv4, IPv6 or mix of both CIDRs that "
+"restrict access to the database service. 0.0.0.0/0 is used by default if "
+"this parameter is not provided. E.g.: 0.0.0.0/0,202.78.240.0/24"
+msgstr ""
+
+#: trove_dashboard/content/databases/templates/databases/_launch_advanced_help.html:3
+msgid ""
+"Optionally choose to create this database using a previous backup, or as a "
+"replica of another database instance."
+msgstr "可选择使用之前的备份来创建数据库，或使用另一个数据库实例的复制。"
+
+#: trove_dashboard/content/databases/templates/databases/_launch_details_help.html:3
+msgid "Specify the details for launching an instance."
+msgstr "指定启动实例的详细信息"
+
+#: trove_dashboard/content/databases/templates/databases/_launch_details_help.html:4
+msgid ""
+"<strong>Please note:</strong> The value specified in the Volume Size field "
+"should be greater than 0, however, some configurations do not support "
+"specifying volume size. If specifying the volume size results in an error "
+"stating volume support is not enabled, enter 0."
+msgstr ""
+"<strong>请注意：</strong> "
+"云硬盘大小字段中指定的数字必须大于零，但是，有一些配置不支持指定云硬盘大小。如果指定云硬盘大小会导致不支持云硬盘的错误，则输入0。"
+
+#: trove_dashboard/content/databases/templates/databases/_launch_initialize_help.html:4
+msgid "Optionally provide a comma separated list of databases to create:"
+msgstr "也可以提供用逗号分隔的列表来创建数据库："
+
+#: trove_dashboard/content/databases/templates/databases/_launch_initialize_help.html:7
+#: trove_dashboard/content/databases/workflows/create_instance.py:378
+msgid "Initial Admin User"
+msgstr "初始管理员"
+
+#: trove_dashboard/content/databases/templates/databases/_launch_initialize_help.html:9
+msgid ""
+"Create an optional initial user. This user will have access to all databases"
+" you create."
+msgstr "创建可选的初始用户。这个用户将可以访问你创建的所有数据库。"
+
+#: trove_dashboard/content/databases/templates/databases/_launch_initialize_help.html:12
+msgid "Username (required)"
+msgstr "用户名(必填)"
+
+#: trove_dashboard/content/databases/templates/databases/_launch_initialize_help.html:13
+msgid "Password (required)"
+msgstr "密码(必填)"
+
+#: trove_dashboard/content/databases/templates/databases/_launch_initialize_help.html:14
+#: trove_dashboard/content/databases/workflows/create_instance.py:385
+msgid "Allowed Host (optional)"
+msgstr "允许主机(可选)"
+
+#: trove_dashboard/content/databases/templates/databases/_launch_initialize_help.html:17
+msgid ""
+"Allow the user to connect from this host only. If not provided this user "
+"will be allowed to connect from anywhere."
+msgstr "只允许用户从本机进行连接。如果不提供主机信息，用户将被允许从任何位置进行连接。"
+
+#: trove_dashboard/content/databases/templates/databases/_launch_instances_network_help.html:3
+#: trove_dashboard/content/databases/templates/databases/_update_networks.html:8
+msgid "Available Networks"
+msgstr ""
+
+#: trove_dashboard/content/databases/templates/databases/_launch_instances_network_help.html:4
+#: trove_dashboard/content/databases/templates/databases/_update_networks.html:6
+msgid "Selected Networks"
+msgstr ""
+
+#: trove_dashboard/content/databases/templates/databases/_launch_instances_network_help.html:9
+#, python-format
+msgid ""
+"\n"
+"    Choose network from <strong>%(available_label)s</strong> to "
+"<strong>%(selected_label)s</strong> by push button or drag and drop, you may"
+" change NIC order by drag and drop as well.\n"
+"  "
+msgstr ""
+
+#: trove_dashboard/content/databases/templates/databases/_promote_to_replica_source.html:6
+msgid "Confirm the current replica is to be promoted as the new replica source."
+msgstr "确认设置当前副本为新副本源"
+
+#: trove_dashboard/content/databases/templates/databases/_promote_to_replica_source.html:7
+msgid "This action cannot be undone."
+msgstr "此操作无法撤销。"
+
+#: trove_dashboard/content/databases/templates/databases/_promote_to_replica_source.html:15
+msgid "Current Replica"
+msgstr "当前副本"
+
+#: trove_dashboard/content/databases/templates/databases/_promote_to_replica_source.html:18
+#: trove_dashboard/content/databases/templates/databases/_promote_to_replica_source.html:19
+#: trove_dashboard/content/databases/templates/databases/_promote_to_replica_source.html:28
+#: trove_dashboard/content/databases/templates/databases/_promote_to_replica_source.html:29
+msgid "Unknown"
+msgstr "未知"
+
+#: trove_dashboard/content/databases/templates/databases/_promote_to_replica_source.html:25
+msgid "Current Replica Source"
+msgstr "当前副本源"
+
+#: trove_dashboard/content/databases/templates/databases/_resize_instance.html:5
+msgid "Specify a new flavor for the database instance."
+msgstr "指定数据库实例新的类型。"
+
+#: trove_dashboard/content/databases/templates/databases/_resize_volume.html:5
+msgid "Specify the new volume size for the database instance."
+msgstr "指定数据库实例新的卷大小。"
+
+#: trove_dashboard/content/databases/templates/databases/_resize_volume.html:6
+msgid "Please note: The new value must be greater than the existing volume size."
+msgstr ""
+
+#: trove_dashboard/content/databases/templates/databases/_update_instance.html:5
+msgid "Update instance."
+msgstr ""
+
+#: trove_dashboard/content/databases/templates/databases/access_detail.html:3
+msgid "Database Access Details"
+msgstr ""
+
+#: trove_dashboard/content/databases/templates/databases/manage_root.html:3
+msgid "Manage Root User"
+msgstr ""
+
+#: trove_dashboard/content/databases/templates/databases/manage_root.html:8
+msgid ""
+"Note: Enable root access on an instance.  If the root user is already "
+"enabled then a new password is generated."
+msgstr "备注：在实例上启用root访问。如果root用户已经启用，那么生成一个新密码。"
+
+#: trove_dashboard/content/databases/templates/databases/logs/_detail_log.html:6
+msgid "Log Length"
+msgstr "日志长度"
+
+#: trove_dashboard/content/databases/templates/databases/logs/_detail_log.html:8
+msgid "Go"
+msgstr "执行"
+
+#: trove_dashboard/content/databases/templates/databases/logs/_detail_log.html:9
+msgid "Return to Log List"
+msgstr "返回日志列表"
+
+#: trove_dashboard/content/databases/templates/databases/logs/_detail_log.html:11
+msgid "View Full Log"
+msgstr "查看完整日志"
+
+#: trove_dashboard/content/databases/templates/databases/logs/_log_contents.html:4
+#: trove_dashboard/content/databases/templates/databases/logs/log_contents.html:3
+msgid "Log Contents"
+msgstr "日志内容"
+
+#: trove_dashboard/content/databases/templates/databases/logs/_log_contents.html:13
+msgid "Close"
+msgstr "关闭"
+
+#: trove_dashboard/content/databases/templates/databases/logs/view_log.html:3
+msgid "Log"
+msgstr "日志"
+
+#: trove_dashboard/content/databases/templates/databases/logs/view_log.html:6
+msgid "Log:"
+msgstr ""
+
+#: trove_dashboard/content/databases/templates/databases/upgrade/_upgrade_instance.html:7
+msgid "Important: upgrading an instance can result in data loss."
+msgstr ""
+
+#: trove_dashboard/content/databases/templates/databases/upgrade/_upgrade_instance.html:10
+msgid "Make sure you have a full backup of the database before starting the upgrade."
+msgstr ""
+
+#: trove_dashboard/content/databases/templates/databases/upgrade/_upgrade_instance.html:13
+msgid ""
+"Downgrading to an earlier version is possible using this form, but the "
+"database system may not support downgrades."
+msgstr ""
+
+#: trove_dashboard/content/databases/templates/databases/upgrade/_upgrade_instance.html:16
+msgid ""
+"Some upgrades may not complete successfully without a logical backup. Please"
+" refer to the upgrade guidelines for the corresponding database version."
+msgstr ""
+
+#: trove_dashboard/content/databases/templates/databases/upgrade/_upgrade_instance.html:19
+msgid ""
+"We recommend testing the upgrade process on a test instance before upgrading"
+" a production database."
+msgstr ""
+
+#: trove_dashboard/content/databases/templates/databases/upgrade/_upgrade_instance.html:22
+msgid ""
+"Upgrading to the same version may be useful when the version tag points to a"
+" newer database image, for example after a security update. Such upgrades "
+"are usually safe."
+msgstr ""
+
+#: trove_dashboard/content/databases/templates/databases/upgrade/upgrade_instance.html:3
+#: trove_dashboard/content/databases/upgrade/tables.py:25
+#: trove_dashboard/content/databases/upgrade/views.py:31
+msgid "Upgrade Instance"
+msgstr ""
+
+#: trove_dashboard/content/databases/upgrade/forms.py:28
+msgid "Current Version"
+msgstr ""
+
+#: trove_dashboard/content/databases/upgrade/forms.py:32
+msgid "New Version"
+msgstr ""
+
+#: trove_dashboard/content/databases/upgrade/forms.py:53
+#, python-format
+msgid "Upgrading \"%s\""
+msgstr ""
+
+#: trove_dashboard/content/databases/upgrade/forms.py:58
+#, python-format
+msgid "Unable to upgrade instance. %s"
+msgstr ""
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:38
+msgid "Networks"
+msgstr "网络"
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:40
+msgid "At least one network must be specified."
+msgstr "至少要选择一个网络。"
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:42
+msgid "Launch instance with these networks"
+msgstr "使用这些网络启动云主机"
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:53
+msgid "Networking"
+msgstr "网络"
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:55
+msgid "Select networks for your instance."
+msgstr "为你的云主机选择网络。"
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:87
+msgid "Availability Zone"
+msgstr "可用区"
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:88
+msgid "Availability zone where the instance will be created."
+msgstr ""
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:91
+msgid "Name of the database instance."
+msgstr ""
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:97
+msgid "Volume Type"
+msgstr "卷类型"
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:99
+msgid "Applicable only if the volume size is specified."
+msgstr "只有卷大小指定后才可以应用。"
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:124
+msgid ""
+"Specify whether future replicated instances will be created on the same "
+"hypervisor (affinity) or on different hypervisors (anti-affinity). This "
+"value is ignored if the instance to be launched is a replica."
+msgstr "验证同一hypervisor（关联）或不同hypervisor（非关联）中是否创建了实例副本。如果实例创建了一个副本，该值可忽略"
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:138
+msgid "You must select a datastore type and version."
+msgstr "你必须选择数据存储类型和版本。"
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:147
+msgid "You must select a flavor."
+msgstr "你必须选择一种规格"
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:183
+msgid "Unable to retrieve availability zones."
+msgstr "无法获取可用区"
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:198
+msgid "No availability zones found"
+msgstr "未找到可用区"
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:200
+msgid "Any Availability Zone"
+msgstr "所有可用区"
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:219
+msgid "No volume type"
+msgstr "没有卷类型"
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:346
+msgid "Enables external access to the database."
+msgstr ""
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:353
+msgid "Comma-separated CIDRs to connect through."
+msgstr ""
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:376
+msgid "Comma separated list of databases to create"
+msgstr "逗号分隔的将创建数据库的列表"
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:380
+msgid "Initial admin user to add"
+msgstr "增加初始管理员"
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:383
+msgid "Password for the admin user."
+msgstr ""
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:387
+msgid "Host or IP that the user is allowed to connect through."
+msgstr "允许用户用于连接的主机或者IP。"
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:391
+msgid "Initialize Databases"
+msgstr "初始化数据库"
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:399
+msgid "You must specify a password if you create a user."
+msgstr "如果你创建用户，必须指定一个密码。"
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:402
+msgid "You must specify at least one database if you create a user."
+msgstr "如果你创建用户，你必须选择至少一个数据库。"
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:417
+msgid "Select a configuration group"
+msgstr "选择一个配置组"
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:421
+msgid ""
+"For Vertica and Db2: a license you added under Licenses. Without one the "
+"instance runs the edition its image comes with."
+msgstr "用于 Vertica 和 Db2：在\"许可证\"页面添加的许可证。不选则实例运行镜像自带的版本（社区版）。"
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:425
+msgid "Source for Initial State"
+msgstr "初始状态来源"
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:427
+msgid "Choose initial state."
+msgstr "选择初始化状态"
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:431
+msgid "Replicate from Instance"
+msgstr "从实例复制"
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:437
+#: trove_dashboard/content/databases/workflows/create_instance.py:443
+msgid "Backup Name"
+msgstr "备份名称"
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:439
+msgid "Select a backup to restore"
+msgstr "选择一个备份来恢复"
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:446
+#: trove_dashboard/content/databases/workflows/create_instance.py:452
+msgid "Master Instance Name"
+msgstr "主实例名称"
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:448
+msgid "Select a master instance"
+msgstr "选择一主实例"
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:455
+msgid "Replica Count"
+msgstr "副本数量"
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:459
+msgid "Specify the number of replicas to be created"
+msgstr "指定创建副本的数量"
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:474
+msgid "Advanced"
+msgstr "高级"
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:508
+msgid "No license"
+msgstr "不使用许可证"
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:510
+msgid "No licenses available"
+msgstr "没有可用的许可证"
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:526
+msgid "Select backup"
+msgstr "选择备份"
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:550
+msgid "Select instance"
+msgstr "选择云主机"
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:552
+msgid "No instances available"
+msgstr "无可用云主机"
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:566
+msgid "Unable to find configuration group."
+msgstr ""
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:577
+msgid "Unable to find license."
+msgstr "找不到许可证。"
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:591
+msgid "Unable to find backup."
+msgstr ""
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:593
+msgid "A backup must be selected."
+msgstr ""
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:603
+msgid "Unable to find master instance."
+msgstr ""
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:606
+msgid "A master instance must be selected."
+msgstr ""
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:627
+#, python-format
+msgid "Launched instance %(count)s with name \"%(name)s\"."
+msgstr ""
+
+#: trove_dashboard/content/databases/workflows/create_instance.py:628
+#, python-format
+msgid "Unable to launch instance %(count)s with name \"%(name)s\"."
+msgstr ""
+

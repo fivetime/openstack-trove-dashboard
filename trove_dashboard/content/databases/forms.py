@@ -335,3 +335,45 @@ class UpdateInstanceForm(forms.SelfHandlingForm):
                                          % instance_id),
                               redirect=redirect)
         return True
+
+
+class ApplyLicenseForm(forms.SelfHandlingForm):
+    instance_id = forms.CharField(widget=forms.HiddenInput())
+    license = forms.ChoiceField(
+        label=_("License"),
+        help_text=_("A license you added under Licenses for the database "
+                    "and version of this instance."))
+
+    def __init__(self, request, *args, **kwargs):
+        super(ApplyLicenseForm, self).__init__(request, *args, **kwargs)
+        initial = kwargs.get('initial', {})
+        self.fields['instance_id'].initial = initial.get('instance_id')
+        datastore = initial.get('datastore')
+        version = initial.get('datastore_version')
+        try:
+            licenses = api.trove.license_list(request)
+        except Exception:
+            licenses = []
+            exceptions.handle(request, _('Unable to retrieve licenses.'))
+        choices = [(m.id, m.name) for m in licenses
+                   if m.datastore == datastore and
+                   m.datastore_version in (version, 'all')]
+        if choices:
+            choices.insert(0, ("", _("Select a license")))
+        else:
+            choices.insert(0, ("", _("No licenses for this datastore "
+                                     "version: add one under Licenses")))
+        self.fields['license'].choices = choices
+
+    def handle(self, request, data):
+        instance_id = data.get('instance_id')
+        try:
+            api.trove.instance_module_apply(request, instance_id,
+                                            [data['license']])
+            messages.success(request, _('Applying the license to instance '
+                                        '"%s".') % instance_id)
+        except Exception:
+            redirect = reverse("horizon:project:databases:index")
+            exceptions.handle(request, _('Unable to apply the license.'),
+                              redirect=redirect)
+        return True

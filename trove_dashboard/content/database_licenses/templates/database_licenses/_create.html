@@ -1,0 +1,18 @@
+{% extends "horizon/common/_modal_form.html" %}
+{% load i18n %}
+
+{% block form_attrs %}enctype="multipart/form-data"{% endblock %}
+
+{% block modal-body-right %}
+  <h3>{% trans "Description:" %}</h3>
+  <p>{% blocktrans trimmed %}
+    The license is kept by the database service for your project only, and
+    installed into an instance when you launch it with the license or
+    apply the license to it. A license cannot be taken out of a database
+    again; apply another one to replace it.
+  {% endblocktrans %}</p>
+  <p>{% blocktrans trimmed %}
+    A version of Vertica from 26.1 on runs only with a license given when
+    the instance is launched.
+  {% endblocktrans %}</p>
+{% endblock %}
