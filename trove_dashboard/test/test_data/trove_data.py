@@ -513,6 +513,7 @@ DATABASE_DATA_DB2 = {
 }
 
 LICENSE_DB2 = {
+    "tenant_id": "1",
     "id": "e3b4cd2e-12ba-499a-9ade-37572cb07373",
     "name": "my-db2-license",
     "type": "db2_license",
@@ -524,6 +525,7 @@ LICENSE_DB2 = {
 }
 
 LICENSE_VERTICA = {
+    "tenant_id": "1",
     "id": "0ab24e70-c7d5-49bf-851c-99e9ebfbd1a5",
     "name": "vt-license",
     "type": "vertica_license",
@@ -535,6 +537,7 @@ LICENSE_VERTICA = {
 }
 
 PING_MODULE = {
+    "tenant_id": "1",
     "id": "5f3b0b2e-7f6e-4d38-9a1e-0b1c2d3e4f50",
     "name": "ping",
     "type": "ping",
@@ -544,6 +547,11 @@ PING_MODULE = {
     "created": "2026-10-01T03:20:00",
     "updated": "2026-10-01T03:20:00",
 }
+
+# Another project's license, which Trove shows to an admin.
+LICENSE_OTHER_PROJECT = dict(
+    LICENSE_DB2, id="7c1d2e3f-4a5b-4c6d-8e9f-0a1b2c3d4e5f",
+    name="their-db2-license", tenant_id="2")
 
 APPLIED_LICENSE = dict(LICENSE_DB2, status="OK",
                        message='Product name: "DB2 Standard Edition"')

@@ -14,9 +14,11 @@ from unittest import mock
 
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.urls import reverse
+from troveclient.v1 import modules
 
 from trove_dashboard import api
 from trove_dashboard.test import helpers as test
+from trove_dashboard.test.test_data import trove_data
 
 INDEX_URL = reverse('horizon:project:database_licenses:index')
 CREATE_URL = reverse('horizon:project:database_licenses:create')
@@ -126,4 +128,23 @@ class LicenseApiTests(test.TestCase):
         module_list.return_value = self.database_modules.list()
         self.assertEqual(
             ['db2_license', 'vertica_license'],
-            sorted(m.type for m in api.trove.license_list(mock.Mock())))
+            sorted(m.type for m in api.trove.license_list(
+                mock.Mock(user=mock.Mock(project_id='1')))))
+
+    @mock.patch.object(api.trove, 'module_list')
+    def test_license_list_keeps_to_the_project(self, module_list):
+        # Trove lists every tenant's modules to an admin; the panel is
+        # the project's, so another project's license must not show.
+        other = modules.Module(modules.Modules(None),
+                               trove_data.LICENSE_OTHER_PROJECT)
+        shared = modules.Module(modules.Modules(None),
+                                dict(trove_data.LICENSE_VERTICA,
+                                     tenant_id=None))
+        module_list.return_value = (self.database_modules.list() +
+                                    [other, shared])
+        names = [m.name for m in api.trove.license_list(
+            mock.Mock(user=mock.Mock(project_id='1')))]
+        self.assertIn('my-db2-license', names)
+        self.assertNotIn('their-db2-license', names)
+        # a license an admin shared with all tenants is still usable
+        self.assertEqual(2, names.count('vt-license'))

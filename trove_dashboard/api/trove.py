@@ -490,9 +490,16 @@ def module_list(request, datastore=None):
 
 
 def license_list(request, datastore=None):
-    """The license modules the project can use."""
+    """The license modules the project can use.
+
+    Trove lists every tenant's modules to an admin. A license belongs to
+    the project that bought it, so keep this project's own and the ones
+    an admin shared with all tenants (no tenant).
+    """
+    project = request.user.project_id
     return [m for m in module_list(request, datastore=datastore)
-            if m.type in LICENSE_MODULE_TYPES]
+            if m.type in LICENSE_MODULE_TYPES and
+            getattr(m, 'tenant_id', None) in (project, None)]
 
 
 def module_get(request, module_id):
