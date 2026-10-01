@@ -104,6 +104,10 @@ class LaunchForm(BaseClusterForm):
         min_value=0,
         initial=1,
         help_text=_("Size of the volume in GB."))
+    volume_type = forms.ChoiceField(
+        label=_("Volume Type"),
+        required=False,
+        help_text=_("Applicable only if the volume size is specified."))
     locality = forms.ChoiceField(
         label=_("Location Policy"),
         choices=[("", _("None")),
@@ -147,6 +151,30 @@ class LaunchForm(BaseClusterForm):
             'class': 'switched',
             'data-switch-on': 'datastore',
         }))
+    # A MongoDB cluster also gets three config servers and a mongos, each
+    # with its own volume; Trove makes those 10 GB unless told otherwise,
+    # which alone is most of a project's default 40 GB volume quota.
+    configsvr_volume_size = forms.IntegerField(
+        label=_("Config Server Volume Size (GB)"),
+        min_value=1,
+        initial=2,
+        required=False,
+        help_text=_("Size of the volume of each of the three config "
+                    "servers."),
+        widget=forms.NumberInput(attrs={
+            'class': 'switched',
+            'data-switch-on': 'datastore',
+        }))
+    mongos_volume_size = forms.IntegerField(
+        label=_("Query Router Volume Size (GB)"),
+        min_value=1,
+        initial=2,
+        required=False,
+        help_text=_("Size of the volume of the mongos query router."),
+        widget=forms.NumberInput(attrs={
+            'class': 'switched',
+            'data-switch-on': 'datastore',
+        }))
     num_instances = forms.IntegerField(
         label=_("Number of Instances"),
         initial=3,
@@ -163,6 +191,8 @@ class LaunchForm(BaseClusterForm):
     ]
     mongodb_fields = default_fields + [
         ('num_shards', _('Number of Shards')),
+        ('configsvr_volume_size', _('Config Server Volume Size (GB)')),
+        ('mongos_volume_size', _('Query Router Volume Size (GB)')),
     ]
     vertica_fields = [
         ('num_instances_vertica', ('Number of Instances')),
@@ -178,6 +208,18 @@ class LaunchForm(BaseClusterForm):
             request)
         self.fields['configuration'].choices = self.populate_cg_choices(
             request)
+        self.fields['volume_type'].choices = (
+            self.populate_volume_type_choices(request))
+
+    @memoized.memoized_method
+    def populate_volume_type_choices(self, request):
+        try:
+            volume_types = api.cinder.volume_type_list(request)
+        except Exception:
+            LOG.exception("Exception while obtaining volume types list")
+            volume_types = []
+        return ([("no_type", _("No volume type"))] +
+                [(t.name, t.name) for t in volume_types])
 
     def clean(self):
         datastore_field_value = self.data.get("datastore", None)
@@ -393,17 +435,31 @@ class LaunchForm(BaseClusterForm):
                      datastore, datastore_version, self._get_locality(data),
                      configuration=data['configuration'])
 
-            trove_api.trove.cluster_create(request,
-                                           data['name'],
-                                           data['volume'],
-                                           flavor,
-                                           num_instances,
-                                           datastore=datastore,
-                                           datastore_version=datastore_version,
-                                           nics=data['network'],
-                                           root_password=root_password,
-                                           locality=self._get_locality(data),
-                                           configuration=data['configuration'])
+            volume_type = data.get('volume_type')
+            if volume_type in ('', 'no_type'):
+                volume_type = None
+            extended_properties = None
+            if db_capability.is_mongodb_datastore(datastore):
+                # Left empty, Trove's own default applies.
+                extended_properties = {
+                    k: data[k]
+                    for k in ('configsvr_volume_size', 'mongos_volume_size')
+                    if data.get(k)} or None
+
+            trove_api.trove.cluster_create(
+                request,
+                data['name'],
+                data['volume'],
+                flavor,
+                num_instances,
+                datastore=datastore,
+                datastore_version=datastore_version,
+                nics=data['network'],
+                root_password=root_password,
+                locality=self._get_locality(data),
+                configuration=data['configuration'],
+                volume_type=volume_type,
+                extended_properties=extended_properties)
             messages.success(request,
                              _('Launched cluster "%s"') % data['name'])
             return True

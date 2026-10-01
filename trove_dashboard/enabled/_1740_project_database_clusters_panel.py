@@ -22,8 +22,9 @@ PANEL_DASHBOARD = 'project'
 # The slug of the panel group the PANEL is associated with.
 PANEL_GROUP = 'database'
 
-# NOTE (anfimovir): until https://shorturl.at/gnGmO
-DISABLED = True
+# Upstream disabled the panel when the clustered datastores were removed.
+# This fork brings them back with working clusters, so the panel is on.
+DISABLED = False
 
 # Python panel class of the PANEL to be added.
 ADD_PANEL = 'trove_dashboard.content.database_clusters.panel.Clusters'

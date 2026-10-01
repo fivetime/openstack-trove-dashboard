@@ -92,9 +92,12 @@ class ClustersTests(test.TestCase):
     @test.create_mocks({trove_api.trove: ('datastore_flavors',
                                           'datastore_list',
                                           'datastore_version_list'),
+                        api.cinder: ['volume_type_list'],
                         api.base: ['is_service_enabled']})
     def test_launch_cluster(self):
         self.mock_is_service_enabled.return_value = False
+        self.mock_volume_type_list.return_value = (
+            self.cinder_volume_types.list())
         self.mock_datastore_flavors.return_value = self.flavors.list()
 
         filtered_datastores = self._get_filtered_datastores('mongodb')
@@ -172,9 +175,12 @@ class ClustersTests(test.TestCase):
     @test.create_mocks({trove_api.trove: ('datastore_flavors',
                                           'datastore_list',
                                           'datastore_version_list'),
+                        api.cinder: ['volume_type_list'],
                         api.base: ['is_service_enabled']})
     def launch_cluster_fields_setup(self, datastore, datastore_version):
         self.mock_is_service_enabled.return_value = False
+        self.mock_volume_type_list.return_value = (
+            self.cinder_volume_types.list())
         self.mock_datastore_flavors.return_value = self.flavors.list()
 
         filtered_datastores = self._get_filtered_datastores(datastore)
@@ -196,9 +202,12 @@ class ClustersTests(test.TestCase):
                                           'cluster_create',
                                           'datastore_list',
                                           'datastore_version_list'],
+                        api.cinder: ['volume_type_list'],
                         api.base: ['is_service_enabled']})
     def test_create_simple_cluster(self):
         self.mock_is_service_enabled.return_value = False
+        self.mock_volume_type_list.return_value = (
+            self.cinder_volume_types.list())
         self.mock_datastore_flavors.return_value = self.flavors.list()
 
         filtered_datastores = self._get_filtered_datastores('mongodb')
@@ -246,7 +255,9 @@ class ClustersTests(test.TestCase):
             nics=cluster_network,
             root_password=None,
             locality=None,
-            configuration=None)
+            configuration=None,
+            volume_type=None,
+            extended_properties=None)
         self.assertNoFormErrors(res)
         self.assertMessageCount(success=1)
 
@@ -254,10 +265,56 @@ class ClustersTests(test.TestCase):
                                           'cluster_create',
                                           'datastore_list',
                                           'datastore_version_list'],
+                        api.cinder: ['volume_type_list'],
+                        api.base: ['is_service_enabled']})
+    def test_create_cluster_volume_type_and_mongodb_volumes(self):
+        # The volume type goes on every member's volume; a MongoDB
+        # cluster's config server and mongos volume sizes go as extended
+        # properties, so Trove does not give each of them 10 GB.
+        self.mock_is_service_enabled.return_value = False
+        self.mock_volume_type_list.return_value = (
+            self.cinder_volume_types.list())
+        self.mock_datastore_flavors.return_value = self.flavors.list()
+        filtered_datastores = self._get_filtered_datastores('mongodb')
+        self.mock_datastore_list.return_value = filtered_datastores
+        self.mock_datastore_version_list.return_value = (
+            self._get_filtered_datastore_versions(filtered_datastores))
+        self.mock_cluster_create.return_value = self.trove_clusters.first()
+
+        volume_type = self.cinder_volume_types.first().name
+        field_name = self._build_flavor_widget_name('mongodb', '2.6')
+        res = self.client.post(LAUNCH_URL, {
+            'name': 'MyCluster',
+            'volume': 2,
+            'volume_type': volume_type,
+            'num_instances': 3,
+            'num_shards': 1,
+            'configsvr_volume_size': 2,
+            'mongos_volume_size': 3,
+            'datastore': field_name,
+            field_name: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
+        })
+        self.assertNoFormErrors(res)
+        self.mock_cluster_create.assert_called_once_with(
+            test.IsHttpRequest(), 'MyCluster', 2,
+            'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 3,
+            datastore='mongodb', datastore_version='2.6', nics='',
+            root_password=None, locality=None, configuration=None,
+            volume_type=volume_type,
+            extended_properties={'configsvr_volume_size': 2,
+                                 'mongos_volume_size': 3})
+
+    @test.create_mocks({trove_api.trove: ['datastore_flavors',
+                                          'cluster_create',
+                                          'datastore_list',
+                                          'datastore_version_list'],
                         api.neutron: ['network_list_for_tenant'],
+                        api.cinder: ['volume_type_list'],
                         api.base: ['is_service_enabled']})
     def test_create_simple_cluster_neutron(self):
         self.mock_is_service_enabled.return_value = True
+        self.mock_volume_type_list.return_value = (
+            self.cinder_volume_types.list())
         self.mock_network_list_for_tenant.return_value = self.networks.list()
         self.mock_datastore_flavors.return_value = self.flavors.list()
 
@@ -309,7 +366,9 @@ class ClustersTests(test.TestCase):
             nics=cluster_network,
             root_password=None,
             locality=None,
-            configuration=None)
+            configuration=None,
+            volume_type=None,
+            extended_properties=None)
         self.assertNoFormErrors(res)
         self.assertMessageCount(success=1)
 
@@ -317,9 +376,12 @@ class ClustersTests(test.TestCase):
                                           'cluster_create',
                                           'datastore_list',
                                           'datastore_version_list'],
-                        api.neutron: ['network_list_for_tenant']})
+                        api.neutron: ['network_list_for_tenant'],
+                        api.cinder: ['volume_type_list']})
     def test_create_simple_cluster_exception(self):
         self.mock_network_list_for_tenant.return_value = self.networks.list()
+        self.mock_volume_type_list.return_value = (
+            self.cinder_volume_types.list())
         self.mock_datastore_flavors.return_value = self.flavors.list()
 
         filtered_datastores = self._get_filtered_datastores('mongodb')
@@ -367,7 +429,9 @@ class ClustersTests(test.TestCase):
             nics=cluster_network,
             root_password=None,
             locality=None,
-            configuration=None)
+            configuration=None,
+            volume_type=None,
+            extended_properties=None)
         self.assertRedirectsNoFollow(res, INDEX_URL)
         self.assertMessageCount(error=1)
 

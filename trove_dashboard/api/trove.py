@@ -71,13 +71,16 @@ def cluster_delete(request, cluster_id):
 def cluster_create(request, name, volume, flavor, num_instances,
                    datastore, datastore_version,
                    nics=None, root_password=None, locality=None,
-                   configuration=None):
+                   configuration=None, volume_type=None,
+                   extended_properties=None):
     instances = []
     for i in range(num_instances):
         instance = {}
         instance["flavorRef"] = flavor
         if volume > 0:
             instance["volume"] = {'size': volume}
+            if volume_type:
+                instance["volume"]['type'] = volume_type
         if nics:
             instance["nics"] = [{"network_id": nics}]
         instances.append(instance)
@@ -89,7 +92,8 @@ def cluster_create(request, name, volume, flavor, num_instances,
         datastore_version,
         instances=instances,
         locality=locality,
-        configuration=configuration)
+        configuration=configuration,
+        extended_properties=extended_properties)
 
 
 def cluster_grow(request, cluster_id, new_instances):
