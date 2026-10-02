@@ -157,6 +157,7 @@ class ClusterGrowView(horizon_tables.DataTableView):
         context['cluster_id'] = self.kwargs['cluster_id']
         cluster = self.get_cluster(self.kwargs['cluster_id'])
         context['cluster_name'] = cluster.name
+        context['group_size'] = cluster_manager.grow_group_size(cluster)
         return context
 
     @memoized.memoized_method
@@ -192,6 +193,14 @@ class ClusterAddInstancesView(horizon_forms.ModalFormView):
     def get_initial(self):
         initial = super(ClusterAddInstancesView, self).get_initial()
         initial['cluster_id'] = self.kwargs['cluster_id']
+        # The form offers the flavors of the cluster's datastore version;
+        # without it, it offered every flavor.
+        try:
+            initial['datastore'] = api.trove.cluster_get(
+                self.request, self.kwargs['cluster_id']).datastore
+        except Exception:
+            LOG.exception("Unable to retrieve cluster %s",
+                          self.kwargs['cluster_id'])
         return initial
 
     def get_success_url(self):

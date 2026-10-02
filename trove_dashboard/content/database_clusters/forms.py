@@ -65,6 +65,16 @@ class BaseClusterForm(forms.SelfHandlingForm):
         return network_list
 
     @memoized.memoized_method
+    def populate_volume_type_choices(self, request):
+        try:
+            volume_types = api.cinder.volume_type_list(request)
+        except Exception:
+            LOG.exception("Exception while obtaining volume types list")
+            volume_types = []
+        return ([("no_type", _("No volume type"))] +
+                [(t.name, t.name) for t in volume_types])
+
+    @memoized.memoized_method
     def populate_cg_choices(self, request):
         try:
             configs = trove_api.trove.configuration_list(request)
@@ -228,16 +238,6 @@ class LaunchForm(BaseClusterForm):
             request)
         self.fields['volume_type'].choices = (
             self.populate_volume_type_choices(request))
-
-    @memoized.memoized_method
-    def populate_volume_type_choices(self, request):
-        try:
-            volume_types = api.cinder.volume_type_list(request)
-        except Exception:
-            LOG.exception("Exception while obtaining volume types list")
-            volume_types = []
-        return ([("no_type", _("No volume type"))] +
-                [(t.name, t.name) for t in volume_types])
 
     def clean(self):
         datastore_field_value = self.data.get("datastore", None)
@@ -506,6 +506,10 @@ class ClusterAddInstanceForm(BaseClusterForm):
         min_value=0,
         initial=1,
         help_text=_("Size of the volume in GB."))
+    volume_type = forms.ChoiceField(
+        label=_("Volume Type"),
+        required=False,
+        help_text=_("Applicable only if the volume size is specified."))
     name = forms.CharField(
         label=_("Name"),
         required=False,
@@ -533,6 +537,8 @@ class ClusterAddInstanceForm(BaseClusterForm):
         super(ClusterAddInstanceForm, self).__init__(request, *args, **kwargs)
         self.fields['cluster_id'].initial = kwargs['initial']['cluster_id']
         self.fields['flavor'].choices = self.populate_flavor_choices(request)
+        self.fields['volume_type'].choices = (
+            self.populate_volume_type_choices(request))
         self.fields['network'].choices = self.populate_network_choices(
             request)
         self.fields['configuration'].choices = self.populate_cg_choices(
@@ -566,6 +572,9 @@ class ClusterAddInstanceForm(BaseClusterForm):
     def handle(self, request, data):
         try:
             flavor = trove_api.trove.flavor_get(request, data['flavor'])
+            volume_type = data.get('volume_type')
+            if volume_type in ('', 'no_type'):
+                volume_type = None
             manager = cluster_manager.get(data['cluster_id'])
             manager.add_instance(str(uuid.uuid4()),
                                  data.get('name', None),
@@ -574,7 +583,8 @@ class ClusterAddInstanceForm(BaseClusterForm):
                                  data['volume'],
                                  data.get('type', None),
                                  data.get('related_to', None),
-                                 data.get('network', None))
+                                 data.get('network', None),
+                                 volume_type=volume_type)
         except Exception:
             redirect = reverse("horizon:project:database_clusters:index")
             exceptions.handle(request,

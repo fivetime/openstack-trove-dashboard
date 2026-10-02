@@ -1437,13 +1437,37 @@ class DatabaseTests(test.TestCase):
         self.assertIsNone(workflow._get_modules({}))
 
     @test.create_mocks({api.trove: ('license_list',)})
-    def test_launch_license_choices(self):
+    def test_launch_license_field_per_version(self):
+        # A Db2 or Vertica version gets a license field next to its flavor,
+        # with only the licenses for that version; other datastores none.
         self.mock_license_list.return_value = [
             m for m in self.database_modules.list() if m.type != 'ping']
-        action = create_instance.AdvancedAction.__new__(
-            create_instance.AdvancedAction)
-        choices = action.populate_license_choices(self.request, {})
-        self.assertEqual(('', 'No license'), (choices[0][0],
-                                              str(choices[0][1])))
-        self.assertIn(('e3b4cd2e-12ba-499a-9ade-37572cb07373',
-                       'my-db2-license (db2 12.1)'), choices)
+        action = create_instance.SetInstanceDetailsAction.__new__(
+            create_instance.SetInstanceDetailsAction)
+        action.fields = {}
+        action._add_datastore_license_field(self.request, 'db2', '12.1')
+        action._add_datastore_license_field(self.request, 'db2', '11.5')
+        action._add_datastore_license_field(self.request, 'mysql', '8.4')
+        db2 = action.fields[action._build_license_field_name('db2', '12.1')]
+        self.assertEqual(['', 'e3b4cd2e-12ba-499a-9ade-37572cb07373'],
+                         [c[0] for c in db2.choices])
+        self.assertIn('data-datastore-' + action._build_widget_field_name(
+            'db2', '12.1'), db2.widget.attrs)
+        other = action.fields[action._build_license_field_name('db2',
+                                                               '11.5')]
+        self.assertEqual([''], [c[0] for c in other.choices])
+        self.assertEqual(2, len(action.fields))
+
+    def test_launch_license_comes_from_the_chosen_version(self):
+        action = create_instance.SetInstanceDetailsAction.__new__(
+            create_instance.SetInstanceDetailsAction)
+        field = action._build_license_field_name('db2', '12.1')
+        db2 = action._build_widget_field_name('db2', '12.1')
+        action.data = {'datastore': db2, db2: 'flavor-1'}
+        action._errors = {}
+        action.cleaned_data = {field: 'lic-1', 'locality': None}
+        self.assertEqual('lic-1', action.clean()['license'])
+        mysql = action._build_widget_field_name('mysql', '8.4')
+        action.data = {'datastore': mysql, mysql: 'flavor-1'}
+        action.cleaned_data = {field: 'lic-1', 'locality': None}
+        self.assertIsNone(action.clean()['license'])

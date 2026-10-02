@@ -589,7 +589,7 @@ class ClustersTests(test.TestCase):
                           tables.ClusterGrowAction.name, '__',
                           cluster.id])
         res = self.client.post(url, {'action': action})
-        self.mock_cluster_get.assert_called_once_with(
+        self.mock_cluster_get.assert_called_with(
             test.IsHttpRequest(), cluster.id)
         self.assert_mock_multiple_calls_with_same_arguments(
             self.mock_get, 5, mock.call(cluster.id))
@@ -668,7 +668,7 @@ class ClustersTests(test.TestCase):
                               cluster.id])
             res = self.client.post(url, {'action': action})
 
-            self.mock_cluster_get.assert_called_once_with(
+            self.mock_cluster_get.assert_called_with(
                 test.IsHttpRequest(), cluster.id)
             self.assert_mock_multiple_calls_with_same_arguments(
                 self.mock_get, 3, mock.call(cluster.id))
@@ -777,3 +777,37 @@ class ClustersTests(test.TestCase):
     def _build_flavor_widget_name(self, datastore, datastore_version):
         return common_utils.hexlify(self._build_datastore_display_text(
             datastore, datastore_version))
+
+
+class ClusterGrowGroupTests(test.TestCase):
+
+    def _cluster(self, datastore, types):
+        return mock.Mock(datastore={'type': datastore, 'version': '7.2'},
+                         instances=[{'type': t} for t in types])
+
+    def test_group_size(self):
+        size = cluster_manager.grow_group_size
+        self.assertEqual(2, size(self._cluster(
+            'redis', ['member', 'replica'] * 3)))
+        self.assertEqual(3, size(self._cluster(
+            'redis', ['member', 'replica', 'replica'] * 3)))
+        self.assertEqual(1, size(self._cluster('redis', ['member'] * 3)))
+        self.assertEqual(1, size(self._cluster(
+            'mongodb', ['member', 'query_router', 'config_server'])))
+
+    @mock.patch.object(tables, 'messages')
+    @mock.patch.object(trove_api.trove, 'cluster_grow')
+    @mock.patch.object(trove_api.trove, 'cluster_get')
+    def test_grow_refuses_part_of_a_group(self, cluster_get, cluster_grow,
+                                          messages):
+        # Trove would refuse it; the instances stay listed so the rest of
+        # the group can be added.
+        cluster_get.return_value = self._cluster(
+            'redis', ['member', 'replica'] * 3)
+        table = mock.Mock(data=[mock.Mock()], kwargs={'cluster_id': 'c1'})
+        request = mock.Mock()
+        request.build_absolute_uri.return_value = '/grow'
+        res = tables.ClusterGrowAction().handle(table, request, [])
+        self.assertEqual('/grow', res.url)
+        cluster_grow.assert_not_called()
+        messages.error.assert_called_once()

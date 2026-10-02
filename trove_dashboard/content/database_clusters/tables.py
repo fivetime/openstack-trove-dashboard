@@ -417,6 +417,18 @@ class ClusterGrowAction(tables.Action):
 
         cluster_id = table.kwargs['cluster_id']
         try:
+            group_size = cluster_manager.grow_group_size(
+                api.trove.cluster_get(request, cluster_id))
+        except Exception:
+            group_size = 1
+        if len(table.data) % group_size:
+            # Keep the instances: the user adds the rest of the group.
+            messages.error(request, _(
+                "This cluster grows by groups of %(size)s instances: a "
+                "master and its replicas. %(count)s instances are listed.")
+                % {'size': group_size, 'count': len(table.data)})
+            return shortcuts.redirect(request.build_absolute_uri())
+        try:
             api.trove.cluster_grow(request, cluster_id, table.data)
             LOG.info('%s: "%s"' % (_("Grow Cluster"), display_str))
             msg = _('Scheduled growing of cluster.')
@@ -440,6 +452,7 @@ class ClusterGrowInstancesTable(tables.DataTable):
     flavor = tables.Column("flavor", verbose_name=_("Flavor"))
     flavor_id = tables.Column("flavor_id", hidden=True)
     volume = tables.Column("volume", verbose_name=_("Volume"))
+    volume_type = tables.Column("volume_type", verbose_name=_("Volume Type"))
     type = tables.Column("type", verbose_name=_("Instance Type"))
     related_to = tables.Column("related_to", verbose_name=_("Related To"))
     nics = tables.Column("nics", verbose_name=_("Network"))

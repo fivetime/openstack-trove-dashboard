@@ -18,12 +18,17 @@ MONGODB = "mongodb"
 MYSQL = "mysql"
 PERCONA = "percona"
 PERCONA_CLUSTER = "pxc"
+POSTGRESQL = "postgresql"
 REDIS = "redis"
 VERTICA = "vertica"
 
 _mysql_compatible_datastores = (MYSQL, MARIADB, PERCONA, PERCONA_CLUSTER)
 _cluster_capable_datastores = (CASSANDRA, MARIADB, MONGODB, PERCONA_CLUSTER,
                                REDIS, VERTICA)
+# The backups of these can be incremental, on a parent backup; Trove
+# refuses an incremental backup of any other datastore.
+_incremental_backup_datastores = (MYSQL, MARIADB, PERCONA, PERCONA_CLUSTER,
+                                  POSTGRESQL)
 _cluster_grow_shrink_capable_datastores = (CASSANDRA, MARIADB, MONGODB,
                                            PERCONA_CLUSTER, REDIS)
 
@@ -51,6 +56,10 @@ def is_vertica_datastore(datastore):
 
 def is_mysql_compatible(datastore):
     return _is_datastore_in_list(datastore, _mysql_compatible_datastores)
+
+
+def supports_incremental_backup(datastore):
+    return _is_datastore_in_list(datastore, _incremental_backup_datastores)
 
 
 def is_cluster_capable_datastore(datastore):

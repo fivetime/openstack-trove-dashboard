@@ -18,9 +18,11 @@ from django.utils.translation import gettext_lazy as _
 
 from horizon import exceptions
 from horizon import forms
+from horizon.utils import memoized
 from horizon import workflows
 
 from trove_dashboard import api
+from trove_dashboard.content.databases import db_capability
 from trove_dashboard.content.databases \
     import tables as project_tables
 
@@ -33,14 +35,23 @@ class BackupDetailsAction(workflows.Action):
                            help_text=_("Name of the backup."))
     instance = forms.ChoiceField(label=_("Database Instance"),
                                  help_text=_("Select the database instance to "
-                                             "backup."))
+                                             "backup."),
+                                 widget=forms.Select(attrs={
+                                     'class': 'switchable',
+                                     'data-slug': 'instance'}))
     description = forms.CharField(max_length=512, label=_("Description"),
                                   widget=forms.TextInput(),
                                   required=False,
                                   help_text=_("Optional Backup Description"))
+    # Shown only for an instance whose backups can be incremental.
     parent = forms.ChoiceField(label=_("Parent Backup"),
                                required=False,
-                               help_text=_("Optional parent backup"))
+                               help_text=_("Optional parent backup: a backup "
+                                           "of the same instance this one "
+                                           "builds on."),
+                               widget=forms.Select(attrs={
+                                   'class': 'switched',
+                                   'data-switch-on': 'instance'}))
     swift_container = forms.CharField(max_length=256,
                                       widget=forms.TextInput(),
                                       label=_("Swift Container Name"),
@@ -54,32 +65,70 @@ class BackupDetailsAction(workflows.Action):
         help_text_template = \
             "project/database_backups/_backup_details_help.html"
 
-    def populate_instance_choices(self, request, context):
-        LOG.info("Obtaining list of instances.")
+    @memoized.memoized_method
+    def _instances(self, request):
+        # Every page: a project with more instances than a page holds
+        # could not pick the ones after it.
         try:
-            instances = api.trove.instance_list(request)
+            instances = api.trove.instance_list_all(request)
         except Exception:
             instances = []
             msg = _("Unable to list database instances to backup.")
             exceptions.handle(request, msg)
-        return [(i.id, i.name) for i in instances
+        return [i for i in instances
                 if i.status in project_tables.ACTIVE_STATES]
 
-    def populate_parent_choices(self, request, context):
+    def _incremental_instances(self, request):
+        return {i.id for i in self._instances(request)
+                if db_capability.supports_incremental_backup(
+                    (getattr(i, 'datastore', None) or {}).get('type'))}
+
+    def populate_instance_choices(self, request, context):
+        LOG.info("Obtaining list of instances.")
+        return [(i.id, i.name) for i in self._instances(request)]
+
+    @memoized.memoized_method
+    def _backups(self, request):
         try:
-            backups = api.trove.backup_list(request)
-            choices = [(b.id, b.name) for b in backups
-                       if b.status == 'COMPLETED']
+            return [b for b in api.trove.backup_list(request)
+                    if b.status == 'COMPLETED']
         except Exception:
-            choices = []
             msg = _("Unable to list parent database backups.")
             exceptions.handle(request, msg)
+            return []
+
+    def populate_parent_choices(self, request, context):
+        incremental = self._incremental_instances(request)
+        widget = self.fields['parent'].widget
+        for instance_id in incremental:
+            widget.attrs['data-instance-' + instance_id] = _("Parent Backup")
+        names = {i.id: i.name for i in self._instances(request)}
+        choices = [(b.id, "%s (%s)" % (b.name, names[b.instance_id]))
+                   for b in self._backups(request)
+                   if b.instance_id in incremental]
 
         if choices:
             choices.insert(0, ("", _("Select parent backup")))
         else:
             choices.insert(0, ("", _("No backups available")))
         return choices
+
+    def clean(self):
+        cleaned_data = super(BackupDetailsAction, self).clean()
+        parent = cleaned_data.get('parent')
+        instance = cleaned_data.get('instance')
+        if parent and instance:
+            if instance not in self._incremental_instances(self.request):
+                raise forms.ValidationError(_(
+                    "Backups of this database cannot be incremental: leave "
+                    "the parent backup empty."))
+            backup = next((b for b in self._backups(self.request)
+                           if b.id == parent), None)
+            if backup is None or backup.instance_id != instance:
+                raise forms.ValidationError(_(
+                    "The parent backup must be a backup of the same "
+                    "instance."))
+        return cleaned_data
 
 
 class SetBackupDetails(workflows.Step):

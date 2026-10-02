@@ -58,9 +58,11 @@ class ClusterInstanceManager(object):
         return None
 
     def add_instance(self, id, name, flavor_id,
-                     flavor, volume, type, related_to, nics):
+                     flavor, volume, type, related_to, nics,
+                     volume_type=None):
         instance = ClusterInstance(id, name, flavor_id, flavor,
-                                   volume, type, related_to, nics)
+                                   volume, type, related_to, nics,
+                                   volume_type=volume_type)
         self.instances.append(instance)
         update(self.cluster_id, self)
         return self.get_instances()
@@ -78,7 +80,7 @@ class ClusterInstanceManager(object):
 
 class ClusterInstance(object):
     def __init__(self, id, name, flavor_id, flavor, volume, type,
-                 related_to, nics):
+                 related_to, nics, volume_type=None):
         self.id = id
         self.name = name
         self.flavor_id = flavor_id
@@ -87,3 +89,20 @@ class ClusterInstance(object):
         self.type = type
         self.related_to = related_to
         self.nics = nics
+        self.volume_type = volume_type
+
+
+def grow_group_size(cluster):
+    """How many instances a grow of this cluster must come in groups of.
+
+    A Redis cluster with replicas grows by whole groups: a master and as
+    many replicas as each master has. Trove refuses any other number.
+    """
+    if (cluster.datastore or {}).get('type') != 'redis':
+        return 1
+    types = [i.get('type') for i in getattr(cluster, 'instances', [])]
+    masters = len([t for t in types if t != 'replica'])
+    replicas = len(types) - masters
+    if not masters or not replicas:
+        return 1
+    return 1 + replicas // masters

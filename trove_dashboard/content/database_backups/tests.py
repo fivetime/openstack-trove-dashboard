@@ -58,12 +58,12 @@ class DatabasesBackupsTests(test.TestCase):
         self.assertMessageCount(res, error=1)
 
     @test.create_mocks({
-        api.trove: ('instance_list', 'backup_list', 'backup_create'),
+        api.trove: ('instance_list_all', 'backup_list', 'backup_create'),
         policy: ('check',),
     })
     def test_launch_backup(self):
         self.mock_check.return_value = True
-        self.mock_instance_list.return_value = self.databases.list()
+        self.mock_instance_list_all.return_value = self.databases.list()
         self.mock_backup_list.return_value = self.database_backups.list()
 
         database = self.databases.first()
@@ -79,7 +79,8 @@ class DatabasesBackupsTests(test.TestCase):
         res = self.client.post(BACKUP_URL, post)
 
         self.mock_check.assert_called_once_with((), test.IsHttpRequest())
-        self.mock_instance_list.assert_called_once_with(test.IsHttpRequest())
+        self.mock_instance_list_all.assert_called_once_with(
+            test.IsHttpRequest())
         self.mock_backup_list.assert_called_once_with(test.IsHttpRequest())
         self.mock_backup_create.assert_called_once_with(
             test.IsHttpRequest(),
@@ -92,29 +93,30 @@ class DatabasesBackupsTests(test.TestCase):
         self.assertRedirectsNoFollow(res, INDEX_URL)
 
     @test.create_mocks({
-        api.trove: ('instance_list', 'backup_list'),
+        api.trove: ('instance_list_all', 'backup_list'),
         policy: ('check',),
     })
     def test_launch_backup_exception(self):
         self.mock_check.return_value = True
-        self.mock_instance_list.side_effect = self.exceptions.trove
+        self.mock_instance_list_all.side_effect = self.exceptions.trove
         self.mock_backup_list.return_value = self.database_backups.list()
 
         res = self.client.get(BACKUP_URL)
         self.mock_check.assert_called_once_with((), test.IsHttpRequest())
-        self.mock_instance_list.assert_called_once_with(test.IsHttpRequest())
+        self.mock_instance_list_all.assert_called_once_with(
+            test.IsHttpRequest())
         self.mock_backup_list.assert_called_once_with(test.IsHttpRequest())
         self.assertMessageCount(res, error=1)
         self.assertTemplateUsed(res,
                                 'project/database_backups/backup.html')
 
     @test.create_mocks({
-        api.trove: ('instance_list', 'backup_list', 'backup_create'),
+        api.trove: ('instance_list_all', 'backup_list', 'backup_create'),
         policy: ('check',),
     })
     def test_launch_backup_incr(self):
         self.mock_check.return_value = True
-        self.mock_instance_list.return_value = self.databases.list()
+        self.mock_instance_list_all.return_value = self.databases.list()
         self.mock_backup_list.return_value = self.database_backups.list()
 
         database = self.databases.first()
@@ -131,7 +133,8 @@ class DatabasesBackupsTests(test.TestCase):
         res = self.client.post(BACKUP_URL, post)
 
         self.mock_check.assert_called_once_with((), test.IsHttpRequest())
-        self.mock_instance_list.assert_called_once_with(test.IsHttpRequest())
+        self.mock_instance_list_all.assert_called_once_with(
+            test.IsHttpRequest())
         self.mock_backup_list.assert_called_once_with(test.IsHttpRequest())
         self.mock_backup_create.assert_called_once_with(
             test.IsHttpRequest(),
@@ -142,6 +145,37 @@ class DatabasesBackupsTests(test.TestCase):
             "")
         self.assertNoFormErrors(res)
         self.assertRedirectsNoFollow(res, INDEX_URL)
+
+    @test.create_mocks({
+        api.trove: ('instance_list_all', 'backup_list', 'backup_create'),
+        policy: ('check',),
+    })
+    def test_launch_backup_parent_rules(self):
+        # Db2 backups cannot be incremental; a parent must come from the
+        # same instance.
+        self.mock_check.return_value = True
+        self.mock_instance_list_all.return_value = (
+            self.databases.list() + [self.db2_database])
+        self.mock_backup_list.return_value = self.database_backups.list()
+        mysql = self.databases.first()
+        their_backup = [b for b in self.database_backups.list()
+                        if b.instance_id != mysql.id][0]
+
+        res = self.client.get(BACKUP_URL)
+        widget = res.context['workflow'].steps[0].action.fields[
+            'parent'].widget
+        self.assertIn('data-instance-' + mysql.id, widget.attrs)
+        self.assertNotIn('data-instance-' + self.db2_database.id,
+                         widget.attrs)
+
+        for instance, parent in ((self.db2_database.id,
+                                  self.database_backups.first().id),
+                                 (mysql.id, their_backup.id)):
+            res = self.client.post(BACKUP_URL, {
+                'name': 'NewBackup', 'instance': instance,
+                'description': '', 'parent': parent})
+            self.assertEqual(200, res.status_code)
+        self.mock_backup_create.assert_not_called()
 
     @test.create_mocks({api.trove: ('backup_get', 'instance_get')})
     def test_detail_backup(self):

@@ -103,6 +103,9 @@ def cluster_grow(request, cluster_id, new_instances):
         instance["flavorRef"] = new_instance.flavor_id
         if new_instance.volume > 0:
             instance["volume"] = {'size': new_instance.volume}
+            # Instances added before the field existed have no attribute.
+            if getattr(new_instance, 'volume_type', None):
+                instance["volume"]['type'] = new_instance.volume_type
         if new_instance.name:
             instance["name"] = new_instance.name
         if new_instance.type:

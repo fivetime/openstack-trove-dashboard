@@ -2744,3 +2744,38 @@ msgstr "每个主节点的副本数"
 #: trove_dashboard/content/database_clusters/forms.py
 msgid "The instances come in groups of a master and its replicas: 6 instances with 1 replica per master are 3 masters and 3 replicas. With replicas, at least 3 masters."
 msgstr "实例按\"一个主节点加它的副本\"成组：6 个实例、每个主节点 1 个副本，就是 3 主 3 从。有副本时至少要 3 个主节点。"
+
+#: trove_dashboard/content/database_backups/workflows/create_backup.py
+msgid "Optional parent backup: a backup of the same instance this one builds on."
+msgstr "可选的父备份：本次备份在它的基础上做增量，必须是同一个实例的备份。"
+
+#: trove_dashboard/content/database_backups/workflows/create_backup.py
+msgid "Backups of this database cannot be incremental: leave the parent backup empty."
+msgstr "这种数据库的备份不能做增量：请不要选择父备份。"
+
+#: trove_dashboard/content/database_backups/workflows/create_backup.py
+msgid "The parent backup must be a backup of the same instance."
+msgstr "父备份必须是同一个实例的备份。"
+
+#: trove_dashboard/content/database_clusters/tables.py
+#, python-format
+msgid "This cluster grows by groups of %(size)s instances: a master and its replicas. %(count)s instances are listed."
+msgstr "这个集群要按每组 %(size)s 个实例扩容：一个主节点加它的副本。目前列出了 %(count)s 个实例。"
+
+#: trove_dashboard/content/databases/workflows/create_instance.py
+msgid "No license: the edition the image comes with"
+msgstr "不使用许可证：使用镜像自带的版本"
+
+#: trove_dashboard/content/databases/workflows/create_instance.py
+msgid "No licenses for this version: add one under Licenses"
+msgstr "这个版本还没有许可证：请先在「许可证」里添加"
+
+#: trove_dashboard/content/databases/workflows/create_instance.py
+msgid "A license you added under Licenses. Without one the instance runs the edition its image comes with."
+msgstr "在「许可证」里添加的许可证。不选时，实例运行镜像自带的版本。"
+
+#: trove_dashboard/content/database_clusters/templates/database_clusters/cluster_grow_details.html
+#, python-format
+msgid "Each master of this cluster has %(replicas)s replica, so it grows by groups of %(group_size)s instances. In each group, the first instance added becomes a master and the next one its replica."
+msgid_plural "Each master of this cluster has %(replicas)s replicas, so it grows by groups of %(group_size)s instances. In each group, the first instance added becomes a master and the next ones its replicas."
+msgstr[0] "这个集群每个主节点有 %(replicas)s 个副本，所以要按每组 %(group_size)s 个实例扩容。每组里先添加的实例成为主节点，后面的成为它的副本。"

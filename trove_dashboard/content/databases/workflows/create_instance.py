@@ -146,6 +146,11 @@ class SetInstanceDetailsAction(workflows.Action):
             if not flavor:
                 msg = _("You must select a flavor.")
                 self._errors[field_name] = self.error_class([msg])
+            # The license field of the chosen version, if it takes one;
+            # its choices are only that version's licenses.
+            self.cleaned_data["license"] = (
+                self.cleaned_data.get(self._build_license_field_name(
+                    datastore, datastore_version)) or None)
 
         if not self.data.get("locality", None):
             self.cleaned_data["locality"] = None
@@ -281,6 +286,9 @@ class SetInstanceDetailsAction(workflows.Action):
                         self._add_datastore_flavor_field(request,
                                                          ds.name,
                                                          v.name)
+                        self._add_datastore_license_field(request,
+                                                          ds.name,
+                                                          v.name)
                     choices = choices + version_choices
         return choices
 
@@ -308,6 +316,47 @@ class SetInstanceDetailsAction(workflows.Action):
             self.fields[field_name].choices = instance_utils.sort_flavor_list(
                 request, valid_flavors)
 
+    @memoized.memoized_method
+    def licenses(self, request):
+        try:
+            return api.trove.license_list(request)
+        except Exception:
+            LOG.exception("Exception while obtaining licenses")
+            return []
+
+    def _add_datastore_license_field(self, request, datastore,
+                                     datastore_version):
+        """A license choice, shown with the flavor, for a version of a
+        datastore that takes a license (Vertica, Db2), offering only the
+        licenses for that version.
+        """
+        if datastore not in api.trove.LICENSE_MODULE_TYPES.values():
+            return
+        name = self._build_widget_field_name(datastore, datastore_version)
+        licenses = [(m.id, m.name) for m in self.licenses(request)
+                    if m.datastore == datastore and
+                    m.datastore_version in (datastore_version, 'all')]
+        empty = (_("No license: the edition the image comes with") if licenses
+                 else _("No licenses for this version: add one under "
+                        "Licenses"))
+        self.fields[self._build_license_field_name(
+            datastore, datastore_version)] = forms.ChoiceField(
+            label=_("License"),
+            help_text=_("A license you added under Licenses. Without one "
+                        "the instance runs the edition its image comes "
+                        "with."),
+            required=False,
+            choices=[("", empty)] + licenses,
+            widget=forms.Select(attrs={
+                'class': 'switched',
+                'data-switch-on': 'datastore',
+                'data-datastore-' + name: _("License")
+            }))
+
+    def _build_license_field_name(self, datastore, datastore_version):
+        return 'license_' + self._build_widget_field_name(
+            datastore, datastore_version)
+
     def _build_datastore_display_text(self, datastore, datastore_version):
         return datastore + ' - ' + datastore_version
 
@@ -331,7 +380,7 @@ TROVE_ADD_PERMS = TROVE_ADD_USER_PERMS + TROVE_ADD_DATABASE_PERMS
 class SetInstanceDetails(workflows.Step):
     action_class = SetInstanceDetailsAction
     contributes = ("name", "volume", "volume_type", "flavor", "datastore",
-                   "locality", "availability_zone")
+                   "locality", "availability_zone", "license")
 
 
 class AddAccessAction(workflows.Action):
@@ -415,12 +464,6 @@ class AdvancedAction(workflows.Action):
         label=_("Configuration Group"),
         required=False,
         help_text=_('Select a configuration group'))
-    license = forms.ChoiceField(
-        label=_("License"),
-        required=False,
-        help_text=_('For Vertica and Db2: a license you added under '
-                    'Licenses. Without one the instance runs the edition '
-                    'its image comes with.'))
     initial_state = forms.ChoiceField(
         label=_('Source for Initial State'),
         required=False,
@@ -492,24 +535,6 @@ class AdvancedAction(workflows.Action):
             choices.insert(0, ("", _("No configurations available")))
         return choices
 
-    def populate_license_choices(self, request, context):
-        try:
-            licenses = api.trove.license_list(request)
-            license_name = "%(name)s (%(datastore)s %(version)s)"
-            choices = [(m.id,
-                        license_name % {'name': m.name,
-                                        'datastore': m.datastore,
-                                        'version': m.datastore_version})
-                       for m in licenses]
-        except Exception:
-            choices = []
-
-        if choices:
-            choices.insert(0, ("", _("No license")))
-        else:
-            choices.insert(0, ("", _("No licenses available")))
-        return choices
-
     def populate_backup_choices(self, request, context):
         try:
             choices = []
@@ -568,16 +593,6 @@ class AdvancedAction(workflows.Action):
         else:
             self.cleaned_data['config'] = None
 
-        license = self.cleaned_data.get('license')
-        if license:
-            try:
-                module = api.trove.module_get(self.request, license)
-                self.cleaned_data['license'] = module.id
-            except Exception:
-                raise forms.ValidationError(_("Unable to find license."))
-        else:
-            self.cleaned_data['license'] = None
-
         initial_state = cleaned_data.get("initial_state")
 
         if initial_state == 'backup':
@@ -617,7 +632,7 @@ class AdvancedAction(workflows.Action):
 
 class Advanced(workflows.Step):
     action_class = AdvancedAction
-    contributes = ['config', 'license', 'backup', 'master', 'replica_count']
+    contributes = ['config', 'backup', 'master', 'replica_count']
 
 
 class LaunchInstance(workflows.Workflow):

@@ -7,6 +7,11 @@
 <div class="help_text">
   {% trans "Specify the instances to be added to the cluster.  When all the instances are specified click 'Grow Cluster' to perform the grow operation." %}
 </div>
+{% if group_size > 1 %}
+<div class="alert alert-info">
+  {% blocktrans count replicas=group_size|add:"-1" %}Each master of this cluster has {{ replicas }} replica, so it grows by groups of {{ group_size }} instances. In each group, the first instance added becomes a master and the next one its replica.{% plural %}Each master of this cluster has {{ replicas }} replicas, so it grows by groups of {{ group_size }} instances. In each group, the first instance added becomes a master and the next ones its replicas.{% endblocktrans %}
+</div>
+{% endif %}
 <div class="row">
   <div class="col-sm-12">
   {{ table.render }}
