@@ -20,17 +20,21 @@ PERCONA = "percona"
 PERCONA_CLUSTER = "pxc"
 POSTGRESQL = "postgresql"
 REDIS = "redis"
+VALKEY = "valkey"
 VERTICA = "vertica"
 
 _mysql_compatible_datastores = (MYSQL, MARIADB, PERCONA, PERCONA_CLUSTER)
 _cluster_capable_datastores = (CASSANDRA, MARIADB, MONGODB, PERCONA_CLUSTER,
-                               REDIS, VERTICA)
+                               REDIS, VALKEY, VERTICA)
+# Clusters on the Redis Cluster protocol: Valkey's run on Trove's Redis
+# cluster strategies, replicas per master and growing by groups included.
+_redis_cluster_datastores = (REDIS, VALKEY)
 # The backups of these can be incremental, on a parent backup; Trove
 # refuses an incremental backup of any other datastore.
 _incremental_backup_datastores = (MYSQL, MARIADB, PERCONA, PERCONA_CLUSTER,
                                   POSTGRESQL)
 _cluster_grow_shrink_capable_datastores = (CASSANDRA, MARIADB, MONGODB,
-                                           PERCONA_CLUSTER, REDIS)
+                                           PERCONA_CLUSTER, REDIS, VALKEY)
 
 
 def can_modify_cluster(datastore):
@@ -47,7 +51,7 @@ def is_percona_cluster_datastore(datastore):
 
 
 def is_redis_datastore(datastore):
-    return (datastore is not None) and (REDIS in datastore.lower())
+    return _is_datastore_in_list(datastore, _redis_cluster_datastores)
 
 
 def is_vertica_datastore(datastore):

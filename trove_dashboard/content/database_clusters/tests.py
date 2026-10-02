@@ -25,6 +25,7 @@ from trove_dashboard import api as trove_api
 from trove_dashboard.content.database_clusters \
     import cluster_manager
 from trove_dashboard.content.database_clusters import tables
+from trove_dashboard.content.databases import db_capability
 from trove_dashboard.test import helpers as test
 from trove_dashboard.utils import common as common_utils
 
@@ -794,6 +795,16 @@ class ClusterGrowGroupTests(test.TestCase):
         self.assertEqual(1, size(self._cluster('redis', ['member'] * 3)))
         self.assertEqual(1, size(self._cluster(
             'mongodb', ['member', 'query_router', 'config_server'])))
+        # Valkey clusters run on the Redis strategies.
+        self.assertEqual(2, size(self._cluster(
+            'valkey', ['member', 'replica'] * 3)))
+
+    def test_valkey_clusters(self):
+        self.assertTrue(db_capability.is_cluster_capable_datastore('valkey'))
+        self.assertTrue(db_capability.can_modify_cluster('valkey'))
+        self.assertTrue(db_capability.is_redis_datastore('valkey'))
+        self.assertFalse(db_capability.is_cluster_capable_datastore('keydb'))
+        self.assertFalse(db_capability.is_redis_datastore('keydb'))
 
     @mock.patch.object(tables, 'messages')
     @mock.patch.object(trove_api.trove, 'cluster_grow')

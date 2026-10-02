@@ -15,6 +15,8 @@
 
 from django.core import cache
 
+from trove_dashboard.content.databases import db_capability
+
 
 def get(cluster_id):
     if not has_cluster(cluster_id):
@@ -95,10 +97,12 @@ class ClusterInstance(object):
 def grow_group_size(cluster):
     """How many instances a grow of this cluster must come in groups of.
 
-    A Redis cluster with replicas grows by whole groups: a master and as
-    many replicas as each master has. Trove refuses any other number.
+    A Redis (or Valkey) cluster with replicas grows by whole groups: a
+    master and as many replicas as each master has. Trove refuses any
+    other number.
     """
-    if (cluster.datastore or {}).get('type') != 'redis':
+    if not db_capability.is_redis_datastore(
+            (cluster.datastore or {}).get('type')):
         return 1
     types = [i.get('type') for i in getattr(cluster, 'instances', [])]
     masters = len([t for t in types if t != 'replica'])

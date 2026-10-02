@@ -12,7 +12,7 @@
             {% else %}
                 <dd>{{ cluster.ip|join:', ' }}</dd>
                 <dt>{% trans "Connection Examples" %}</dt>
-                <dd>redis-cli -c -h {{ ip }}</dd>
+                <dd>valkey-cli -c -h {{ ip }}</dd>
             {% endif %} <!-- ends else block -->
         {% endwith %}
     </dl>
