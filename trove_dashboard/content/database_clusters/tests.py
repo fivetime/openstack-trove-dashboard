@@ -795,16 +795,18 @@ class ClusterGrowGroupTests(test.TestCase):
         self.assertEqual(1, size(self._cluster('redis', ['member'] * 3)))
         self.assertEqual(1, size(self._cluster(
             'mongodb', ['member', 'query_router', 'config_server'])))
-        # Valkey clusters run on the Redis strategies.
-        self.assertEqual(2, size(self._cluster(
-            'valkey', ['member', 'replica'] * 3)))
+        # Valkey and KeyDB clusters run on the Redis strategies.
+        for datastore in ('valkey', 'keydb'):
+            self.assertEqual(2, size(self._cluster(
+                datastore, ['member', 'replica'] * 3)))
 
-    def test_valkey_clusters(self):
-        self.assertTrue(db_capability.is_cluster_capable_datastore('valkey'))
-        self.assertTrue(db_capability.can_modify_cluster('valkey'))
-        self.assertTrue(db_capability.is_redis_datastore('valkey'))
-        self.assertFalse(db_capability.is_cluster_capable_datastore('keydb'))
-        self.assertFalse(db_capability.is_redis_datastore('keydb'))
+    def test_redis_family_clusters(self):
+        for datastore in ('valkey', 'keydb'):
+            self.assertTrue(
+                db_capability.is_cluster_capable_datastore(datastore))
+            self.assertTrue(db_capability.can_modify_cluster(datastore))
+            self.assertTrue(db_capability.is_redis_datastore(datastore))
+        self.assertFalse(db_capability.is_redis_datastore('mongodb'))
 
     @mock.patch.object(tables, 'messages')
     @mock.patch.object(trove_api.trove, 'cluster_grow')

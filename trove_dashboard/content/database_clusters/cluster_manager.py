@@ -97,7 +97,7 @@ class ClusterInstance(object):
 def grow_group_size(cluster):
     """How many instances a grow of this cluster must come in groups of.
 
-    A Redis (or Valkey) cluster with replicas grows by whole groups: a
+    A Redis (or Valkey, KeyDB) cluster with replicas grows by whole groups: a
     master and as many replicas as each master has. Trove refuses any
     other number.
     """
