@@ -200,6 +200,23 @@ class LaunchForm(BaseClusterForm):
             'class': 'switched',
             'data-switch-on': 'datastore',
         }))
+    # MySQL and Percona Server: Group Replication, one writable member or
+    # all of them.
+    group_replication_mode = forms.ChoiceField(
+        label=_("Replication Mode"),
+        choices=[("single-primary", _("Single-primary")),
+                 ("multi-primary", _("Multi-primary"))],
+        required=False,
+        help_text=_("Single-primary: one member takes writes and the group "
+                    "elects another when it fails; the others are read "
+                    "only. Multi-primary: every member takes writes, and a "
+                    "transaction that conflicts with another member's is "
+                    "rolled back at commit; tables need a primary key. "
+                    "At least 3 instances."),
+        widget=forms.ThemableSelectWidget(attrs={
+            'class': 'switched',
+            'data-switch-on': 'datastore',
+        }))
     num_instances = forms.IntegerField(
         label=_("Number of Instances"),
         initial=3,
@@ -221,6 +238,9 @@ class LaunchForm(BaseClusterForm):
     ]
     redis_fields = default_fields + [
         ('replicas_per_master', _('Replicas per Master')),
+    ]
+    group_replication_fields = default_fields + [
+        ('group_replication_mode', _('Replication Mode')),
     ]
     vertica_fields = [
         ('num_instances_vertica', ('Number of Instances')),
@@ -417,6 +437,8 @@ class LaunchForm(BaseClusterForm):
             fields = self.vertica_fields
         elif db_capability.is_redis_datastore(datastore):
             fields = self.redis_fields
+        elif db_capability.is_group_replication_datastore(datastore):
+            fields = self.group_replication_fields
         else:
             fields = self.default_fields
 
@@ -469,6 +491,11 @@ class LaunchForm(BaseClusterForm):
                     data.get('replicas_per_master')):
                 extended_properties = {
                     'replicas_per_master': data['replicas_per_master']}
+            elif db_capability.is_group_replication_datastore(datastore):
+                extended_properties = {
+                    'group_replication_mode':
+                        data.get('group_replication_mode') or
+                        'single-primary'}
 
             trove_api.trove.cluster_create(
                 request,

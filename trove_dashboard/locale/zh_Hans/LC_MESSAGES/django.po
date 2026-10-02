@@ -2779,3 +2779,19 @@ msgstr "在「许可证」里添加的许可证。不选时，实例运行镜像
 msgid "Each master of this cluster has %(replicas)s replica, so it grows by groups of %(group_size)s instances. In each group, the first instance added becomes a master and the next one its replica."
 msgid_plural "Each master of this cluster has %(replicas)s replicas, so it grows by groups of %(group_size)s instances. In each group, the first instance added becomes a master and the next ones its replicas."
 msgstr[0] "这个集群每个主节点有 %(replicas)s 个副本，所以要按每组 %(group_size)s 个实例扩容。每组里先添加的实例成为主节点，后面的成为它的副本。"
+
+#: trove_dashboard/content/database_clusters/forms.py
+msgid "Replication Mode"
+msgstr "复制模式"
+
+#: trove_dashboard/content/database_clusters/forms.py
+msgid "Single-primary"
+msgstr "单主"
+
+#: trove_dashboard/content/database_clusters/forms.py
+msgid "Multi-primary"
+msgstr "多主"
+
+#: trove_dashboard/content/database_clusters/forms.py
+msgid "Single-primary: one member takes writes and the group elects another when it fails; the others are read only. Multi-primary: every member takes writes, and a transaction that conflicts with another member's is rolled back at commit; tables need a primary key. At least 3 instances."
+msgstr "单主：只有一个成员可写，它出故障时组内自动选出新的主节点，其余成员只读。多主：所有成员都可写，与其他成员冲突的事务会在提交时回滚；表必须有主键。至少 3 个实例。"

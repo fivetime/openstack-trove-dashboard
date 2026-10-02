@@ -156,6 +156,33 @@ class ClustersTests(test.TestCase):
         self.assertTrue(self._contains_datastore_in_attribute(
             fields['replicas_per_master'], field_name))
 
+    @test.create_mocks({trove_api.trove: ('datastore_flavors',
+                                          'datastore_list',
+                                          'datastore_version_list'),
+                        api.cinder: ['volume_type_list'],
+                        api.base: ['is_service_enabled']})
+    def test_launch_cluster_group_replication_fields(self):
+        # The test data has two MySQL versions; one is enough here.
+        self.mock_is_service_enabled.return_value = False
+        self.mock_volume_type_list.return_value = []
+        self.mock_datastore_flavors.return_value = self.flavors.list()
+        filtered_datastores = self._get_filtered_datastores('mysql')
+        self.mock_datastore_list.return_value = filtered_datastores
+        self.mock_datastore_version_list.return_value = [
+            v for v in self._get_filtered_datastore_versions(
+                filtered_datastores) if v.name == '5.5']
+        fields = self.client.get(LAUNCH_URL).context_data['form'].fields
+        field_name = self._build_flavor_widget_name('mysql', '5.5')
+
+        self.assertTrue(self._contains_datastore_in_attribute(
+            fields['num_instances'], field_name))
+        self.assertTrue(self._contains_datastore_in_attribute(
+            fields['group_replication_mode'], field_name))
+        self.assertFalse(self._contains_datastore_in_attribute(
+            fields['replicas_per_master'], field_name))
+        self.assertFalse(self._contains_datastore_in_attribute(
+            fields['num_shards'], field_name))
+
     def test_launch_cluster_vertica_fields(self):
         datastore = 'vertica'
         datastore_version = '7.1'
@@ -263,6 +290,47 @@ class ClustersTests(test.TestCase):
             extended_properties=None)
         self.assertNoFormErrors(res)
         self.assertMessageCount(success=1)
+
+    def _create_group_replication_cluster(self, mode):
+        self.mock_is_service_enabled.return_value = False
+        self.mock_volume_type_list.return_value = []
+        self.mock_datastore_flavors.return_value = self.flavors.list()
+        filtered_datastores = self._get_filtered_datastores('mysql')
+        self.mock_datastore_list.return_value = filtered_datastores
+        self.mock_datastore_version_list.return_value = (
+            self._get_filtered_datastore_versions(filtered_datastores))
+        self.mock_cluster_create.return_value = self.trove_clusters.first()
+
+        field_name = self._build_flavor_widget_name('mysql', '5.5')
+        res = self.client.post(LAUNCH_URL, {
+            'name': 'MyCluster', 'volume': 1, 'num_instances': 3,
+            'group_replication_mode': mode, 'datastore': field_name,
+            field_name: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
+        })
+        self.assertNoFormErrors(res)
+        return self.mock_cluster_create.call_args[1]['extended_properties']
+
+    @test.create_mocks({trove_api.trove: ['datastore_flavors',
+                                          'cluster_create',
+                                          'datastore_list',
+                                          'datastore_version_list'],
+                        api.cinder: ['volume_type_list'],
+                        api.base: ['is_service_enabled']})
+    def test_create_multi_primary_cluster(self):
+        self.assertEqual(
+            {'group_replication_mode': 'multi-primary'},
+            self._create_group_replication_cluster('multi-primary'))
+
+    @test.create_mocks({trove_api.trove: ['datastore_flavors',
+                                          'cluster_create',
+                                          'datastore_list',
+                                          'datastore_version_list'],
+                        api.cinder: ['volume_type_list'],
+                        api.base: ['is_service_enabled']})
+    def test_create_group_replication_cluster_defaults_to_single(self):
+        self.assertEqual(
+            {'group_replication_mode': 'single-primary'},
+            self._create_group_replication_cluster(''))
 
     @test.create_mocks({trove_api.trove: ['datastore_flavors',
                                           'cluster_create',
@@ -799,6 +867,17 @@ class ClusterGrowGroupTests(test.TestCase):
         for datastore in ('valkey', 'keydb'):
             self.assertEqual(2, size(self._cluster(
                 datastore, ['member', 'replica'] * 3)))
+
+    def test_group_replication_clusters(self):
+        for datastore in ('mysql', 'percona'):
+            self.assertTrue(
+                db_capability.is_cluster_capable_datastore(datastore))
+            self.assertTrue(db_capability.can_modify_cluster(datastore))
+            self.assertTrue(
+                db_capability.is_group_replication_datastore(datastore))
+        for datastore in ('mariadb', 'pxc'):
+            self.assertFalse(
+                db_capability.is_group_replication_datastore(datastore))
 
     def test_redis_family_clusters(self):
         for datastore in ('valkey', 'keydb'):
