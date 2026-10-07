@@ -222,6 +222,24 @@ class LaunchForm(BaseClusterForm):
             'class': 'switched',
             'data-switch-on': 'datastore',
         }))
+    # MariaDB and Percona XtraDB Cluster: Galera, one member taking the
+    # writes that come through the endpoint or every member.
+    writer_mode = forms.ChoiceField(
+        label=_("Writer Mode"),
+        choices=[("single", _("Single writer")),
+                 ("multi", _("Multiple writers"))],
+        required=False,
+        help_text=_("Single writer: the endpoint sends writes to one "
+                    "member, and to another when it fails; every member "
+                    "can still be read from and written to directly. "
+                    "Multiple writers: the endpoint sends writes to every "
+                    "member, and a transaction that conflicts with another "
+                    "member's is rolled back at commit; tables need a "
+                    "primary key. At least 3 instances."),
+        widget=forms.ThemableSelectWidget(attrs={
+            'class': 'switched',
+            'data-switch-on': 'datastore',
+        }))
     num_instances = forms.IntegerField(
         label=_("Number of Instances"),
         initial=3,
@@ -246,6 +264,9 @@ class LaunchForm(BaseClusterForm):
     ]
     group_replication_fields = default_fields + [
         ('group_replication_mode', _('Replication Mode')),
+    ]
+    galera_fields = default_fields + [
+        ('writer_mode', _('Writer Mode')),
     ]
     vertica_fields = [
         ('num_instances_vertica', ('Number of Instances')),
@@ -444,6 +465,8 @@ class LaunchForm(BaseClusterForm):
             fields = self.redis_fields
         elif db_capability.is_group_replication_datastore(datastore):
             fields = self.group_replication_fields
+        elif db_capability.is_galera_datastore(datastore):
+            fields = self.galera_fields
         else:
             fields = self.default_fields
 
@@ -501,6 +524,9 @@ class LaunchForm(BaseClusterForm):
                     'group_replication_mode':
                         data.get('group_replication_mode') or
                         'single-primary'}
+            elif db_capability.is_galera_datastore(datastore):
+                extended_properties = {
+                    'writer_mode': data.get('writer_mode') or 'single'}
 
             trove_api.trove.cluster_create(
                 request,

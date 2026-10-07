@@ -21,6 +21,7 @@ from django.urls import reverse
 from openstack_dashboard import api
 from troveclient import common
 from troveclient.v1 import clusters
+from troveclient.v1 import datastores
 
 from trove_dashboard import api as trove_api
 from trove_dashboard.content.database_clusters \
@@ -186,6 +187,45 @@ class ClustersTests(test.TestCase):
             fields['replicas_per_master'], field_name))
         self.assertFalse(self._contains_datastore_in_attribute(
             fields['num_shards'], field_name))
+        self.assertFalse(self._contains_datastore_in_attribute(
+            fields['writer_mode'], field_name))
+
+    def _mariadb(self):
+        # Not in the shared test data: the tests that post the launch form
+        # take the datastore list as it is.
+        datastore = datastores.Datastore(datastores.Datastores(None), {
+            'id': 'ccb31517-c472-409d-89b4-1a13db6bdd40', 'links': [],
+            'name': 'mariadb'})
+        version = datastores.DatastoreVersion(
+            datastores.DatastoreVersions(None), {
+                'name': '11.4', 'links': [], 'active': 1,
+                'image': 'd7956bb5-920e-4299-b68e-2347d830d940',
+                'datastore': datastore.id, 'packages': '11.4',
+                'id': '600a6d52-8347-4e00-8e4c-f4fa9cf96ae9'})
+        self.mock_datastore_list.return_value = [datastore]
+        self.mock_datastore_version_list.return_value = [version]
+
+    @test.create_mocks({trove_api.trove: ('datastore_flavors',
+                                          'datastore_list',
+                                          'datastore_version_list'),
+                        api.cinder: ['volume_type_list'],
+                        api.base: ['is_service_enabled']})
+    def test_launch_cluster_galera_fields(self):
+        self.mock_is_service_enabled.return_value = False
+        self.mock_volume_type_list.return_value = []
+        self.mock_datastore_flavors.return_value = self.flavors.list()
+        self._mariadb()
+        fields = self.client.get(LAUNCH_URL).context_data['form'].fields
+        field_name = self._build_flavor_widget_name('mariadb', '11.4')
+
+        self.assertTrue(self._contains_datastore_in_attribute(
+            fields['num_instances'], field_name))
+        self.assertTrue(self._contains_datastore_in_attribute(
+            fields['writer_mode'], field_name))
+        self.assertFalse(self._contains_datastore_in_attribute(
+            fields['group_replication_mode'], field_name))
+        self.assertFalse(self._contains_datastore_in_attribute(
+            fields['replicas_per_master'], field_name))
 
     def test_launch_cluster_vertica_fields(self):
         datastore = 'vertica'
@@ -335,6 +375,42 @@ class ClustersTests(test.TestCase):
         self.assertEqual(
             {'group_replication_mode': 'single-primary'},
             self._create_group_replication_cluster(''))
+
+    def _create_galera_cluster(self, mode):
+        self.mock_is_service_enabled.return_value = False
+        self.mock_volume_type_list.return_value = []
+        self.mock_datastore_flavors.return_value = self.flavors.list()
+        self._mariadb()
+        self.mock_cluster_create.return_value = self.trove_clusters.first()
+
+        field_name = self._build_flavor_widget_name('mariadb', '11.4')
+        res = self.client.post(LAUNCH_URL, {
+            'name': 'MyCluster', 'volume': 1, 'num_instances': 3,
+            'writer_mode': mode, 'datastore': field_name,
+            field_name: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
+        })
+        self.assertNoFormErrors(res)
+        return self.mock_cluster_create.call_args[1]['extended_properties']
+
+    @test.create_mocks({trove_api.trove: ['datastore_flavors',
+                                          'cluster_create',
+                                          'datastore_list',
+                                          'datastore_version_list'],
+                        api.cinder: ['volume_type_list'],
+                        api.base: ['is_service_enabled']})
+    def test_create_multi_writer_galera_cluster(self):
+        self.assertEqual({'writer_mode': 'multi'},
+                         self._create_galera_cluster('multi'))
+
+    @test.create_mocks({trove_api.trove: ['datastore_flavors',
+                                          'cluster_create',
+                                          'datastore_list',
+                                          'datastore_version_list'],
+                        api.cinder: ['volume_type_list'],
+                        api.base: ['is_service_enabled']})
+    def test_create_galera_cluster_defaults_to_a_single_writer(self):
+        self.assertEqual({'writer_mode': 'single'},
+                         self._create_galera_cluster(''))
 
     @test.create_mocks({trove_api.trove: ['datastore_flavors',
                                           'cluster_create',
@@ -936,6 +1012,14 @@ class ClusterGrowGroupTests(test.TestCase):
         for datastore in ('mariadb', 'pxc'):
             self.assertFalse(
                 db_capability.is_group_replication_datastore(datastore))
+
+    def test_galera_clusters(self):
+        for datastore in ('mariadb', 'pxc'):
+            self.assertTrue(db_capability.is_galera_datastore(datastore))
+            self.assertTrue(
+                db_capability.is_cluster_capable_datastore(datastore))
+        for datastore in ('mysql', 'percona', 'redis'):
+            self.assertFalse(db_capability.is_galera_datastore(datastore))
 
     def test_locality_defaults_to_the_platform(self):
         # Sent as None, so that the service applies its default policy.

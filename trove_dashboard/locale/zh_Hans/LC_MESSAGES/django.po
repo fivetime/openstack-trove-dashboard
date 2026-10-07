@@ -2831,3 +2831,19 @@ msgstr "写入地址"
 #: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview_mysql.html
 msgid "Members"
 msgstr "成员"
+
+#: trove_dashboard/content/database_clusters/forms.py
+msgid "Writer Mode"
+msgstr "写入模式"
+
+#: trove_dashboard/content/database_clusters/forms.py
+msgid "Single writer"
+msgstr "单写入口"
+
+#: trove_dashboard/content/database_clusters/forms.py
+msgid "Multiple writers"
+msgstr "多写"
+
+#: trove_dashboard/content/database_clusters/forms.py
+msgid "Single writer: the endpoint sends writes to one member, and to another when it fails; every member can still be read from and written to directly. Multiple writers: the endpoint sends writes to every member, and a transaction that conflicts with another member's is rolled back at commit; tables need a primary key. At least 3 instances."
+msgstr "单写入口：写入地址只把写请求发给一个成员，它出故障时自动换另一个；每个成员仍可直接读写。多写：写入地址把写请求分发给所有成员，与其他成员冲突的事务会在提交时回滚；表必须有主键。至少 3 个实例。"

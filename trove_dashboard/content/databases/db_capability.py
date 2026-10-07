@@ -30,6 +30,8 @@ _cluster_capable_datastores = (CASSANDRA, KEYDB, MARIADB, MONGODB, MYSQL,
                                VERTICA)
 # Clusters on MySQL Group Replication, single- or multi-primary.
 _group_replication_datastores = (MYSQL, PERCONA)
+# Clusters on Galera, with one writer or every member writing.
+_galera_datastores = (MARIADB, PERCONA_CLUSTER)
 # Clusters on the Redis Cluster protocol: Valkey's and KeyDB's run on
 # Trove's Redis cluster strategies, replicas per master and growing by
 # groups included.
@@ -58,6 +60,10 @@ def is_percona_cluster_datastore(datastore):
 
 def is_group_replication_datastore(datastore):
     return _is_datastore_in_list(datastore, _group_replication_datastores)
+
+
+def is_galera_datastore(datastore):
+    return _is_datastore_in_list(datastore, _galera_datastores)
 
 
 def is_redis_datastore(datastore):
