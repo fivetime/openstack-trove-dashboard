@@ -2823,3 +2823,11 @@ msgstr "恢复中"
 #: trove_dashboard/content/database_clusters/tables.py
 msgid "Offline"
 msgstr "离线"
+
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview_mysql.html
+msgid "Endpoint"
+msgstr "写入地址"
+
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview_mysql.html
+msgid "Members"
+msgstr "成员"

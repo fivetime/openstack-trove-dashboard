@@ -20,6 +20,7 @@ from unittest import mock
 from django.urls import reverse
 from openstack_dashboard import api
 from troveclient import common
+from troveclient.v1 import clusters
 
 from trove_dashboard import api as trove_api
 from trove_dashboard.content.database_clusters \
@@ -29,6 +30,7 @@ from trove_dashboard.content.database_clusters import tables
 from trove_dashboard.content.database_clusters import tabs
 from trove_dashboard.content.databases import db_capability
 from trove_dashboard.test import helpers as test
+from trove_dashboard.test.test_data import trove_data
 from trove_dashboard.utils import common as common_utils
 
 INDEX_URL = reverse('horizon:project:database_clusters:index')
@@ -561,6 +563,29 @@ class ClustersTests(test.TestCase):
             self.mock_flavor_get, 4,
             mock.call(test.IsHttpRequest(), test.IsA(str)))
         self.assertTemplateUsed(res, 'horizon/common/_detail.html')
+        self.assertContains(res, cluster.ip[0])
+
+    @test.create_mocks({trove_api.trove: ('cluster_get',
+                                          'instance_get',
+                                          'flavor_get',)})
+    def test_details_with_endpoint(self):
+        # A MySQL cluster with a load balancer: the endpoint comes first,
+        # the members after it.
+        cluster = clusters.Cluster(clusters.Clusters(None), dict(
+            trove_data.CLUSTER_DATA_ONE,
+            datastore={'type': 'mysql', 'version': '8.4'},
+            endpoint={'address': '10.0.0.50', 'port': 3306}))
+        self.mock_cluster_get.return_value = cluster
+        self.mock_instance_get.return_value = self.databases.first()
+        self.mock_flavor_get.return_value = self.flavors.first()
+
+        details_url = reverse('horizon:project:database_clusters:detail',
+                              args=[cluster.id])
+        res = self.client.get(details_url)
+        self.assertTemplateUsed(
+            res, 'project/database_clusters/_detail_overview_mysql.html')
+        self.assertContains(res, '10.0.0.50:3306')
+        self.assertContains(res, 'mysql -h 10.0.0.50 -P 3306')
         self.assertContains(res, cluster.ip[0])
 
     @test.create_mocks({trove_api.trove: ('cluster_get',
