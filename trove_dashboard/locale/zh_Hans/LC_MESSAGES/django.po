@@ -2803,3 +2803,23 @@ msgstr "平台默认（反亲和）"
 #: trove_dashboard/content/database_clusters/forms.py
 msgid "Specify whether instances in the cluster will be created on the same hypervisor (affinity) or on different hypervisors (anti-affinity). The platform default keeps the members of a cluster on different hypervisors, so that one host failing takes down one member only."
 msgstr "指定集群里的实例是放在同一台宿主机上（亲和）还是不同的宿主机上（反亲和）。平台默认把集群成员分散到不同宿主机，一台宿主机故障只影响一个成员。"
+
+#: trove_dashboard/content/database_clusters/tables.py
+msgid "Role"
+msgstr "角色"
+
+#: trove_dashboard/content/database_clusters/tables.py
+msgid "Primary"
+msgstr "主节点"
+
+#: trove_dashboard/content/database_clusters/tables.py
+msgid "Secondary"
+msgstr "副节点"
+
+#: trove_dashboard/content/database_clusters/tables.py
+msgid "Recovering"
+msgstr "恢复中"
+
+#: trove_dashboard/content/database_clusters/tables.py
+msgid "Offline"
+msgstr "离线"

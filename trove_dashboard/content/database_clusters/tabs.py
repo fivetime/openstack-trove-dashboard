@@ -77,6 +77,8 @@ class InstancesTab(tabs.TableTab):
                     instance_info.ip = instance["ip"]
                 if "hostname" in instance:
                     instance_info.hostname = instance["hostname"]
+                if "role" in instance:
+                    instance_info.role = instance["role"]
 
                 data.append(instance_info)
         except Exception:

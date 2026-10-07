@@ -26,6 +26,7 @@ from trove_dashboard.content.database_clusters \
     import cluster_manager
 from trove_dashboard.content.database_clusters import forms
 from trove_dashboard.content.database_clusters import tables
+from trove_dashboard.content.database_clusters import tabs
 from trove_dashboard.content.databases import db_capability
 from trove_dashboard.test import helpers as test
 from trove_dashboard.utils import common as common_utils
@@ -847,6 +848,37 @@ class ClustersTests(test.TestCase):
     def _build_flavor_widget_name(self, datastore, datastore_version):
         return common_utils.hexlify(self._build_datastore_display_text(
             datastore, datastore_version))
+
+
+class ClusterMemberRoleTests(test.TestCase):
+
+    def test_role_column(self):
+        self.assertEqual('Primary', str(tables.get_role(
+            mock.Mock(role='primary'))))
+        self.assertEqual('Secondary', str(tables.get_role(
+            mock.Mock(role='secondary'))))
+        # A role the dashboard does not know is shown as it comes.
+        self.assertEqual('unreachable', tables.get_role(
+            mock.Mock(role='unreachable')))
+        self.assertEqual('Not available', str(tables.get_role(
+            mock.Mock(spec=[]))))
+        self.assertIn('role', tables.InstancesTable.base_columns)
+
+    @mock.patch.object(trove_api.trove, 'flavor_get')
+    @mock.patch.object(trove_api.trove, 'instance_get')
+    @mock.patch.object(trove_api.trove, 'cluster_get')
+    def test_instances_tab_carries_the_role(self, cluster_get, instance_get,
+                                            flavor_get):
+        cluster_get.return_value.instances = [
+            {'id': 'i1', 'type': 'member', 'role': 'primary'},
+            {'id': 'i2', 'type': 'member'}]
+        instance_get.side_effect = lambda request, i: mock.Mock(
+            spec=['flavor'], flavor={'id': 'f1'})
+        tab = tabs.InstancesTab(mock.Mock(kwargs={'cluster': mock.Mock()}),
+                                mock.Mock())
+        data = tab.get_instances_data()
+        self.assertEqual('primary', data[0].role)
+        self.assertFalse(hasattr(data[1], 'role'))
 
 
 class ClusterGrowGroupTests(test.TestCase):

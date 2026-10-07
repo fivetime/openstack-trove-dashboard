@@ -205,6 +205,25 @@ def get_instance_type(instance):
     return _("Not available")
 
 
+# The roles a member of a Group Replication cluster has, as Trove names
+# them; unknown ones are shown as they come.
+ROLE_NAMES = {
+    'primary': _("Primary"),
+    'secondary': _("Secondary"),
+    'recovering': _("Recovering"),
+    'offline': _("Offline"),
+    'error': _("Error"),
+    'unknown': _("Unknown"),
+}
+
+
+def get_role(instance):
+    role = getattr(instance, "role", None)
+    if role:
+        return ROLE_NAMES.get(role, role)
+    return _("Not available")
+
+
 def get_host(instance):
     if hasattr(instance, "hostname"):
         return instance.hostname
@@ -224,6 +243,8 @@ class InstancesTable(tables.DataTable):
                          verbose_name=_("Name"))
     type = tables.Column(get_instance_type,
                          verbose_name=_("Type"))
+    role = tables.Column(get_role,
+                         verbose_name=_("Role"))
     host = tables.Column(get_host,
                          verbose_name=_("Host"))
     size = tables.Column(get_instance_size,
