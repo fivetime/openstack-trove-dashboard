@@ -2795,3 +2795,11 @@ msgstr "多主"
 #: trove_dashboard/content/database_clusters/forms.py
 msgid "Single-primary: one member takes writes and the group elects another when it fails; the others are read only. Multi-primary: every member takes writes, and a transaction that conflicts with another member's is rolled back at commit; tables need a primary key. At least 3 instances."
 msgstr "单主：只有一个成员可写，它出故障时组内自动选出新的主节点，其余成员只读。多主：所有成员都可写，与其他成员冲突的事务会在提交时回滚；表必须有主键。至少 3 个实例。"
+
+#: trove_dashboard/content/database_clusters/forms.py
+msgid "Platform default (anti-affinity)"
+msgstr "平台默认（反亲和）"
+
+#: trove_dashboard/content/database_clusters/forms.py
+msgid "Specify whether instances in the cluster will be created on the same hypervisor (affinity) or on different hypervisors (anti-affinity). The platform default keeps the members of a cluster on different hypervisors, so that one host failing takes down one member only."
+msgstr "指定集群里的实例是放在同一台宿主机上（亲和）还是不同的宿主机上（反亲和）。平台默认把集群成员分散到不同宿主机，一台宿主机故障只影响一个成员。"

@@ -24,6 +24,7 @@ from troveclient import common
 from trove_dashboard import api as trove_api
 from trove_dashboard.content.database_clusters \
     import cluster_manager
+from trove_dashboard.content.database_clusters import forms
 from trove_dashboard.content.database_clusters import tables
 from trove_dashboard.content.databases import db_capability
 from trove_dashboard.test import helpers as test
@@ -878,6 +879,12 @@ class ClusterGrowGroupTests(test.TestCase):
         for datastore in ('mariadb', 'pxc'):
             self.assertFalse(
                 db_capability.is_group_replication_datastore(datastore))
+
+    def test_locality_defaults_to_the_platform(self):
+        # Sent as None, so that the service applies its default policy.
+        field = forms.LaunchForm.base_fields['locality']
+        self.assertEqual('', field.choices[0][0])
+        self.assertIn('anti-affinity', str(field.choices[0][1]))
 
     def test_redis_family_clusters(self):
         for datastore in ('valkey', 'keydb'):

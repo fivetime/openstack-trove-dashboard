@@ -118,15 +118,20 @@ class LaunchForm(BaseClusterForm):
         label=_("Volume Type"),
         required=False,
         help_text=_("Applicable only if the volume size is specified."))
+    # Left at the platform default, the service picks the policy: strict
+    # anti-affinity unless the operator configured otherwise.
     locality = forms.ChoiceField(
         label=_("Location Policy"),
-        choices=[("", _("None")),
+        choices=[("", _("Platform default (anti-affinity)")),
                  ("affinity", _("Affinity")),
                  ("anti-affinity", _("Anti-affinity"))],
         required=False,
         help_text=_("Specify whether instances in the cluster will "
                     "be created on the same hypervisor (affinity) or on "
-                    "different hypervisors (anti-affinity)."))
+                    "different hypervisors (anti-affinity). The platform "
+                    "default keeps the members of a cluster on different "
+                    "hypervisors, so that one host failing takes down one "
+                    "member only."))
     configuration = forms.ChoiceField(
         label=_("Configuration Group"),
         help_text=_("Configuration Group attached to instances."),
