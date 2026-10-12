@@ -205,11 +205,15 @@ def get_instance_type(instance):
     return _("Not available")
 
 
-# The roles a member of a Group Replication cluster has, as Trove names
-# them; unknown ones are shown as they come.
+# The roles a member of a cluster has, as Trove names them (Group
+# Replication's and Galera's, PostgreSQL's); unknown ones are shown as
+# they come.
 ROLE_NAMES = {
     'primary': _("Primary"),
     'secondary': _("Secondary"),
+    'sync-standby': _("Synchronous standby"),
+    'standby': _("Standby"),
+    'disconnected': _("Disconnected"),
     'recovering': _("Recovering"),
     'offline': _("Offline"),
     'error': _("Error"),

@@ -2867,3 +2867,15 @@ msgstr "同步：提交要等到一个副本收到才返回，没有副本在时
 #: trove_dashboard/content/database_clusters/forms.py
 msgid "Read Endpoint"
 msgstr "只读地址"
+
+#: trove_dashboard/content/database_clusters/tables.py
+msgid "Synchronous standby"
+msgstr "同步副本"
+
+#: trove_dashboard/content/database_clusters/tables.py
+msgid "Standby"
+msgstr "副本"
+
+#: trove_dashboard/content/database_clusters/tables.py
+msgid "Disconnected"
+msgstr "已断开"
