@@ -1,0 +1,29 @@
+{% extends "project/database_clusters/_detail_overview.html" %}
+{% load i18n sizeformat %}
+
+{% block endpoint_examples %}
+    <dt>{% trans "Connection Examples" %}</dt>
+    <dd>psql -h {{ cluster.endpoint.address }} -p {{ cluster.endpoint.port }} -U {% trans "USERNAME" %} -d {% trans "DATABASE" %}</dd>
+    <dd>postgresql://{% trans "USERNAME" %}:{% trans "PASSWORD" %}@{{ cluster.endpoint.address }}:{{ cluster.endpoint.port }}/{% trans "DATABASE" %}</dd>
+    {% if cluster.read_endpoint %}
+        <dd>psql -h {{ cluster.read_endpoint.address }} -p {{ cluster.read_endpoint.port }} -U {% trans "USERNAME" %} -d {% trans "DATABASE" %}</dd>
+    {% endif %}
+{% endblock %}
+
+{% block member_connection_info %}
+    <h4>{% trans "Connection Information" %}</h4>
+    <hr class="header_rule">
+    <dl class="dl-horizontal">
+        {% with cluster.ip.0 as ip %}
+            <dt>{% trans "Host" %}</dt>
+            {% if not ip %}
+                <dd>{% trans "Not Assigned" %}</dd>
+            {% else %}
+                <dd>{{ ip }}</dd>
+                <dt>{% trans "Connection Examples" %}</dt>
+                <dd>psql -h {{ ip }} -p 5432 -U {% trans "USERNAME" %} -d {% trans "DATABASE" %}</dd>
+                <dd>postgresql://{% trans "USERNAME" %}:{% trans "PASSWORD" %}@{{ ip }}:5432/{% trans "DATABASE" %}</dd>
+            {% endif %}
+        {% endwith %}
+    </dl>
+{% endblock %}

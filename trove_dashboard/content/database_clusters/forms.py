@@ -240,6 +240,26 @@ class LaunchForm(BaseClusterForm):
             'class': 'switched',
             'data-switch-on': 'datastore',
         }))
+    # PostgreSQL: a primary and its streaming standbys; how a commit waits
+    # for them.
+    replication_mode = forms.ChoiceField(
+        label=_("Replication Mode"),
+        choices=[("sync", _("Synchronous")),
+                 ("async", _("Asynchronous")),
+                 ("strict", _("Strictly synchronous"))],
+        required=False,
+        help_text=_("Synchronous: a commit waits until one standby has it, "
+                    "and waits for none while no standby is there. "
+                    "Asynchronous: a commit never waits; the last commits "
+                    "may be lost when the primary fails. Strictly "
+                    "synchronous: a commit always waits for one standby, "
+                    "and blocks while no standby is there. The endpoint "
+                    "sends writes to the primary, the read endpoint to "
+                    "the standbys. At least 3 instances."),
+        widget=forms.ThemableSelectWidget(attrs={
+            'class': 'switched',
+            'data-switch-on': 'datastore',
+        }))
     num_instances = forms.IntegerField(
         label=_("Number of Instances"),
         initial=3,

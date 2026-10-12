@@ -2847,3 +2847,23 @@ msgstr "多写"
 #: trove_dashboard/content/database_clusters/forms.py
 msgid "Single writer: the endpoint sends writes to one member, and to another when it fails; every member can still be read from and written to directly. Multiple writers: the endpoint sends writes to every member, and a transaction that conflicts with another member's is rolled back at commit; tables need a primary key. At least 3 instances."
 msgstr "单写入口：写入地址只把写请求发给一个成员，它出故障时自动换另一个；每个成员仍可直接读写。多写：写入地址把写请求分发给所有成员，与其他成员冲突的事务会在提交时回滚；表必须有主键。至少 3 个实例。"
+
+#: trove_dashboard/content/database_clusters/forms.py
+msgid "Synchronous"
+msgstr "同步"
+
+#: trove_dashboard/content/database_clusters/forms.py
+msgid "Asynchronous"
+msgstr "异步"
+
+#: trove_dashboard/content/database_clusters/forms.py
+msgid "Strictly synchronous"
+msgstr "严格同步"
+
+#: trove_dashboard/content/database_clusters/forms.py
+msgid "Synchronous: a commit waits until one standby has it, and waits for none while no standby is there. Asynchronous: a commit never waits; the last commits may be lost when the primary fails. Strictly synchronous: a commit always waits for one standby, and blocks while no standby is there. The endpoint sends writes to the primary, the read endpoint to the standbys. At least 3 instances."
+msgstr "同步：提交要等到一个副本收到才返回，没有副本在时则不等。异步：提交从不等待，主库故障时可能丢失最后几笔提交。严格同步：提交总是等一个副本，没有副本在时阻塞。写入地址把请求发给主库，只读地址发给副本。至少 3 个实例。"
+
+#: trove_dashboard/content/database_clusters/forms.py
+msgid "Read Endpoint"
+msgstr "只读地址"

@@ -26,8 +26,8 @@ VERTICA = "vertica"
 
 _mysql_compatible_datastores = (MYSQL, MARIADB, PERCONA, PERCONA_CLUSTER)
 _cluster_capable_datastores = (CASSANDRA, KEYDB, MARIADB, MONGODB, MYSQL,
-                               PERCONA, PERCONA_CLUSTER, REDIS, VALKEY,
-                               VERTICA)
+                               PERCONA, PERCONA_CLUSTER, POSTGRESQL, REDIS,
+                               VALKEY, VERTICA)
 # Clusters on MySQL Group Replication, single- or multi-primary.
 _group_replication_datastores = (MYSQL, PERCONA)
 # Clusters on Galera, with one writer or every member writing.
@@ -41,6 +41,7 @@ CLUSTER_MODES = {
     PERCONA: ('group_replication_mode', 'single-primary'),
     MARIADB: ('writer_mode', 'single'),
     PERCONA_CLUSTER: ('writer_mode', 'single'),
+    POSTGRESQL: ('replication_mode', 'sync'),
 }
 # Clusters on the Redis Cluster protocol: Valkey's and KeyDB's run on
 # Trove's Redis cluster strategies, replicas per master and growing by
@@ -52,7 +53,8 @@ _incremental_backup_datastores = (MYSQL, MARIADB, PERCONA, PERCONA_CLUSTER,
                                   POSTGRESQL)
 _cluster_grow_shrink_capable_datastores = (CASSANDRA, KEYDB, MARIADB,
                                            MONGODB, MYSQL, PERCONA,
-                                           PERCONA_CLUSTER, REDIS, VALKEY)
+                                           PERCONA_CLUSTER, POSTGRESQL,
+                                           REDIS, VALKEY)
 
 
 def can_modify_cluster(datastore):

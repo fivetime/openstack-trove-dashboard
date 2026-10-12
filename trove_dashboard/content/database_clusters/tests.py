@@ -412,10 +412,83 @@ class ClustersTests(test.TestCase):
         self.assertEqual({'writer_mode': 'single'},
                          self._create_galera_cluster(''))
 
+    def _postgresql(self):
+        datastore = datastores.Datastore(datastores.Datastores(None), {
+            'id': 'b4c0a8f1-2f55-4d9a-9f3e-7c1e2d3a4b5c', 'links': [],
+            'name': 'postgresql'})
+        version = datastores.DatastoreVersion(
+            datastores.DatastoreVersions(None), {
+                'name': '17', 'links': [], 'active': 1,
+                'image': '0d2c7a4e-5b6f-4a8d-9e1f-2a3b4c5d6e7f',
+                'datastore': datastore.id, 'packages': '17',
+                'id': 'c9d8e7f6-a5b4-4c3d-8e2f-1a0b9c8d7e6f'})
+        self.mock_datastore_list.return_value = [datastore]
+        self.mock_datastore_version_list.return_value = [version]
+
+    @test.create_mocks({trove_api.trove: ('datastore_flavors',
+                                          'datastore_list',
+                                          'datastore_version_list'),
+                        api.cinder: ['volume_type_list'],
+                        api.base: ['is_service_enabled']})
+    def test_launch_cluster_postgresql_fields(self):
+        self.mock_is_service_enabled.return_value = False
+        self.mock_volume_type_list.return_value = []
+        self.mock_datastore_flavors.return_value = self.flavors.list()
+        self._postgresql()
+        fields = self.client.get(LAUNCH_URL).context_data['form'].fields
+        field_name = self._build_flavor_widget_name('postgresql', '17')
+
+        self.assertTrue(self._contains_datastore_in_attribute(
+            fields['num_instances'], field_name))
+        self.assertTrue(self._contains_datastore_in_attribute(
+            fields['replication_mode'], field_name))
+        self.assertFalse(self._contains_datastore_in_attribute(
+            fields['writer_mode'], field_name))
+        self.assertFalse(self._contains_datastore_in_attribute(
+            fields['group_replication_mode'], field_name))
+
+    def _create_postgresql_cluster(self, mode):
+        self.mock_is_service_enabled.return_value = False
+        self.mock_volume_type_list.return_value = []
+        self.mock_datastore_flavors.return_value = self.flavors.list()
+        self._postgresql()
+        self.mock_cluster_create.return_value = self.trove_clusters.first()
+
+        field_name = self._build_flavor_widget_name('postgresql', '17')
+        res = self.client.post(LAUNCH_URL, {
+            'name': 'MyCluster', 'volume': 1, 'num_instances': 3,
+            'replication_mode': mode, 'datastore': field_name,
+            field_name: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
+        })
+        self.assertNoFormErrors(res)
+        return self.mock_cluster_create.call_args[1]['extended_properties']
+
+    @test.create_mocks({trove_api.trove: ['datastore_flavors',
+                                          'cluster_create',
+                                          'datastore_list',
+                                          'datastore_version_list'],
+                        api.cinder: ['volume_type_list'],
+                        api.base: ['is_service_enabled']})
+    def test_create_strict_postgresql_cluster(self):
+        self.assertEqual({'replication_mode': 'strict'},
+                         self._create_postgresql_cluster('strict'))
+
+    @test.create_mocks({trove_api.trove: ['datastore_flavors',
+                                          'cluster_create',
+                                          'datastore_list',
+                                          'datastore_version_list'],
+                        api.cinder: ['volume_type_list'],
+                        api.base: ['is_service_enabled']})
+    def test_create_postgresql_cluster_defaults_to_sync(self):
+        self.assertEqual({'replication_mode': 'sync'},
+                         self._create_postgresql_cluster(''))
+
     def test_the_cluster_mode_of_a_datastore(self):
         # The launch form takes the field and its default from here.
         self.assertEqual(('group_replication_mode', 'single-primary'),
                          db_capability.cluster_mode('MySQL'))
+        self.assertEqual(('replication_mode', 'sync'),
+                         db_capability.cluster_mode('postgresql'))
         self.assertEqual(('group_replication_mode', 'single-primary'),
                          db_capability.cluster_mode('percona'))
         self.assertEqual(('writer_mode', 'single'),
@@ -675,6 +748,31 @@ class ClustersTests(test.TestCase):
             res, 'project/database_clusters/_detail_overview_mysql.html')
         self.assertContains(res, '10.0.0.50:3306')
         self.assertContains(res, 'mysql -h 10.0.0.50 -P 3306')
+        self.assertContains(res, cluster.ip[0])
+
+    @test.create_mocks({trove_api.trove: ('cluster_get',
+                                          'instance_get',
+                                          'flavor_get',)})
+    def test_details_with_a_read_endpoint(self):
+        # A PostgreSQL cluster: the endpoint and the read endpoint, with
+        # psql examples for the endpoint.
+        cluster = clusters.Cluster(clusters.Clusters(None), dict(
+            trove_data.CLUSTER_DATA_ONE,
+            datastore={'type': 'postgresql', 'version': '17'},
+            endpoint={'address': '10.0.0.50', 'port': 5432},
+            read_endpoint={'address': '10.0.0.50', 'port': 5433}))
+        self.mock_cluster_get.return_value = cluster
+        self.mock_instance_get.return_value = self.databases.first()
+        self.mock_flavor_get.return_value = self.flavors.first()
+
+        details_url = reverse('horizon:project:database_clusters:detail',
+                              args=[cluster.id])
+        res = self.client.get(details_url)
+        self.assertTemplateUsed(
+            res, 'project/database_clusters/_detail_overview_postgresql.html')
+        self.assertContains(res, '10.0.0.50:5432')
+        self.assertContains(res, '10.0.0.50:5433')
+        self.assertContains(res, 'psql -h 10.0.0.50 -p 5432')
         self.assertContains(res, cluster.ip[0])
 
     @test.create_mocks({trove_api.trove: ('cluster_get',
