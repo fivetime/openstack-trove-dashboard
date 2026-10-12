@@ -412,6 +412,19 @@ class ClustersTests(test.TestCase):
         self.assertEqual({'writer_mode': 'single'},
                          self._create_galera_cluster(''))
 
+    def test_the_cluster_mode_of_a_datastore(self):
+        # The launch form takes the field and its default from here.
+        self.assertEqual(('group_replication_mode', 'single-primary'),
+                         db_capability.cluster_mode('MySQL'))
+        self.assertEqual(('group_replication_mode', 'single-primary'),
+                         db_capability.cluster_mode('percona'))
+        self.assertEqual(('writer_mode', 'single'),
+                         db_capability.cluster_mode('mariadb'))
+        self.assertEqual(('writer_mode', 'single'),
+                         db_capability.cluster_mode('pxc'))
+        self.assertIsNone(db_capability.cluster_mode('redis'))
+        self.assertIsNone(db_capability.cluster_mode(None))
+
     @test.create_mocks({trove_api.trove: ['datastore_flavors',
                                           'cluster_create',
                                           'datastore_list',

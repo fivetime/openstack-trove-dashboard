@@ -1,20 +1,16 @@
 {% extends "project/database_clusters/_detail_overview.html" %}
 {% load i18n sizeformat %}
 
-{% block connection_info %}
+{% block endpoint_examples %}
+    <dt>{% trans "Connection Examples" %}</dt>
+    <dd>mysql -h {{ cluster.endpoint.address }} -P {{ cluster.endpoint.port }} -u {% trans "USERNAME" %} -p</dd>
+    <dd>mysql://{% trans "USERNAME" %}:{% trans "PASSWORD" %}@{{ cluster.endpoint.address }}:{{ cluster.endpoint.port }}/{% trans "DATABASE"%}</dd>
+{% endblock %}
+
+{% block member_connection_info %}
     <h4>{% trans "Connection Information" %}</h4>
     <hr class="header_rule">
     <dl class="dl-horizontal">
-        {% if cluster.endpoint %}
-            {# The cluster's load balancer: it sends to the members that take writes. #}
-            <dt>{% trans "Endpoint" %}</dt>
-            <dd>{{ cluster.endpoint.address }}:{{ cluster.endpoint.port }}</dd>
-            <dt>{% trans "Connection Examples" %}</dt>
-            <dd>mysql -h {{ cluster.endpoint.address }} -P {{ cluster.endpoint.port }} -u {% trans "USERNAME" %} -p</dd>
-            <dd>mysql://{% trans "USERNAME" %}:{% trans "PASSWORD" %}@{{ cluster.endpoint.address }}:{{ cluster.endpoint.port }}/{% trans "DATABASE"%}</dd>
-            <dt>{% trans "Members" %}</dt>
-            <dd>{{ cluster.ip|join:", " }}</dd>
-        {% else %}
         {% with cluster.ip.0 as ip %}
             <dt>{% trans "Host" %}</dt>
             {% if not ip %}
@@ -26,6 +22,5 @@
                 <dd>mysql://{% trans "USERNAME" %}:{% trans "PASSWORD" %}@{{ ip }}:3306/{% trans "DATABASE"%}</dd>
             {% endif %}
         {% endwith %}
-        {% endif %}
     </dl>
 {% endblock %}

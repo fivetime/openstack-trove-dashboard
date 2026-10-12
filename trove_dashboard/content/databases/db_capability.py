@@ -32,6 +32,16 @@ _cluster_capable_datastores = (CASSANDRA, KEYDB, MARIADB, MONGODB, MYSQL,
 _group_replication_datastores = (MYSQL, PERCONA)
 # Clusters on Galera, with one writer or every member writing.
 _galera_datastores = (MARIADB, PERCONA_CLUSTER)
+# The mode a tenant chooses when launching a cluster, by datastore: the
+# field of the launch form that carries it, which is also the extended
+# property Trove gets it as, and its default. A datastore not here has
+# no mode.
+CLUSTER_MODES = {
+    MYSQL: ('group_replication_mode', 'single-primary'),
+    PERCONA: ('group_replication_mode', 'single-primary'),
+    MARIADB: ('writer_mode', 'single'),
+    PERCONA_CLUSTER: ('writer_mode', 'single'),
+}
 # Clusters on the Redis Cluster protocol: Valkey's and KeyDB's run on
 # Trove's Redis cluster strategies, replicas per master and growing by
 # groups included.
@@ -84,6 +94,18 @@ def supports_incremental_backup(datastore):
 
 def is_cluster_capable_datastore(datastore):
     return _is_datastore_in_list(datastore, _cluster_capable_datastores)
+
+
+def cluster_mode(datastore):
+    """The (field, default) of the mode a cluster of the datastore is
+    launched with, or None.
+    """
+    if datastore is not None:
+        datastore_lower = datastore.lower()
+        for ds, mode in CLUSTER_MODES.items():
+            if ds in datastore_lower:
+                return mode
+    return None
 
 
 def _is_datastore_in_list(datastore, datastores):

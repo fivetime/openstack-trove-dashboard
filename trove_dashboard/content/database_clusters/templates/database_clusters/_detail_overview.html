@@ -23,5 +23,25 @@
     </dl>
 
 {% block connection_info %}
+    {% if cluster.endpoint or cluster.read_endpoint %}
+    {# The cluster's load balancer: the endpoint sends to the members that take writes, the read endpoint to the members that serve reads. #}
+    <h4>{% trans "Connection Information" %}</h4>
+    <hr class="header_rule">
+    <dl class="dl-horizontal">
+        {% if cluster.endpoint %}
+            <dt>{% trans "Endpoint" %}</dt>
+            <dd>{{ cluster.endpoint.address }}:{{ cluster.endpoint.port }}</dd>
+        {% endif %}
+        {% if cluster.read_endpoint %}
+            <dt>{% trans "Read Endpoint" %}</dt>
+            <dd>{{ cluster.read_endpoint.address }}:{{ cluster.read_endpoint.port }}</dd>
+        {% endif %}
+        {% block endpoint_examples %}{% endblock %}
+        <dt>{% trans "Members" %}</dt>
+        <dd>{{ cluster.ip|join:", " }}</dd>
+    </dl>
+    {% else %}
+    {% block member_connection_info %}{% endblock %}
+    {% endif %}
 {% endblock %}
 </div>

@@ -262,12 +262,6 @@ class LaunchForm(BaseClusterForm):
     redis_fields = default_fields + [
         ('replicas_per_master', _('Replicas per Master')),
     ]
-    group_replication_fields = default_fields + [
-        ('group_replication_mode', _('Replication Mode')),
-    ]
-    galera_fields = default_fields + [
-        ('writer_mode', _('Writer Mode')),
-    ]
     vertica_fields = [
         ('num_instances_vertica', ('Number of Instances')),
         ('root_password', _('Root Password')),
@@ -463,12 +457,13 @@ class LaunchForm(BaseClusterForm):
             fields = self.vertica_fields
         elif db_capability.is_redis_datastore(datastore):
             fields = self.redis_fields
-        elif db_capability.is_group_replication_datastore(datastore):
-            fields = self.group_replication_fields
-        elif db_capability.is_galera_datastore(datastore):
-            fields = self.galera_fields
         else:
-            fields = self.default_fields
+            fields = list(self.default_fields)
+            mode = db_capability.cluster_mode(datastore)
+            if mode:
+                # The mode the tenant chooses for this datastore's
+                # clusters, by its field.
+                fields.append((mode[0], self.fields[mode[0]].label))
 
         for field in fields:
             attr_key = 'data-datastore-' + selection_text
@@ -519,14 +514,9 @@ class LaunchForm(BaseClusterForm):
                     data.get('replicas_per_master')):
                 extended_properties = {
                     'replicas_per_master': data['replicas_per_master']}
-            elif db_capability.is_group_replication_datastore(datastore):
-                extended_properties = {
-                    'group_replication_mode':
-                        data.get('group_replication_mode') or
-                        'single-primary'}
-            elif db_capability.is_galera_datastore(datastore):
-                extended_properties = {
-                    'writer_mode': data.get('writer_mode') or 'single'}
+            elif db_capability.cluster_mode(datastore):
+                field, default = db_capability.cluster_mode(datastore)
+                extended_properties = {field: data.get(field) or default}
 
             trove_api.trove.cluster_create(
                 request,
