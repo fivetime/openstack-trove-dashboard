@@ -2879,3 +2879,71 @@ msgstr "副本"
 #: trove_dashboard/content/database_clusters/tables.py
 msgid "Disconnected"
 msgstr "已断开"
+
+#: trove_dashboard/content/database_clusters/forms.py
+msgid "Replica Read Grace (seconds)"
+msgstr "副本读宽限（秒）"
+
+#: trove_dashboard/content/database_clusters/forms.py
+msgid ""
+"When the primary fails, the standbys that kept up serve reads on for this "
+"long, so that the read endpoint does not go down while another member takes "
+"over; what they serve is older by up to that much. 0 (the default): a "
+"standby serves reads only while it streams from a primary."
+msgstr ""
+"主库故障时，已追上主库的副本在这段时间内继续供读，切主期间只读地址不会中断；"
+"这段时间读到的数据最多旧这么多秒。0（默认）：副本只在从主库流复制时供读。"
+
+#: trove_dashboard/content/database_clusters/tables.py
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview.html
+msgid "Health"
+msgstr "健康状态"
+
+#: trove_dashboard/content/database_clusters/tables.py
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview.html
+msgctxt "Health of a cluster"
+msgid "Healthy"
+msgstr "健康"
+
+#: trove_dashboard/content/database_clusters/tables.py
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview.html
+msgctxt "Health of a cluster"
+msgid "Degraded"
+msgstr "降级"
+
+#: trove_dashboard/content/database_clusters/tables.py
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview.html
+msgctxt "Health of a cluster"
+msgid "Down"
+msgstr "不可用"
+
+#: trove_dashboard/content/database_clusters/tables.py
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview.html
+msgctxt "Health of a cluster"
+msgid "Unknown"
+msgstr "未知"
+
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview.html
+msgid "Since"
+msgstr "开始于"
+
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview.html
+msgid "Reason"
+msgstr "原因"
+
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview.html
+msgid "Members Out"
+msgstr "退出集群的成员"
+
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview.html
+msgid "Writers"
+msgstr "写入者"
+
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview.html
+msgid "Writer Changes"
+msgstr "写入者切换次数"
+
+#: trove_dashboard/content/database_clusters/templates/database_clusters/_detail_overview.html
+#, python-format
+msgid "the last since %(since)s"
+msgstr "最近一次在 %(since)s"

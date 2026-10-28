@@ -21,6 +21,7 @@ from django.template.defaultfilters import title  # noqa
 from django import urls
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import ngettext_lazy
+from django.utils.translation import pgettext_lazy
 
 from horizon import messages
 from horizon import tables
@@ -160,6 +161,22 @@ def get_task(cluster):
     return cluster.task["name"]
 
 
+def get_health(cluster):
+    # What Trove's task manager last recorded of the cluster: HEALTHY,
+    # DEGRADED, DOWN or UNKNOWN (not looked at yet, or a Trove of before
+    # the health).
+    health = getattr(cluster, "health", None) or {}
+    return health.get("status") or "UNKNOWN"
+
+
+HEALTH_DISPLAY_CHOICES = (
+    ("HEALTHY", pgettext_lazy("Health of a cluster", "Healthy")),
+    ("DEGRADED", pgettext_lazy("Health of a cluster", "Degraded")),
+    ("DOWN", pgettext_lazy("Health of a cluster", "Down")),
+    ("UNKNOWN", pgettext_lazy("Health of a cluster", "Unknown")),
+)
+
+
 class ClustersTable(tables.DataTable):
     TASK_CHOICES = (
         ("none", True),
@@ -179,6 +196,9 @@ class ClustersTable(tables.DataTable):
                          verbose_name=_("Current Task"),
                          status=True,
                          status_choices=TASK_CHOICES)
+    health = tables.Column(get_health,
+                           display_choices=HEALTH_DISPLAY_CHOICES,
+                           verbose_name=_("Health"))
 
     class Meta(object):
         name = "clusters"

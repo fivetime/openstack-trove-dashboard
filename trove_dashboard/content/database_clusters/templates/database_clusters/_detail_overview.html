@@ -22,6 +22,36 @@
         {% endif %}
     </dl>
 
+    {% if cluster.health %}
+    {# What Trove's task manager last recorded of the cluster. #}
+    <h4>{% trans "Health" %}</h4>
+    <hr class="header_rule">
+    <dl class="dl-horizontal">
+        <dt>{% trans "Health" %}</dt>
+        <dd>{% if cluster.health.status == "HEALTHY" %}{% trans "Healthy" context "Health of a cluster" %}{% elif cluster.health.status == "DEGRADED" %}{% trans "Degraded" context "Health of a cluster" %}{% elif cluster.health.status == "DOWN" %}{% trans "Down" context "Health of a cluster" %}{% else %}{% trans "Unknown" context "Health of a cluster" %}{% endif %}</dd>
+        {% if cluster.health.since %}
+            <dt>{% trans "Since" %}</dt>
+            <dd>{{ cluster.health.since }}</dd>
+        {% endif %}
+        {% if cluster.health.reason %}
+            <dt>{% trans "Reason" %}</dt>
+            <dd>{{ cluster.health.reason }}</dd>
+        {% endif %}
+        {% if cluster.health.members_out %}
+            <dt>{% trans "Members Out" %}</dt>
+            <dd>{{ cluster.health.members_out|join:", " }}</dd>
+        {% endif %}
+        {% if cluster.health.writers %}
+            <dt>{% trans "Writers" %}</dt>
+            <dd>{{ cluster.health.writers|join:", " }}</dd>
+        {% endif %}
+        {% if cluster.health.writer_changes %}
+            <dt>{% trans "Writer Changes" %}</dt>
+            <dd>{{ cluster.health.writer_changes }}{% if cluster.health.writer_since %} ({% blocktrans with since=cluster.health.writer_since %}the last since {{ since }}{% endblocktrans %}){% endif %}</dd>
+        {% endif %}
+    </dl>
+    {% endif %}
+
 {% block connection_info %}
     {% if cluster.endpoint or cluster.read_endpoint %}
     {# The cluster's load balancer: the endpoint sends to the members that take writes, the read endpoint to the members that serve reads. #}

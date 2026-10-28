@@ -260,6 +260,24 @@ class LaunchForm(BaseClusterForm):
             'class': 'switched',
             'data-switch-on': 'datastore',
         }))
+    # PostgreSQL: how long a standby that kept up serves reads on after
+    # its primary fails (Trove's replica_read_grace).
+    replica_read_grace = forms.IntegerField(
+        label=_("Replica Read Grace (seconds)"),
+        min_value=0,
+        max_value=3600,
+        initial=0,
+        required=False,
+        help_text=_("When the primary fails, the standbys that kept up "
+                    "serve reads on for this long, so that the read "
+                    "endpoint does not go down while another member takes "
+                    "over; what they serve is older by up to that much. "
+                    "0 (the default): a standby serves reads only while it "
+                    "streams from a primary."),
+        widget=forms.NumberInput(attrs={
+            'class': 'switched',
+            'data-switch-on': 'datastore',
+        }))
     num_instances = forms.IntegerField(
         label=_("Number of Instances"),
         initial=3,
@@ -484,6 +502,9 @@ class LaunchForm(BaseClusterForm):
                 # The mode the tenant chooses for this datastore's
                 # clusters, by its field.
                 fields.append((mode[0], self.fields[mode[0]].label))
+            if db_capability.is_postgresql_datastore(datastore):
+                fields.append(('replica_read_grace',
+                               self.fields['replica_read_grace'].label))
 
         for field in fields:
             attr_key = 'data-datastore-' + selection_text
@@ -537,6 +558,10 @@ class LaunchForm(BaseClusterForm):
             elif db_capability.cluster_mode(datastore):
                 field, default = db_capability.cluster_mode(datastore)
                 extended_properties = {field: data.get(field) or default}
+                if (db_capability.is_postgresql_datastore(datastore) and
+                        data.get('replica_read_grace')):
+                    extended_properties['replica_read_grace'] = (
+                        data['replica_read_grace'])
 
             trove_api.trove.cluster_create(
                 request,

@@ -442,12 +442,14 @@ class ClustersTests(test.TestCase):
             fields['num_instances'], field_name))
         self.assertTrue(self._contains_datastore_in_attribute(
             fields['replication_mode'], field_name))
+        self.assertTrue(self._contains_datastore_in_attribute(
+            fields['replica_read_grace'], field_name))
         self.assertFalse(self._contains_datastore_in_attribute(
             fields['writer_mode'], field_name))
         self.assertFalse(self._contains_datastore_in_attribute(
             fields['group_replication_mode'], field_name))
 
-    def _create_postgresql_cluster(self, mode):
+    def _create_postgresql_cluster(self, mode, **fields):
         self.mock_is_service_enabled.return_value = False
         self.mock_volume_type_list.return_value = []
         self.mock_datastore_flavors.return_value = self.flavors.list()
@@ -459,9 +461,57 @@ class ClustersTests(test.TestCase):
             'name': 'MyCluster', 'volume': 1, 'num_instances': 3,
             'replication_mode': mode, 'datastore': field_name,
             field_name: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
+            **fields
         })
         self.assertNoFormErrors(res)
         return self.mock_cluster_create.call_args[1]['extended_properties']
+
+    @test.create_mocks({trove_api.trove: ['datastore_flavors',
+                                          'cluster_create',
+                                          'datastore_list',
+                                          'datastore_version_list'],
+                        api.cinder: ['volume_type_list'],
+                        api.base: ['is_service_enabled']})
+    def test_create_postgresql_cluster_with_a_read_grace(self):
+        # The standbys serve reads on for a minute after the primary
+        # fails; Trove takes it as the replica_read_grace property.
+        self.assertEqual({'replication_mode': 'sync',
+                          'replica_read_grace': 60},
+                         self._create_postgresql_cluster(
+                             'sync', replica_read_grace=60))
+
+    @test.create_mocks({trove_api.trove: ['datastore_flavors',
+                                          'cluster_create',
+                                          'datastore_list',
+                                          'datastore_version_list'],
+                        api.cinder: ['volume_type_list'],
+                        api.base: ['is_service_enabled']})
+    def test_no_read_grace_is_left_to_trove(self):
+        # 0, the default, is not sent: Trove's own default applies.
+        self.assertEqual({'replication_mode': 'sync'},
+                         self._create_postgresql_cluster(
+                             'sync', replica_read_grace=0))
+
+    @test.create_mocks({trove_api.trove: ['datastore_flavors',
+                                          'cluster_create',
+                                          'datastore_list',
+                                          'datastore_version_list'],
+                        api.cinder: ['volume_type_list'],
+                        api.base: ['is_service_enabled']})
+    def test_a_read_grace_over_an_hour_is_refused(self):
+        self.mock_is_service_enabled.return_value = False
+        self.mock_volume_type_list.return_value = []
+        self.mock_datastore_flavors.return_value = self.flavors.list()
+        self._postgresql()
+        field_name = self._build_flavor_widget_name('postgresql', '17')
+        res = self.client.post(LAUNCH_URL, {
+            'name': 'MyCluster', 'volume': 1, 'num_instances': 3,
+            'replication_mode': 'sync', 'replica_read_grace': 3601,
+            'datastore': field_name,
+            field_name: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
+        })
+        self.assertFormErrors(res, 1)
+        self.mock_cluster_create.assert_not_called()
 
     @test.create_mocks({trove_api.trove: ['datastore_flavors',
                                           'cluster_create',
@@ -774,6 +824,45 @@ class ClustersTests(test.TestCase):
         self.assertContains(res, '10.0.0.50:5433')
         self.assertContains(res, 'psql -h 10.0.0.50 -p 5432')
         self.assertContains(res, cluster.ip[0])
+
+    @test.create_mocks({trove_api.trove: ('cluster_get',
+                                          'instance_get',
+                                          'flavor_get',)})
+    def test_details_show_the_health(self):
+        # A PostgreSQL cluster whose primary just failed (e3-pg18g,
+        # 2026-10-28): DOWN, with why, who is out and the last writer.
+        cluster = clusters.Cluster(clusters.Clusters(None), dict(
+            trove_data.CLUSTER_DATA_ONE,
+            datastore={'type': 'postgresql', 'version': '18'},
+            health={'status': 'DOWN',
+                    'reason': 'no member takes writes; reads served by '
+                              'pg-member-2, pg-member-3',
+                    'members_out': ['pg-member-1'],
+                    'since': '2026-10-28T14:32:15',
+                    'writers': ['pg-member-1'],
+                    'writer_changes': 1,
+                    'writer_since': '2026-10-28T14:27:28Z'}))
+        self.mock_cluster_get.return_value = cluster
+        self.mock_instance_get.return_value = self.databases.first()
+        self.mock_flavor_get.return_value = self.flavors.first()
+
+        details_url = reverse('horizon:project:database_clusters:detail',
+                              args=[cluster.id])
+        res = self.client.get(details_url)
+        self.assertContains(res, '<dd>Down</dd>', html=True)
+        self.assertContains(res, '<dd>pg-member-1</dd>', html=True, count=2)
+        self.assertContains(res, 'reads served by pg-member-2, pg-member-3')
+        self.assertContains(res, '2026-10-28T14:32:15')
+        self.assertContains(res, '2026-10-28T14:27:28Z')
+
+    def test_the_health_column(self):
+        cluster = clusters.Cluster(clusters.Clusters(None), dict(
+            trove_data.CLUSTER_DATA_ONE, health={'status': 'DEGRADED'}))
+        self.assertEqual('DEGRADED', tables.get_health(cluster))
+        # A Trove of before the health says nothing of it.
+        self.assertEqual('UNKNOWN', tables.get_health(
+            clusters.Cluster(clusters.Clusters(None),
+                             dict(trove_data.CLUSTER_DATA_ONE))))
 
     @test.create_mocks({trove_api.trove: ('cluster_get',
                                           'instance_get',

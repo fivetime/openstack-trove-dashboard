@@ -62,6 +62,10 @@ def can_modify_cluster(datastore):
                                  _cluster_grow_shrink_capable_datastores)
 
 
+def is_postgresql_datastore(datastore):
+    return (datastore is not None) and (POSTGRESQL in datastore.lower())
+
+
 def is_mongodb_datastore(datastore):
     return (datastore is not None) and (MONGODB in datastore.lower())
 
