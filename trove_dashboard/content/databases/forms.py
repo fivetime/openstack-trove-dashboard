@@ -59,9 +59,11 @@ class ResizeVolumeForm(forms.SelfHandlingForm):
         widget=forms.TextInput(attrs={'readonly': 'readonly'}),
         required=False,
     )
-    new_size = forms.IntegerField(label=_("New Size (GB)"),
-                                  help_text=_("New volume size must be larger "
-                                              "than the current size."))
+    new_size = forms.IntegerField(
+        label=_("New Size (GB)"),
+        help_text=_("The new volume size must not be smaller than the "
+                    "current size. The current size grows the filesystem "
+                    "to the volume again, to retry a resize that failed."))
 
     def __init__(self, request, *args, **kwargs):
         super(ResizeVolumeForm, self).__init__(request, *args, **kwargs)
@@ -74,9 +76,10 @@ class ResizeVolumeForm(forms.SelfHandlingForm):
     def clean(self):
         cleaned_data = super(ResizeVolumeForm, self).clean()
         new_size = cleaned_data.get('new_size')
-        if new_size <= self.initial['orig_size']:
+        if new_size < self.initial['orig_size']:
             raise ValidationError(
-                _("New size for volume must be greater than current size."))
+                _("The new volume size must not be smaller than the "
+                  "current size."))
 
         return cleaned_data
 

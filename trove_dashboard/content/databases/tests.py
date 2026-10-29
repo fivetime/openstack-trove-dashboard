@@ -970,13 +970,35 @@ class DatabaseTests(test.TestCase):
         post = {
             'instance_id': database_id,
             'orig_size': database_size,
-            'new_size': database_size,
+            'new_size': database_size - 1,
         }
         res = self.client.post(url, post)
         self.mock_instance_get.assert_called_once_with(
             test.IsHttpRequest(), test.IsA(str))
         self.assertContains(
-            res, "New size for volume must be greater than current size.")
+            res, "The new volume size must not be smaller than the current "
+                 "size.")
+
+    @test.create_mocks({
+        api.trove: ('instance_get', 'instance_resize_volume')})
+    def test_resize_volume_to_the_current_size(self):
+        # Trove grows the filesystem again: the retry of a failed resize.
+        database = self.databases.first()
+        database_size = database.volume.get('size')
+        self.mock_instance_get.return_value = database
+        self.mock_instance_resize_volume.return_value = None
+
+        url = reverse('horizon:project:databases:resize_volume',
+                      args=[database.id])
+        res = self.client.post(url, {
+            'instance_id': database.id,
+            'orig_size': database_size,
+            'new_size': database_size,
+        })
+
+        self.assertNoFormErrors(res)
+        self.mock_instance_resize_volume.assert_called_once_with(
+            test.IsHttpRequest(), database.id, database_size)
 
     @test.create_mocks(
         {api.trove: ('instance_get',

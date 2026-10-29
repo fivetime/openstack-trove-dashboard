@@ -1445,12 +1445,15 @@ msgid "New Size (GB)"
 msgstr "新大小(GB)"
 
 #: trove_dashboard/content/databases/forms.py:63
-msgid "New volume size must be larger than the current size."
-msgstr "新的云硬盘大小必须大于当前大小。"
+msgid ""
+"The new volume size must not be smaller than the current size. The current "
+"size grows the filesystem to the volume again, to retry a resize that "
+"failed."
+msgstr "新的云硬盘大小不能小于当前大小。填当前大小会把文件系统重新扩到整块云硬盘，用于重试失败的扩容。"
 
 #: trove_dashboard/content/databases/forms.py:79
-msgid "New size for volume must be greater than current size."
-msgstr "卷的新大小必须大于当前的大小。"
+msgid "The new volume size must not be smaller than the current size."
+msgstr "新的云硬盘大小不能小于当前大小。"
 
 #: trove_dashboard/content/databases/forms.py:90
 #, python-format
